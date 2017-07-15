@@ -1,5 +1,7 @@
 package timeroute.androidbaby.bean.feed;
 
+import android.util.Log;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -17,7 +19,13 @@ public class FeedTimeLine implements Serializable {
         return count;
     }
 
-    public String getNext() { return next; }
+    public String getNext() {
+        if(next == null){
+            return "null";
+        }else{
+            return next;
+        }
+    }
 
     public List<Feed> getFeeds() {
         return results;

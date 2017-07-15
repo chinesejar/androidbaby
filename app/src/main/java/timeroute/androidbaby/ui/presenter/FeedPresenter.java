@@ -87,8 +87,10 @@ public class FeedPresenter extends BasePresenter<IFeedView> {
             recyclerView.setAdapter(adapter);
             adapter.notifyDataSetChanged();
         }
-        Log.d("cur_next", feedTimeLine.getNext());
         next = feedTimeLine.getNext();
+        if(next == "null"){
+            next = null;
+        }
         feedView.setDataRefresh(false);
     }
 
