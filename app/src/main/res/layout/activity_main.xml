@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="timeroute.androidbaby.ui.activity.MainActivity">
+
+
+    <include layout="@layout/activity_view_toolbar" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/content_viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#fff">
+
+    </android.support.v4.view.ViewPager>
+
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/navigation_bar"
+        style="@style/BottomNavigationTheme"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        app:menu="@menu/navigation">
+
+    </android.support.design.widget.BottomNavigationView>
+
+</LinearLayout>
