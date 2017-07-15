@@ -4,14 +4,46 @@
     android:layout_height="match_parent"
     tools:context="timeroute.androidbaby.ui.fragment.MineFragment">
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/swipe_refresh"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        <TextView
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp">
+        <ImageView
             android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/bg"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="mine"/>
-        </android.support.v4.widget.SwipeRefreshLayout>
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_centerInParent="true">
+            <ImageView
+                android:id="@+id/avatar"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:src="@drawable/avatar"
+                android:background="@drawable/avatar_bg"/>
+            <TextView
+                android:id="@+id/nickname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18dp"
+                android:textColor="#fff"
+                android:textStyle="bold"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:text="sdfsdfdf"/>
+            <TextView
+                android:id="@+id/assignment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#fff"
+                android:textStyle="bold"
+                android:text="世界再变，创新不变"/>
+        </LinearLayout>
+    </RelativeLayout>
 
 </FrameLayout>
