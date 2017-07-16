@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         android:minHeight="?attr/actionBarSize"
         android:background="@color/colorPrimary"
+        app:theme="@style/ToolbarTheme"
         app:titleTextColor="#fff"
         app:layout_scrollFlags="scroll|enterAlways"/>
 </android.support.design.widget.AppBarLayout>

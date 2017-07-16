@@ -60,6 +60,7 @@
         android:dividerPadding="10dp"
         android:showDividers="middle">
         <LinearLayout
+            android:id="@+id/mine_feed"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp"
@@ -89,6 +90,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/mine_profile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -131,6 +133,7 @@
         android:dividerPadding="10dp"
         android:showDividers="middle">
         <LinearLayout
+            android:id="@+id/mine_setting"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp"
@@ -160,6 +163,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/mine_about"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp"

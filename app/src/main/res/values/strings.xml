@@ -26,6 +26,7 @@
         completions."
     </string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="mine_profile_nickname">昵称</string>
+    <string name="mine_profile_assignment">签名</string>
+    <string name="mine_profile_gender">性别</string>
 </resources>
