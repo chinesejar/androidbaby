@@ -6,6 +6,7 @@ import android.widget.Toast;
 
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import timeroute.androidbaby.bean.user.Profile;
 import timeroute.androidbaby.bean.user.Token;
 import timeroute.androidbaby.bean.user.User;
 import timeroute.androidbaby.ui.base.BasePresenter;
@@ -47,13 +48,18 @@ public class LoginPresenter extends BasePresenter<ILoginView> {
     }
 
     private void displayToken(Token token, String username, String password) {
-        Log.d("serializer", token.getToken());
+        Profile profile = token.getProfile();
         loginView.displayProgressBar(false);
         SharedPreferenceUtils sharedPreferenceUtils = new SharedPreferenceUtils(context, "user");
         sharedPreferenceUtils.setString("token", token.toString());
         sharedPreferenceUtils.setString("username", username);
         sharedPreferenceUtils.setString("password", password);
         sharedPreferenceUtils.setLong("last_login", System.currentTimeMillis());
+        sharedPreferenceUtils.setString("nickname", profile.getNickname());
+        sharedPreferenceUtils.setString("assignment", profile.getAssignment());
+        sharedPreferenceUtils.setString("gender", profile.getGender());
+        sharedPreferenceUtils.setString("avatar", profile.getAvatar());
+        sharedPreferenceUtils.setString("email", profile.getEmail());
         loginView.toMain();
     }
 }
