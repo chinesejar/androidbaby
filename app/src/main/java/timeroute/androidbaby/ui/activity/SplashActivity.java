@@ -1,6 +1,7 @@
 package timeroute.androidbaby.ui.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import butterknife.ButterKnife;
 import timeroute.androidbaby.R;
 import timeroute.androidbaby.ui.base.BasePresenter;
 import timeroute.androidbaby.ui.base.IBaseActivity;
+import timeroute.androidbaby.util.SharedPreferenceUtils;
 import timeroute.androidbaby.widget.SplashView;
 
 public class SplashActivity extends IBaseActivity {
@@ -85,7 +87,19 @@ public class SplashActivity extends IBaseActivity {
     }
 
     public void goToMain() {
-        startActivity(new Intent(SplashActivity.this, MainActivity.class));
+        SharedPreferenceUtils sharedPreferenceUtils = new SharedPreferenceUtils(this, "user");
+        String token = sharedPreferenceUtils.getString("token");
+        if(token != null) {
+            long cur_timestamp = System.currentTimeMillis();
+            long last_login = sharedPreferenceUtils.getLong("last_login");
+            if(last_login != 0 && (last_login - cur_timestamp)/1000<3600){
+                startActivity(new Intent(SplashActivity.this, MainActivity.class));
+            }else{
+
+            }
+        }else {
+            startActivity(new Intent(SplashActivity.this, LoginActivity.class));
+        }
         finish();
     }
 

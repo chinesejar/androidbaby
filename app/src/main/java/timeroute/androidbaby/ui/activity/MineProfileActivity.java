@@ -1,8 +1,12 @@
 package timeroute.androidbaby.ui.activity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import butterknife.Bind;
 import timeroute.androidbaby.R;
@@ -37,6 +41,58 @@ public class MineProfileActivity extends IBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initView();
+    }
+
+    private void initView() {
+        layoutNickname.setOnClickListener(view -> {
+            EditText editText = new EditText(this);
+            editText.setSingleLine(true);
+            new AlertDialog.Builder(this)
+                    .setTitle(getString(R.string.nickname))
+                    .setView(editText)
+                    .setPositiveButton("确定", (dialogInterface, i) -> {
+                        String input = editText.getText().toString();
+                        if(input.length() == 0){
+                            Toast.makeText(this, "输入为空", Toast.LENGTH_SHORT).show();
+                            return;
+                        }else {
+                            textViewNickname.setText(input);
+                        }
+                    })
+                    .setNegativeButton("取消", null).show();
+        });
+        layoutAssignment.setOnClickListener(view -> {
+            EditText editText = new EditText(this);
+            editText.setSingleLine(true);
+            new AlertDialog.Builder(this)
+                    .setTitle(getString(R.string.assignment))
+                    .setView(editText)
+                    .setPositiveButton("确定", ((dialogInterface, i) -> {
+                        String input = editText.getText().toString();
+                        if(input.length() == 0){
+                            Toast.makeText(this, "输入为空", Toast.LENGTH_SHORT).show();
+                            return;
+                        }else {
+                            textViewAssignment.setText(input);
+                        }
+                    }))
+                    .setNegativeButton("取消", null).show();
+        });
+        layoutGender.setOnClickListener(view -> {
+            String[] gender = new String[]{"男", "女", "双性人"};
+            new AlertDialog.Builder(this)
+                    .setTitle(getString(R.string.gender))
+                    .setSingleChoiceItems(
+                            gender,
+                            0,
+                            ((dialogInterface, i) -> {
+                                textViewGender.setText(gender[i]);
+                                dialogInterface.dismiss();
+                            })
+                    )
+                    .setNegativeButton("取消", null).show();
+        });
     }
 
     @Override

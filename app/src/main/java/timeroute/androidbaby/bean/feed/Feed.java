@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import timeroute.androidbaby.bean.user.Profile;
 import timeroute.androidbaby.bean.user.User;
 
 /**
@@ -18,7 +19,7 @@ import timeroute.androidbaby.bean.user.User;
 public class Feed implements Serializable {
 
     private int id;
-    private User creator;
+    private Profile creator;
     private String content;
     private List<FeedPic> feed_pic;
     private int like_count = 0;
@@ -29,7 +30,7 @@ public class Feed implements Serializable {
         return id;
     }
 
-    public User getUser() {
+    public Profile getUser() {
         return creator;
     }
 

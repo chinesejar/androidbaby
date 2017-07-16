@@ -29,4 +29,8 @@
     <string name="mine_profile_nickname">昵称</string>
     <string name="mine_profile_assignment">签名</string>
     <string name="mine_profile_gender">性别</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="error_invalid_email">This email address is invalid</string>
 </resources>

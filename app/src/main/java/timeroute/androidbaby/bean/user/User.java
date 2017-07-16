@@ -9,7 +9,7 @@ import java.io.Serializable;
 public class User implements Serializable {
     private int id;
     private String username;
-    private String nickname = "匿名的安卓宝宝";
+    private String password;
 
     public int getId(){
         return id;
@@ -19,8 +19,8 @@ public class User implements Serializable {
         return username;
     }
 
-    public String getNickname(){
-        return nickname;
+    public String getPassword(){
+        return password;
     }
 
     public void setId(int id){
@@ -31,9 +31,7 @@ public class User implements Serializable {
         this.username = username;
     }
 
-    public void setNickname(String nickname){
-        if(nickname.length()!=0){
-            this.nickname = nickname;
-        }
+    public void setPassword(String password){
+        this.password = password;
     }
 }
