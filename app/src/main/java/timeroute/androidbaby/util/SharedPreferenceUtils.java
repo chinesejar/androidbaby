@@ -28,6 +28,16 @@ public class SharedPreferenceUtils {
         return sharedPreferences.getString(key, null);
     }
 
+    public void setInt(String key, int value) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(key, value);
+        editor.commit();
+    }
+
+    public int getInt(String key){
+        return sharedPreferences.getInt(key, 0);
+    }
+
     public void setBoolean(String key, boolean value) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean(key, value);

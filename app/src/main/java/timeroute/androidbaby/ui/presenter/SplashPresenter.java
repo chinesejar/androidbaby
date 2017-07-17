@@ -37,7 +37,6 @@ public class SplashPresenter extends BasePresenter<ISplashView> {
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(token -> {
-                        Log.d("token", "token="+token);
                         displayToken(token, username, password);
                     }, this::loadError);
         }
@@ -51,10 +50,11 @@ public class SplashPresenter extends BasePresenter<ISplashView> {
     private void displayToken(Token token, String username, String password) {
         Profile profile = token.getProfile();
         SharedPreferenceUtils sharedPreferenceUtils = new SharedPreferenceUtils(context, "user");
-        sharedPreferenceUtils.setString("token", token.toString());
+        sharedPreferenceUtils.setString("token", token.getToken());
         sharedPreferenceUtils.setString("username", username);
         sharedPreferenceUtils.setString("password", password);
         sharedPreferenceUtils.setLong("last_login", System.currentTimeMillis());
+        sharedPreferenceUtils.setInt("id", profile.getId());
         sharedPreferenceUtils.setString("nickname", profile.getNickname());
         sharedPreferenceUtils.setString("assignment", profile.getAssignment());
         sharedPreferenceUtils.setString("gender", profile.getGender());

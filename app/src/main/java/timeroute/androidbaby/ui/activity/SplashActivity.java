@@ -26,6 +26,7 @@ public class SplashActivity extends IBaseActivity<ISplashView, SplashPresenter> 
     private static final String TAG = "SplashActivity";
 
     private Handler handler = new Handler();
+    private boolean isLogin = false;
 
     @Bind(R.id.splash_view)
     SplashView splash_view;
@@ -52,33 +53,49 @@ public class SplashActivity extends IBaseActivity<ISplashView, SplashPresenter> 
     }
 
     private void startLoadingData() {
-        Random random = new Random();
-        handler.postDelayed(this::onLoadingDataEnded, 1000 + random.nextInt(2000));
+        SharedPreferenceUtils sharedPreferenceUtils = new SharedPreferenceUtils(this, "user");
+        String token = sharedPreferenceUtils.getString("token");
+        if (token != null) {
+            long cur_timestamp = System.currentTimeMillis();
+            long last_login = sharedPreferenceUtils.getLong("last_login");
+            Log.d(TAG, String.valueOf(last_login));
+            Log.d(TAG, String.valueOf(cur_timestamp));
+            if(last_login != 0 && (last_login - cur_timestamp)/1000<3600){
+                isLogin = true;
+                onLoadingDataEnded();
+            }else{
+                String username = sharedPreferenceUtils.getString("username");
+                String password = sharedPreferenceUtils.getString("password");
+                mPresenter.getToken(username, password);
+            }
+        } else {
+            onLoadingDataEnded();
+        }
     }
 
-    private void onLoadingDataEnded(){
+    private void onLoadingDataEnded() {
         // start the splash animation
-        splash_view.splashAndDisappear(new SplashView.ISplashListener(){
+        splash_view.splashAndDisappear(new SplashView.ISplashListener() {
             @Override
-            public void onStart(){
+            public void onStart() {
                 // log the animation start event
-                if(BuildConfig.DEBUG){
+                if (BuildConfig.DEBUG) {
                     Log.d(TAG, "splash started");
                 }
             }
 
             @Override
-            public void onUpdate(float completionFraction){
+            public void onUpdate(float completionFraction) {
                 // log animation update events
-                if(BuildConfig.DEBUG){
+                if (BuildConfig.DEBUG) {
                     Log.d(TAG, "splash at " + String.format("%.2f", (completionFraction * 100)) + "%");
                 }
             }
 
             @Override
-            public void onEnd(){
+            public void onEnd() {
                 // log the animation end event
-                if(BuildConfig.DEBUG){
+                if (BuildConfig.DEBUG) {
                     Log.d(TAG, "splash ended");
                 }
                 // free the view so that it turns into garbage
@@ -89,38 +106,23 @@ public class SplashActivity extends IBaseActivity<ISplashView, SplashPresenter> 
     }
 
     public void goToMain() {
-        SharedPreferenceUtils sharedPreferenceUtils = new SharedPreferenceUtils(this, "user");
-        String token = sharedPreferenceUtils.getString("token");
-        if(token != null) {
-            String username = sharedPreferenceUtils.getString("username");
-            String password = sharedPreferenceUtils.getString("password");
-            mPresenter.getToken(username, password);
-            /*
-            long cur_timestamp = System.currentTimeMillis();
-            long last_login = sharedPreferenceUtils.getLong("last_login");
-            if(last_login != 0 && (last_login - cur_timestamp)/1000<3600){
-                startActivity(new Intent(SplashActivity.this, MainActivity.class));
-            }else{
-                String username = sharedPreferenceUtils.getString("username");
-                String password = sharedPreferenceUtils.getString("password");
-                mPresenter.getToken(username, password);
-            }
-            */
-        }else {
+        if (isLogin) {
+            startActivity(new Intent(SplashActivity.this, MainActivity.class));
+        } else {
             startActivity(new Intent(SplashActivity.this, LoginActivity.class));
-            finish();
         }
+        finish();
+    }
+
+    @Override
+    public void toMain() {
+        isLogin = true;
+        onLoadingDataEnded();
     }
 
     @Override
     public void startActivity(Intent intent) {
         super.startActivity(intent);
-        overridePendingTransition(android.R.anim.fade_in,0);
-    }
-
-    @Override
-    public void toMain() {
-        startActivity(new Intent(SplashActivity.this, MainActivity.class));
-        finish();
+        overridePendingTransition(android.R.anim.fade_in, 0);
     }
 }

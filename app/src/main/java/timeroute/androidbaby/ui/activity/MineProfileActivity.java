@@ -16,9 +16,11 @@ import butterknife.Bind;
 import timeroute.androidbaby.R;
 import timeroute.androidbaby.ui.base.BasePresenter;
 import timeroute.androidbaby.ui.base.IBaseActivity;
+import timeroute.androidbaby.ui.presenter.MineProfilePresenter;
+import timeroute.androidbaby.ui.view.IMineProfileView;
 import timeroute.androidbaby.util.SharedPreferenceUtils;
 
-public class MineProfileActivity extends IBaseActivity {
+public class MineProfileActivity extends IBaseActivity<IMineProfileView, MineProfilePresenter> implements IMineProfileView {
 
     private SharedPreferenceUtils sharedPreferenceUtils;
 
@@ -36,8 +38,8 @@ public class MineProfileActivity extends IBaseActivity {
     TextView textViewGender;
 
     @Override
-    protected BasePresenter createPresenter() {
-        return null;
+    protected MineProfilePresenter createPresenter() {
+        return new MineProfilePresenter(this);
     }
 
     @Override
@@ -90,6 +92,7 @@ public class MineProfileActivity extends IBaseActivity {
                             Toast.makeText(this, "输入为空", Toast.LENGTH_SHORT).show();
                             return;
                         }else {
+                            mPresenter.putProfile("nickname", input);
                             textViewNickname.setText(input);
                         }
                     })
@@ -108,6 +111,7 @@ public class MineProfileActivity extends IBaseActivity {
                             Toast.makeText(this, "输入为空", Toast.LENGTH_SHORT).show();
                             return;
                         }else {
+                            mPresenter.putProfile("assignment", input);
                             textViewAssignment.setText(input);
                         }
                     }))
@@ -121,7 +125,7 @@ public class MineProfileActivity extends IBaseActivity {
                             gender_items,
                             Arrays.asList(gender_items).indexOf(textViewGender.getText().toString()),
                             ((dialogInterface, i) -> {
-
+                                mPresenter.putProfile("gender", gender_items[i]);
                                 textViewGender.setText(gender_items[i]);
                                 dialogInterface.dismiss();
                             })
@@ -133,5 +137,10 @@ public class MineProfileActivity extends IBaseActivity {
     @Override
     public boolean canBack() {
         return true;
+    }
+
+    @Override
+    public void displayProgressBar(boolean display) {
+
     }
 }

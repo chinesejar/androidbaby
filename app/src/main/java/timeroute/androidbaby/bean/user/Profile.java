@@ -7,7 +7,7 @@ package timeroute.androidbaby.bean.user;
 
 public class Profile extends User {
     private String email;
-    private String nickname = "匿名的安卓宝宝";
+    private String nickname;
     private String assignment;
     private String avatar;
     private String gender;
