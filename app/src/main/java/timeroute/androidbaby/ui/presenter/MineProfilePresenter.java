@@ -54,7 +54,17 @@ public class MineProfilePresenter extends BasePresenter<IMineProfileView> {
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(avoid -> {
                         Toast.makeText(context, "更新成功", Toast.LENGTH_SHORT).show();
-                        sharedPreferenceUtils.setString(type, value);
+                        if(type.equals("nickname") || type.equals("assignment")){
+                            sharedPreferenceUtils.setString(type, value);
+                        }else if(type.equals("gender")) {
+                            if(value == "男") {
+                                sharedPreferenceUtils.setString(type, "M");
+                            }else if (value == "女"){
+                                sharedPreferenceUtils.setString(type, "F");
+                            }else if (value == "双性人"){
+                                sharedPreferenceUtils.setString(type, "B");
+                            }
+                        }
                     }, this::loadError);
         }
     }

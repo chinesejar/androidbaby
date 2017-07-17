@@ -3,6 +3,7 @@ package timeroute.androidbaby.ui.activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -69,11 +70,12 @@ public class MineProfileActivity extends IBaseActivity<IMineProfileView, MinePro
             textViewAssignment.setText(assignment);
         }
         String gender = sharedPreferenceUtils.getString("gender");
-        if(gender == "F"){
+        Log.d("gender", gender);
+        if(gender.equals("F")){
             textViewGender.setText("女");
-        }else if(gender == "M"){
+        }else if(gender.equals("M")){
             textViewGender.setText("男");
-        }else if(gender == "B"){
+        }else if(gender.equals("B")){
             textViewGender.setText("双性人");
         }else {
             textViewGender.setText("请选择性别");

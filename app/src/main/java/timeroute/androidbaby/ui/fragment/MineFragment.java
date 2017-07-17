@@ -25,6 +25,8 @@ import timeroute.androidbaby.util.SharedPreferenceUtils;
  */
 public class MineFragment extends IBaseFragment<IMineView, MinePresenter> {
 
+    private SharedPreferenceUtils sharedPreferenceUtils;
+
     private LinearLayoutManager mLayoutManager;
     private String avatar;
     private String nickname;
@@ -61,7 +63,24 @@ public class MineFragment extends IBaseFragment<IMineView, MinePresenter> {
 
     @Override
     protected void initView(View rootView) {
-        SharedPreferenceUtils sharedPreferenceUtils = new SharedPreferenceUtils(getContext(), "user");
+        sharedPreferenceUtils = new SharedPreferenceUtils(getContext(), "user");
+
+        mLayoutManager = new LinearLayoutManager(getContext());
+        profile_layout.setOnClickListener(view -> {
+            Intent intent = new Intent(getActivity(), MineProfileActivity.class);
+            startActivity(intent);
+        });
+
+        refreshProfile();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        refreshProfile();
+    }
+
+    private void refreshProfile() {
         avatar = sharedPreferenceUtils.getString("avatar");
         if(avatar != null){
             Glide.with(getContext()).load(avatar).asBitmap().into(avatar_imageView);
@@ -74,10 +93,5 @@ public class MineFragment extends IBaseFragment<IMineView, MinePresenter> {
         }else {
             assignment_TextView.setText(assignment);
         }
-        mLayoutManager = new LinearLayoutManager(getContext());
-        profile_layout.setOnClickListener(view -> {
-            Intent intent = new Intent(getActivity(), MineProfileActivity.class);
-            startActivity(intent);
-        });
     }
 }
