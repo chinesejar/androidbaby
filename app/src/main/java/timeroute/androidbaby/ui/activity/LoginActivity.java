@@ -25,8 +25,6 @@ import timeroute.androidbaby.ui.view.ILoginView;
  */
 public class LoginActivity extends IBaseActivity<ILoginView, LoginPresenter> implements ILoginView {
 
-    private SharedPreferences sharedPreferences;
-
     @Bind(R.id.login_form)
     View viewLoginForm;
     @Bind(R.id.login_progress)
@@ -55,7 +53,6 @@ public class LoginActivity extends IBaseActivity<ILoginView, LoginPresenter> imp
     }
 
     private void initView() {
-        sharedPreferences = this.getSharedPreferences("user", MODE_PRIVATE);
         buttonLogin.setOnClickListener(view -> {
             attemptLogin();
         });
@@ -112,7 +109,7 @@ public class LoginActivity extends IBaseActivity<ILoginView, LoginPresenter> imp
 
     private boolean isUsernameValid(String username) {
         //TODO: Replace this with your own logic
-        return username.length() > 8;
+        return username.length() >= 8;
     }
 
     private boolean isPasswordValid(String password) {

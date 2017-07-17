@@ -16,10 +16,12 @@ import butterknife.ButterKnife;
 import timeroute.androidbaby.R;
 import timeroute.androidbaby.ui.base.BasePresenter;
 import timeroute.androidbaby.ui.base.IBaseActivity;
+import timeroute.androidbaby.ui.presenter.SplashPresenter;
+import timeroute.androidbaby.ui.view.ISplashView;
 import timeroute.androidbaby.util.SharedPreferenceUtils;
 import timeroute.androidbaby.widget.SplashView;
 
-public class SplashActivity extends IBaseActivity {
+public class SplashActivity extends IBaseActivity<ISplashView, SplashPresenter> implements ISplashView {
 
     private static final String TAG = "SplashActivity";
 
@@ -31,8 +33,8 @@ public class SplashActivity extends IBaseActivity {
     TextView tv_splash_info;
 
     @Override
-    protected BasePresenter createPresenter() {
-        return null;
+    protected SplashPresenter createPresenter() {
+        return new SplashPresenter(this);
     }
 
 
@@ -90,22 +92,35 @@ public class SplashActivity extends IBaseActivity {
         SharedPreferenceUtils sharedPreferenceUtils = new SharedPreferenceUtils(this, "user");
         String token = sharedPreferenceUtils.getString("token");
         if(token != null) {
+            String username = sharedPreferenceUtils.getString("username");
+            String password = sharedPreferenceUtils.getString("password");
+            mPresenter.getToken(username, password);
+            /*
             long cur_timestamp = System.currentTimeMillis();
             long last_login = sharedPreferenceUtils.getLong("last_login");
             if(last_login != 0 && (last_login - cur_timestamp)/1000<3600){
                 startActivity(new Intent(SplashActivity.this, MainActivity.class));
             }else{
-
+                String username = sharedPreferenceUtils.getString("username");
+                String password = sharedPreferenceUtils.getString("password");
+                mPresenter.getToken(username, password);
             }
+            */
         }else {
             startActivity(new Intent(SplashActivity.this, LoginActivity.class));
+            finish();
         }
-        finish();
     }
 
     @Override
     public void startActivity(Intent intent) {
         super.startActivity(intent);
         overridePendingTransition(android.R.anim.fade_in,0);
+    }
+
+    @Override
+    public void toMain() {
+        startActivity(new Intent(SplashActivity.this, MainActivity.class));
+        finish();
     }
 }

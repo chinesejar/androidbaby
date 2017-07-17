@@ -71,8 +71,6 @@ public class FeedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     class FeedViewHolder extends RecyclerView.ViewHolder {
         @Bind(R.id.card_feeds)
         CardView cardView;
-        @Bind(R.id.feed_id)
-        TextView feed_id;
         @Bind(R.id.avatar)
         ImageView avatar;
         @Bind(R.id.username)
@@ -98,7 +96,6 @@ public class FeedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
 
         public void bindItem(Feed feed){
-            feed_id.setText(String.valueOf(feed.getFeedId()));
             loadCirclePic(context, "https://static.vecteezy.com/system/resources/previews/000/034/639/non_2x/droid-vector.jpg", avatar);
             avatar.setOnClickListener(v->{
 

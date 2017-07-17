@@ -23,7 +23,7 @@ public class ApiRetrofit {
     public FeedApi feedApiService;
     public UserApi userApiService;
     public TokenApi tokenApiService;
-    public static final String BASE_URL = "http://192.168.31.105:9000/";
+    public static final String BASE_URL = "http://192.168.155.3:9000/";
 
     public FeedApi getFeedApiService(){
         return feedApiService;

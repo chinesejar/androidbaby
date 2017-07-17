@@ -8,12 +8,19 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import butterknife.Bind;
 import timeroute.androidbaby.R;
 import timeroute.androidbaby.ui.base.BasePresenter;
 import timeroute.androidbaby.ui.base.IBaseActivity;
+import timeroute.androidbaby.util.SharedPreferenceUtils;
 
 public class MineProfileActivity extends IBaseActivity {
+
+    private SharedPreferenceUtils sharedPreferenceUtils;
 
     @Bind(R.id.layout_nickname)
     LinearLayout layoutNickname;
@@ -45,9 +52,35 @@ public class MineProfileActivity extends IBaseActivity {
     }
 
     private void initView() {
+
+        sharedPreferenceUtils = new SharedPreferenceUtils(this, "user");
+        String nickname = sharedPreferenceUtils.getString("nickname");
+        if (nickname == null){
+            textViewNickname.setText("请输入昵称");
+        }else {
+            textViewNickname.setText(nickname);
+        }
+        String assignment = sharedPreferenceUtils.getString("assignment");
+        if(assignment == null){
+            textViewAssignment.setText("请输入签名");
+        }else {
+            textViewAssignment.setText(assignment);
+        }
+        String gender = sharedPreferenceUtils.getString("gender");
+        if(gender == "F"){
+            textViewGender.setText("女");
+        }else if(gender == "M"){
+            textViewGender.setText("男");
+        }else if(gender == "B"){
+            textViewGender.setText("双性人");
+        }else {
+            textViewGender.setText("请选择性别");
+        }
+
         layoutNickname.setOnClickListener(view -> {
             EditText editText = new EditText(this);
             editText.setSingleLine(true);
+            editText.setText(textViewNickname.getText().toString());
             new AlertDialog.Builder(this)
                     .setTitle(getString(R.string.nickname))
                     .setView(editText)
@@ -65,6 +98,7 @@ public class MineProfileActivity extends IBaseActivity {
         layoutAssignment.setOnClickListener(view -> {
             EditText editText = new EditText(this);
             editText.setSingleLine(true);
+            editText.setText(textViewAssignment.getText().toString());
             new AlertDialog.Builder(this)
                     .setTitle(getString(R.string.assignment))
                     .setView(editText)
@@ -80,14 +114,15 @@ public class MineProfileActivity extends IBaseActivity {
                     .setNegativeButton("取消", null).show();
         });
         layoutGender.setOnClickListener(view -> {
-            String[] gender = new String[]{"男", "女", "双性人"};
+            String[] gender_items = new String[]{"男", "女", "双性人"};
             new AlertDialog.Builder(this)
                     .setTitle(getString(R.string.gender))
                     .setSingleChoiceItems(
-                            gender,
-                            0,
+                            gender_items,
+                            Arrays.asList(gender_items).indexOf(textViewGender.getText().toString()),
                             ((dialogInterface, i) -> {
-                                textViewGender.setText(gender[i]);
+
+                                textViewGender.setText(gender_items[i]);
                                 dialogInterface.dismiss();
                             })
                     )
