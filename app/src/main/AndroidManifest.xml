@@ -24,8 +24,9 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/images"/>
+                android:resource="@xml/images" />
         </provider>
+
         <activity
             android:name=".ui.activity.MainActivity"
             android:theme="@style/MainTheme" />
@@ -43,7 +44,8 @@
             android:theme="@style/MainTheme" />
         <activity
             android:name=".ui.activity.LoginActivity"
-            android:label="@string/title_activity_login"></activity>
+            android:label="@string/title_activity_login" />
+        <activity android:name=".ui.activity.PostActivity"></activity>
     </application>
 
 </manifest>

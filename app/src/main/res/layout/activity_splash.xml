@@ -9,10 +9,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:duration="500"
-        app:holeFillColor="@color/colorPrimary"
-        app:iconColor="@color/colorPrimary"
+        app:holeFillColor="@color/colorPrimaryDark"
+        app:iconColor="@color/colorPrimaryDark"
         app:removeFromParentOnEnd="true"
-        app:splashIcon="@drawable/avatar"/>
+        app:splashIcon="@drawable/ic_android"/>
 
     <TextView
         android:id="@+id/tv_splash_info"
@@ -21,7 +21,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="20dp"
-        android:textColor="@android:color/white"
+        android:textColor="#fff"
         android:textSize="24dp"
         android:text="@string/app_name"/>
 

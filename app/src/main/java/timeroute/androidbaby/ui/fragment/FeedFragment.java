@@ -1,20 +1,18 @@
 package timeroute.androidbaby.ui.fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
 
 import butterknife.Bind;
 import timeroute.androidbaby.R;
-import timeroute.androidbaby.ui.base.BasePresenter;
+import timeroute.androidbaby.ui.activity.PostActivity;
 import timeroute.androidbaby.ui.base.IBaseFragment;
 import timeroute.androidbaby.ui.presenter.FeedPresenter;
 import timeroute.androidbaby.ui.view.IFeedView;
@@ -23,6 +21,8 @@ import timeroute.androidbaby.ui.view.IFeedView;
  * A simple {@link Fragment} subclass.
  */
 public class FeedFragment extends IBaseFragment<IFeedView, FeedPresenter> implements IFeedView {
+
+    private static final String TAG = "FeedFragment";
 
     private LinearLayoutManager mLayoutManager;
     @Bind(R.id.feed_list)
@@ -45,7 +45,7 @@ public class FeedFragment extends IBaseFragment<IFeedView, FeedPresenter> implem
         mLayoutManager = new LinearLayoutManager(getContext());
         feed_list.setLayoutManager(mLayoutManager);
         floatingActionButton.setOnClickListener(view -> {
-            Toast.makeText(getContext(), "哈哈", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(getActivity(), PostActivity.class));
         });
     }
 

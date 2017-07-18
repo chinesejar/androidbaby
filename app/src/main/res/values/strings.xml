@@ -3,6 +3,8 @@
     <string name="tab_feed">最新</string>
     <string name="tab_discovery">探索</string>
     <string name="tab_profile">我的</string>
+    <string name="activity_post">发布</string>
+    <string name="post_hint">说点什么吧...</string>
     <string name="loading">正在加载</string>
     <string name="nickname">昵称</string>
     <string name="assignment">签名</string>
@@ -33,4 +35,5 @@
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_gif">x or y bound size should be at least %1$dpx and file size should be no more than %2$sM</string>
 </resources>
