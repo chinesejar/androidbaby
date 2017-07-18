@@ -1,16 +1,12 @@
 package timeroute.androidbaby.ui.presenter;
 
 import android.content.Context;
-import android.util.Log;
 import android.widget.Toast;
 
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import timeroute.androidbaby.bean.user.Profile;
-import timeroute.androidbaby.bean.user.Token;
-import timeroute.androidbaby.bean.user.User;
 import timeroute.androidbaby.ui.base.BasePresenter;
-import timeroute.androidbaby.ui.view.ILoginView;
 import timeroute.androidbaby.ui.view.IMineProfileView;
 import timeroute.androidbaby.util.SharedPreferenceUtils;
 
@@ -49,7 +45,7 @@ public class MineProfilePresenter extends BasePresenter<IMineProfileView> {
             }
         }
         if(mineProfileView != null){
-            userApi.putProfile("Token "+token, id, profile)
+            userApi.putProfile("UserToken "+token, id, profile)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(avoid -> {

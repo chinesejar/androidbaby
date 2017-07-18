@@ -1,13 +1,12 @@
 package timeroute.androidbaby.ui.presenter;
 
 import android.content.Context;
-import android.util.Log;
 import android.widget.Toast;
 
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import timeroute.androidbaby.bean.user.Profile;
-import timeroute.androidbaby.bean.user.Token;
+import timeroute.androidbaby.bean.user.UserToken;
 import timeroute.androidbaby.bean.user.User;
 import timeroute.androidbaby.ui.base.BasePresenter;
 import timeroute.androidbaby.ui.view.ILoginView;
@@ -32,11 +31,11 @@ public class LoginPresenter extends BasePresenter<ILoginView> {
         user.setUsername(username);
         user.setPassword(password);
         if(loginView != null){
-            tokenApi.getToken(user)
+            userApi.getToken(user)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(token -> {
-                        displayToken(token, username, password);
+                    .subscribe(userToken -> {
+                        displayToken(userToken, username, password);
                     }, this::loadError);
         }
     }
@@ -47,11 +46,11 @@ public class LoginPresenter extends BasePresenter<ILoginView> {
         loginView.displayProgressBar(false);
     }
 
-    private void displayToken(Token token, String username, String password) {
-        Profile profile = token.getProfile();
+    private void displayToken(UserToken userToken, String username, String password) {
+        Profile profile = userToken.getProfile();
         loginView.displayProgressBar(false);
         SharedPreferenceUtils sharedPreferenceUtils = new SharedPreferenceUtils(context, "user");
-        sharedPreferenceUtils.setString("token", token.getToken());
+        sharedPreferenceUtils.setString("userToken", userToken.getToken());
         sharedPreferenceUtils.setString("username", username);
         sharedPreferenceUtils.setString("password", password);
         sharedPreferenceUtils.setLong("last_login", System.currentTimeMillis());

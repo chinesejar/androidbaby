@@ -22,16 +22,13 @@ import timeroute.androidbaby.util.StateUtils;
 public class ApiRetrofit {
     public FeedApi feedApiService;
     public UserApi userApiService;
-    public TokenApi tokenApiService;
-    public static final String BASE_URL = "http://192.168.1.108:9000/";
+    public static final String BASE_URL = "http://192.168.155.3:9000/";
 
     public FeedApi getFeedApiService(){
         return feedApiService;
     }
 
     public UserApi getUserApiService() { return userApiService; }
-
-    public TokenApi getTokenApiService() { return tokenApiService; }
 
     ApiRetrofit(){
         File httpCacheDirectory = new File(MyApp.context.getCacheDir(), "responses");
@@ -86,13 +83,5 @@ public class ApiRetrofit {
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
         userApiService = retrofit_user.create(UserApi.class);
-
-        Retrofit retrofit_token = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .client(client)
-                .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .build();
-        tokenApiService = retrofit_token.create(TokenApi.class);
     }
 }

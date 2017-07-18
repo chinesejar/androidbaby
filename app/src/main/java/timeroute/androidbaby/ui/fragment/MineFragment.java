@@ -5,6 +5,7 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -16,7 +17,10 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -25,6 +29,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
 
 import java.io.File;
 import java.io.IOException;
@@ -43,7 +48,7 @@ import static android.app.Activity.RESULT_OK;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MineFragment extends IBaseFragment<IMineView, MinePresenter> {
+public class MineFragment extends IBaseFragment<IMineView, MinePresenter> implements IMineView {
 
     private SharedPreferenceUtils sharedPreferenceUtils;
 
@@ -162,15 +167,20 @@ public class MineFragment extends IBaseFragment<IMineView, MinePresenter> {
             return;
         }
 
-        contentUri = FileProvider.getUriForFile(getContext(), "timeroute.androidbaby.fileprovider", mImageFile);
+        contentUri = FileProvider.getUriForFile(getActivity(), "timeroute.androidbaby.fileprovider", mImageFile);
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, contentUri);
         startActivityForResult(cameraIntent, REQUEST_CAMERA);
     }
 
     private void createImageFile() {
-        File images = new File(getContext().getFilesDir(), "images");
-        mImageFile = new File(images, "avatar.jpg");
+        Log.d("dir", Environment.getExternalStorageDirectory().toString());
+        mImageFile = new File(Environment.getExternalStorageDirectory(), "images/avatar.jpg");
+        try {
+            mImageFile.createNewFile();
+        }catch (IOException e){
+            Log.d("create", e.getMessage());
+        }
     }
 
     private void selectAlbum() {
@@ -199,7 +209,7 @@ public class MineFragment extends IBaseFragment<IMineView, MinePresenter> {
         }
         switch (requestCode) {
             case REQUEST_CAMERA:
-                cropImage(contentUri);
+                cropImage(FileProvider.getUriForFile(getContext(), "timeroute.androidbaby.fileprovider", mImageFile));
                 break;
 
             case REQUEST_ALBUM:
@@ -215,7 +225,7 @@ public class MineFragment extends IBaseFragment<IMineView, MinePresenter> {
                 break;
 
             case REQUEST_CROP:
-                avatar_imageView.setImageURI(Uri.fromFile(mImageFile));
+                mPresenter.getToken();
                 break;
         }
     }
@@ -239,5 +249,21 @@ public class MineFragment extends IBaseFragment<IMineView, MinePresenter> {
         }else {
             assignment_TextView.setText(assignment);
         }
+    }
+
+    @Override
+    public void setAvatar() {
+        Glide.with(getContext())
+                .load(FileProvider.getUriForFile(getContext(), "timeroute.androidbaby.fileprovider", mImageFile))
+                .asBitmap()
+                .into(new BitmapImageViewTarget(avatar_imageView) {
+                    @Override
+                    protected void setResource(Bitmap resource) {
+                        RoundedBitmapDrawable circularBitmapDrawable =
+                                RoundedBitmapDrawableFactory.create(getContext().getResources(), resource);
+                        circularBitmapDrawable.setCircular(true);
+                        avatar_imageView.setImageDrawable(circularBitmapDrawable);
+                    }
+                });
     }
 }

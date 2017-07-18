@@ -6,7 +6,7 @@ import java.io.Serializable;
  * Created by chinesejar on 17-7-16.
  */
 
-public class Token implements Serializable {
+public class UserToken implements Serializable {
     private String token;
     private Profile profile;
 
