@@ -5,5 +5,5 @@ package timeroute.androidbaby.ui.view;
  */
 
 public interface IMineProfileView {
-    void displayProgressBar(boolean display);
+    void setTextView(String type, String value);
 }

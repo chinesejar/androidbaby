@@ -18,6 +18,8 @@ import timeroute.androidbaby.util.SharedPreferenceUtils;
 
 public class SplashPresenter extends BasePresenter<ISplashView> {
 
+    private SharedPreferenceUtils sharedPreferenceUtils;
+
     private Context context;
     private ISplashView splashView;
 
@@ -47,11 +49,14 @@ public class SplashPresenter extends BasePresenter<ISplashView> {
 
     private void displayToken(UserToken userToken, String username, String password) {
         Profile profile = userToken.getProfile();
-        SharedPreferenceUtils sharedPreferenceUtils = new SharedPreferenceUtils(context, "user");
-        sharedPreferenceUtils.setString("userToken", userToken.getToken());
+        sharedPreferenceUtils = new SharedPreferenceUtils(context, "user");
+        String last_token = sharedPreferenceUtils.getString("token");
+        if(last_token != userToken.getToken()){
+            sharedPreferenceUtils.setString("token", userToken.getToken());
+            sharedPreferenceUtils.setLong("last_login", System.currentTimeMillis());
+        }
         sharedPreferenceUtils.setString("username", username);
         sharedPreferenceUtils.setString("password", password);
-        sharedPreferenceUtils.setLong("last_login", System.currentTimeMillis());
         sharedPreferenceUtils.setInt("id", profile.getId());
         sharedPreferenceUtils.setString("nickname", profile.getNickname());
         sharedPreferenceUtils.setString("assignment", profile.getAssignment());

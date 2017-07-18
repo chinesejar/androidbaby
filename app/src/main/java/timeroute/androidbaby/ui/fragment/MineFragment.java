@@ -12,7 +12,6 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
-import android.support.v4.BuildConfig;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -20,20 +19,17 @@ import android.support.v4.content.FileProvider;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URI;
 
 import butterknife.Bind;
 import timeroute.androidbaby.R;
@@ -239,7 +235,7 @@ public class MineFragment extends IBaseFragment<IMineView, MinePresenter> implem
     private void refreshProfile() {
         avatar = sharedPreferenceUtils.getString("avatar");
         if(avatar != null){
-            Glide.with(getContext()).load(avatar).asBitmap().into(avatar_imageView);
+            setAvatar(avatar);
         }
         nickname = sharedPreferenceUtils.getString("nickname");
         nickname_TextView.setText(nickname);
@@ -252,9 +248,9 @@ public class MineFragment extends IBaseFragment<IMineView, MinePresenter> implem
     }
 
     @Override
-    public void setAvatar() {
+    public void setAvatar(String url) {
         Glide.with(getContext())
-                .load(FileProvider.getUriForFile(getContext(), "timeroute.androidbaby.fileprovider", mImageFile))
+                .load(url)
                 .asBitmap()
                 .into(new BitmapImageViewTarget(avatar_imageView) {
                     @Override
@@ -265,5 +261,10 @@ public class MineFragment extends IBaseFragment<IMineView, MinePresenter> implem
                         avatar_imageView.setImageDrawable(circularBitmapDrawable);
                     }
                 });
+    }
+
+    @Override
+    public File getAvatar() {
+        return mImageFile;
     }
 }

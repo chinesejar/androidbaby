@@ -63,12 +63,15 @@ public class MainActivity extends IBaseActivity {
                 switch (position){
                     case 0:
                         navigation_bar.setSelectedItemId(R.id.navigation_home);
+                        mToolbar.setTitle(getString(R.string.app_name));
                         break;
                     case 1:
                         navigation_bar.setSelectedItemId(R.id.navigation_discovery);
+                        mToolbar.setTitle(getString(R.string.tab_discovery));
                         break;
                     case 2:
                         navigation_bar.setSelectedItemId(R.id.navigation_profile);
+                        mToolbar.setTitle(getString(R.string.tab_profile));
                         break;
                 }
             }

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">AndroidBaby</string>
+    <string name="app_name">安卓宝宝</string>
     <string name="tab_feed">最新</string>
     <string name="tab_discovery">探索</string>
     <string name="tab_profile">我的</string>

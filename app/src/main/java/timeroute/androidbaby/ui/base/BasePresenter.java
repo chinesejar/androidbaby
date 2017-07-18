@@ -15,6 +15,8 @@ public abstract class BasePresenter<V> {
     public static final FeedApi feedApi = ApiFactory.getFeedApiSingleton();
     public static final UserApi userApi = ApiFactory.getUserApiSingleton();
 
+    public static final String baseAvatarUrl = "http://osczzc4f6.bkt.clouddn.com/";
+
     public void attachView(V view){
         mViewRef = new WeakReference<V>(view);
     }

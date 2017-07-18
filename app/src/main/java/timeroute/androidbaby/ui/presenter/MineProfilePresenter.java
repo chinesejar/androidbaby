@@ -45,7 +45,7 @@ public class MineProfilePresenter extends BasePresenter<IMineProfileView> {
             }
         }
         if(mineProfileView != null){
-            userApi.putProfile("UserToken "+token, id, profile)
+            userApi.putProfile("Token "+token, id, profile)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(avoid -> {
@@ -53,14 +53,9 @@ public class MineProfilePresenter extends BasePresenter<IMineProfileView> {
                         if(type.equals("nickname") || type.equals("assignment")){
                             sharedPreferenceUtils.setString(type, value);
                         }else if(type.equals("gender")) {
-                            if(value == "男") {
-                                sharedPreferenceUtils.setString(type, "M");
-                            }else if (value == "女"){
-                                sharedPreferenceUtils.setString(type, "F");
-                            }else if (value == "双性人"){
-                                sharedPreferenceUtils.setString(type, "B");
-                            }
+                            sharedPreferenceUtils.setString(type, profile.getGender());
                         }
+                        mineProfileView.setTextView(type, value);
                     }, this::loadError);
         }
     }

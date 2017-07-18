@@ -50,7 +50,7 @@ public class LoginPresenter extends BasePresenter<ILoginView> {
         Profile profile = userToken.getProfile();
         loginView.displayProgressBar(false);
         SharedPreferenceUtils sharedPreferenceUtils = new SharedPreferenceUtils(context, "user");
-        sharedPreferenceUtils.setString("userToken", userToken.getToken());
+        sharedPreferenceUtils.setString("token", userToken.getToken());
         sharedPreferenceUtils.setString("username", username);
         sharedPreferenceUtils.setString("password", password);
         sharedPreferenceUtils.setLong("last_login", System.currentTimeMillis());

@@ -95,7 +95,6 @@ public class MineProfileActivity extends IBaseActivity<IMineProfileView, MinePro
                             return;
                         }else {
                             mPresenter.putProfile("nickname", input);
-                            textViewNickname.setText(input);
                         }
                     })
                     .setNegativeButton("取消", null).show();
@@ -114,7 +113,6 @@ public class MineProfileActivity extends IBaseActivity<IMineProfileView, MinePro
                             return;
                         }else {
                             mPresenter.putProfile("assignment", input);
-                            textViewAssignment.setText(input);
                         }
                     }))
                     .setNegativeButton("取消", null).show();
@@ -128,7 +126,6 @@ public class MineProfileActivity extends IBaseActivity<IMineProfileView, MinePro
                             Arrays.asList(gender_items).indexOf(textViewGender.getText().toString()),
                             ((dialogInterface, i) -> {
                                 mPresenter.putProfile("gender", gender_items[i]);
-                                textViewGender.setText(gender_items[i]);
                                 dialogInterface.dismiss();
                             })
                     )
@@ -142,7 +139,13 @@ public class MineProfileActivity extends IBaseActivity<IMineProfileView, MinePro
     }
 
     @Override
-    public void displayProgressBar(boolean display) {
-
+    public void setTextView(String type, String value) {
+        if(type == "nickname"){
+            textViewNickname.setText(value);
+        }else if (type == "assignment"){
+            textViewAssignment.setText(value);
+        }else if (type == "gender"){
+            textViewGender.setText(value);
+        }
     }
 }
