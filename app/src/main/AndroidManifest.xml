@@ -45,7 +45,8 @@
         <activity
             android:name=".ui.activity.LoginActivity"
             android:label="@string/title_activity_login" />
-        <activity android:name=".ui.activity.PostActivity"></activity>
+        <activity android:name=".ui.activity.PostActivity"
+            android:theme="@style/MainTheme"/>
     </application>
 
 </manifest>

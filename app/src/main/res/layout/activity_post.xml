@@ -6,20 +6,24 @@
     android:orientation="vertical"
     tools:context="timeroute.androidbaby.ui.activity.PostActivity">
 
+    <include layout="@layout/activity_view_toolbar" />
+
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_margin="10dp"
         android:padding="10dp">
+
         <EditText
+            android:id="@+id/editTextContent"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:layout_margin="10dp"
-            android:padding="10dp"
             android:gravity="top"
-            android:textColor="#333"
             android:hint="@string/post_hint"
-            android:textColorHint="#999"/>
+            android:padding="10dp"
+            android:textColor="#333"
+            android:textColorHint="#999" />
     </android.support.v7.widget.CardView>
 
     <LinearLayout
@@ -27,33 +31,25 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:padding="10dp"
         android:background="#fff"
-        android:orientation="horizontal">
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="horizontal">
-            <ImageButton
-                android:id="@+id/imageButtonPick"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_post_photo"
-                android:background="#fff"/>
-        </LinearLayout>
+        android:orientation="horizontal"
+        android:padding="10dp">
+
         <ImageButton
-            android:id="@+id/imageButtonSend"
+            android:id="@+id/imageButtonPick"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_post_send"
-            android:background="#fff"/>
+            android:background="#fff"
+            android:src="@drawable/ic_post_photo" />
     </LinearLayout>
-    <HorizontalScrollView
+
+    <timeroute.androidbaby.widget.HorizontalListView
+        android:id="@+id/listViewPic"
         android:layout_width="match_parent"
         android:layout_height="100dp"
+        android:layout_margin="10dp"
         android:visibility="gone">
 
-    </HorizontalScrollView>
+    </timeroute.androidbaby.widget.HorizontalListView>
 
 </LinearLayout>

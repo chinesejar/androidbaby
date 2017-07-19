@@ -1,14 +1,8 @@
 package timeroute.androidbaby.ui.activity;
 
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.net.Uri;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
-import android.util.Log;
-
-import com.zhihu.matisse.Matisse;
 
 import java.util.ArrayList;
 import java.util.List;

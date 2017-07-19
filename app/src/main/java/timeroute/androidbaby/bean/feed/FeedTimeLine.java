@@ -1,7 +1,5 @@
 package timeroute.androidbaby.bean.feed;
 
-import android.util.Log;
-
 import java.io.Serializable;
 import java.util.List;
 

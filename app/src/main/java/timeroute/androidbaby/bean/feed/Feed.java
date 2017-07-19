@@ -49,6 +49,10 @@ public class Feed implements Serializable {
             return url;
         }
 
+        public void setUrl(String url){
+            this.url = url;
+        }
+
         @Override
         public String toString(){
             return "FeedPic{"+
@@ -87,6 +91,14 @@ public class Feed implements Serializable {
             e.printStackTrace();
             return e.getMessage();
         }
+    }
+
+    public void setContent(String content){
+        this.content = content;
+    }
+
+    public void setFeedPic(List<FeedPic> feed_pic){
+        this.feed_pic = feed_pic;
     }
 
     @Override

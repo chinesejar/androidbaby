@@ -57,6 +57,9 @@ public class MineProfileActivity extends IBaseActivity<IMineProfileView, MinePro
     private void initView() {
 
         sharedPreferenceUtils = new SharedPreferenceUtils(this, "user");
+
+        getSupportActionBar().setTitle(getString(R.string.title_activity_profile));
+
         String nickname = sharedPreferenceUtils.getString("nickname");
         if (nickname == null){
             textViewNickname.setText("请输入昵称");
