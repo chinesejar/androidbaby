@@ -24,7 +24,6 @@ import com.zhihu.matisse.engine.impl.GlideEngine;
 import com.zhihu.matisse.filter.Filter;
 import com.zhihu.matisse.internal.entity.IncapableCause;
 import com.zhihu.matisse.internal.entity.Item;
-import com.zhihu.matisse.internal.entity.SelectionSpec;
 import com.zhihu.matisse.internal.utils.PhotoMetadataUtils;
 
 import java.io.File;
@@ -212,5 +211,10 @@ public class PostActivity extends IBaseActivity<IPostView, PostPresenter> implem
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void sendSuccess() {
+        finish();
     }
 }

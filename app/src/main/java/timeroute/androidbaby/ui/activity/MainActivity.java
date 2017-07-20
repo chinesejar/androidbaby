@@ -3,6 +3,8 @@ package timeroute.androidbaby.ui.activity;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.view.MotionEvent;
+import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,11 +18,12 @@ import timeroute.androidbaby.ui.base.IBaseFragment;
 import timeroute.androidbaby.ui.fragment.DiscoveryFragment;
 import timeroute.androidbaby.ui.fragment.FeedFragment;
 import timeroute.androidbaby.ui.fragment.MineFragment;
+import timeroute.androidbaby.widget.NoScrollViewPager;
 
 public class MainActivity extends IBaseActivity {
 
     @Bind(R.id.content_viewPager)
-    ViewPager content_viewPager;
+    NoScrollViewPager content_viewPager;
     @Bind(R.id.navigation_bar)
     BottomNavigationView navigation_bar;
 
@@ -85,5 +88,4 @@ public class MainActivity extends IBaseActivity {
             return true;
         });
     }
-
 }

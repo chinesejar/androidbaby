@@ -13,19 +13,25 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import timeroute.androidbaby.R;
 import timeroute.androidbaby.bean.feed.Feed;
+import timeroute.androidbaby.bean.feed.FeedPic;
 import timeroute.androidbaby.bean.feed.FeedTimeLine;
 import timeroute.androidbaby.util.ScreenUtil;
+import timeroute.androidbaby.widget.HorizontalListView;
 
 /**
  * Created by chinesejar on 17-7-8.
@@ -36,6 +42,9 @@ public class FeedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private Context context;
     private FeedTimeLine feedTimeLine;
     private int status = 1;
+
+    private List<Map<String, Object>> list;
+    private FeedPicAdapter feedPicAdapter;
 
     public static final int LOAD_MORE = 0;
     public static final int LOAD_PULL_TO = 1;
@@ -77,7 +86,8 @@ public class FeedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         TextView username;
         @Bind(R.id.content)
         TextView content;
-        ArrayList<ImageView> urls;
+        @Bind(R.id.feed_pic)
+        HorizontalListView horizontalListViewFeedPic;
         @Bind(R.id.like)
         TextView like;
         @Bind(R.id.comment)
@@ -96,12 +106,27 @@ public class FeedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
 
         public void bindItem(Feed feed){
-            loadCirclePic(context, "https://static.vecteezy.com/system/resources/previews/000/034/639/non_2x/droid-vector.jpg", avatar);
+            loadCirclePic(context, feed.getUser().getAvatar(), avatar);
             avatar.setOnClickListener(v->{
 
             });
             username.setText(feed.getUser().getNickname());
             content.setText(feed.getContent());
+            if(feed.getFeedPic().size() > 0){
+                horizontalListViewFeedPic.setVisibility(View.VISIBLE);
+                list = new ArrayList<Map<String, Object>>();
+                for(int i=0;i<feed.getFeedPic().size();i++){
+                    Map<String, Object> map = new HashMap<String, Object>();
+                    map.put("url", feed.getFeedPic().get(i).getUrl());
+                    list.add(map);
+                }
+                feedPicAdapter = new FeedPicAdapter(context,
+                        list,
+                        R.layout.layout_feed_pic,
+                        new String[]{"url"},
+                        new int[]{R.id.image_view_pic});
+                horizontalListViewFeedPic.setAdapter(feedPicAdapter);
+            }
             like.setText(String.valueOf(feed.getLikeCount()));
             comment.setText(String.valueOf(feed.getCommentCount()));
             create_time.setText(String.valueOf(feed.getCreate_time()));

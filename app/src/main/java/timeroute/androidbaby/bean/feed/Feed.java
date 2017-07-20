@@ -1,16 +1,12 @@
 package timeroute.androidbaby.bean.feed;
 
-import android.util.Log;
-
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import timeroute.androidbaby.bean.user.Profile;
-import timeroute.androidbaby.bean.user.User;
 
 /**
  * Created by chinesejar on 17-7-8.
@@ -24,7 +20,7 @@ public class Feed implements Serializable {
     private List<FeedPic> feed_pic;
     private int like_count = 0;
     private int comment_count = 0;
-    private String create_time = "未知时间";
+    private String create_time;
 
     public int getFeedId() {
         return id;
@@ -40,25 +36,6 @@ public class Feed implements Serializable {
 
     public List<FeedPic> getFeedPic(){
         return feed_pic;
-    }
-
-    public class FeedPic implements Serializable{
-        private String url;
-
-        public String getUrl(){
-            return url;
-        }
-
-        public void setUrl(String url){
-            this.url = url;
-        }
-
-        @Override
-        public String toString(){
-            return "FeedPic{"+
-                    "url='"+url+'\''+
-                    "}";
-        }
     }
 
     public int getLikeCount() {
@@ -89,7 +66,7 @@ public class Feed implements Serializable {
         } catch (ParseException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-            return e.getMessage();
+            return "未知时间";
         }
     }
 

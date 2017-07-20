@@ -2,7 +2,9 @@ package timeroute.androidbaby.api;
 
 import java.util.List;
 
+import retrofit2.http.Body;
 import retrofit2.http.Header;
+import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 import retrofit2.http.GET;
@@ -29,4 +31,7 @@ public interface FeedApi {
 
     @GET("feed_token/")
     Observable<List<ImageToken>> getImageToken(@Header("Authorization") String authorization, @Query("count") int count);
+
+    @POST("feed/")
+    Observable<Feed> postFeed(@Header("Authorization") String authorization, @Body Feed feed);
 }

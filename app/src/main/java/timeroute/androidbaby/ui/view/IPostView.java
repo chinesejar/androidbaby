@@ -5,4 +5,5 @@ package timeroute.androidbaby.ui.view;
  */
 
 public interface IPostView {
+    void sendSuccess();
 }

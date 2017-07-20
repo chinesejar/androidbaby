@@ -10,12 +10,14 @@ import android.widget.Toast;
 import com.qiniu.android.storage.UploadManager;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import timeroute.androidbaby.bean.feed.Feed;
+import timeroute.androidbaby.bean.feed.FeedPic;
 import timeroute.androidbaby.bean.user.ImageToken;
 import timeroute.androidbaby.ui.adapter.FeedListAdapter;
 import timeroute.androidbaby.ui.base.BasePresenter;
@@ -61,22 +63,19 @@ public class PostPresenter extends BasePresenter<IPostView> {
         UploadManager uploadManager = new UploadManager();
         int id = sharedPreferenceUtils.getInt("id");
         long cur_timestamp = System.currentTimeMillis();
+
+        Feed feed = new Feed();
+        feed.setContent(content);
+        List<FeedPic> feedPics = new ArrayList<FeedPic>();
+
         for(int i=0;i<tokens.size();i++){
             String name = id+"_"+cur_timestamp+"_"+i+".jpg";
+            FeedPic feedPic = new FeedPic();
+            feedPic.setUrl(baseFeedUrl + name);
+            feedPics.add(feedPic);
             uploadManager.put((File)list.get(i).get("pic"), name, tokens.get(i).getToken(), (key, info, response) -> {
                 if(info.isOK()) {
                     Log.i("qiniu", "Upload Success");
-                    Feed feed = new Feed();
-                    int id = sharedPreferenceUtils.getInt("id");
-                    String token = sharedPreferenceUtils.getString("token");
-                    feedApi.postFeed("Token "+token, id, profile)
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(avoid -> {
-                                Toast.makeText(context, "更新成功", Toast.LENGTH_SHORT).show();
-                                sharedPreferenceUtils.setString("avatar", baseAvatarUrl+name);
-                                mineView.setAvatar(baseAvatarUrl+name);
-                            }, this::loadError);
                 } else {
                     Log.i("qiniu", "Upload Fail");
                     Toast.makeText(context, "更新失败", Toast.LENGTH_SHORT).show();
@@ -85,6 +84,16 @@ public class PostPresenter extends BasePresenter<IPostView> {
                 Log.i("qiniu", key + ",\r\n " + info + ",\r\n " + response);
             }, null);
         }
+        feed.setFeedPic(feedPics);
+        String token = sharedPreferenceUtils.getString("token");
+        feedApi.postFeed("Token "+token, feed)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(feed_res -> {
+                    Toast.makeText(context, "更新成功", Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, feed_res.toString());
+                    postView.sendSuccess();
+                }, this::loadError);
     }
 
     private void loadError(Throwable throwable) {

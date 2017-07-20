@@ -63,16 +63,13 @@
                 android:padding="10dp"
                 android:textColor="#777" />
 
-            <HorizontalScrollView
-                android:id="@+id/pic"
+            <timeroute.androidbaby.widget.HorizontalListView
+                android:id="@+id/feed_pic"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center">
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="200dp"
-                    android:src="@drawable/ic_gender"/>
-            </HorizontalScrollView>
+                android:layout_height="200dp"
+                android:layout_gravity="center"
+                android:visibility="gone">
+            </timeroute.androidbaby.widget.HorizontalListView>
 
             <LinearLayout
                 android:layout_width="match_parent"
