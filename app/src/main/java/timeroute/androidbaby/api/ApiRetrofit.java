@@ -22,7 +22,7 @@ import timeroute.androidbaby.util.StateUtils;
 public class ApiRetrofit {
     public FeedApi feedApiService;
     public UserApi userApiService;
-    public static final String BASE_URL = "http://192.168.155.4:9000/";
+    public static final String BASE_URL = "http://192.168.1.108:9000/";
 
     public FeedApi getFeedApiService(){
         return feedApiService;

@@ -60,7 +60,7 @@ public class SplashActivity extends IBaseActivity<ISplashView, SplashPresenter> 
             long last_login = sharedPreferenceUtils.getLong("last_login");
             Log.d(TAG, String.valueOf(last_login));
             Log.d(TAG, String.valueOf(cur_timestamp));
-            if(last_login != 0 && (last_login - cur_timestamp)/1000<3600){
+            if(last_login != 0 && (cur_timestamp - last_login)/1000<3600){
                 isLogin = true;
                 new Handler().postDelayed(()->{
                     onLoadingDataEnded();
@@ -68,6 +68,7 @@ public class SplashActivity extends IBaseActivity<ISplashView, SplashPresenter> 
             }else{
                 String username = sharedPreferenceUtils.getString("username");
                 String password = sharedPreferenceUtils.getString("password");
+                Log.d(TAG, "is loging");
                 mPresenter.getToken(username, password);
             }
         } else {
