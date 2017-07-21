@@ -8,9 +8,14 @@ import android.util.Log;
 import android.widget.Toast;
 
 
+import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
+import timeroute.androidbaby.api.exception.ApiException;
+import timeroute.androidbaby.api.exception.ExceptionEngine;
 import timeroute.androidbaby.bean.feed.FeedTimeLine;
+import timeroute.androidbaby.support.MyObserver;
 import timeroute.androidbaby.ui.adapter.FeedListAdapter;
 import timeroute.androidbaby.ui.base.BasePresenter;
 import timeroute.androidbaby.ui.view.IFeedView;
@@ -42,11 +47,30 @@ public class FeedPresenter extends BasePresenter<IFeedView> {
             layoutManager = feedView.getLayoutManager();
 
             feedApi.getLatestFeed()
+                    .onErrorResumeNext(new Func1<Throwable, Observable<? extends FeedTimeLine>>() {
+                        @Override
+                        public Observable<? extends FeedTimeLine> call(Throwable throwable) {
+                            return Observable.error(ExceptionEngine.handleException(throwable));
+                        }
+                    })
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(feedTimeLine -> {
-                        disPlayFeedList(feedTimeLine, context, feedView, mRecyclerView);
-                    }, this::loadError);
+                    .subscribe(new MyObserver<FeedTimeLine>() {
+                        @Override
+                        protected void onError(ApiException ex) {
+                            Toast.makeText(context, ex.getDisplayMessage(), Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onCompleted() {
+
+                        }
+
+                        @Override
+                        public void onNext(FeedTimeLine feedTimeLine) {
+                            disPlayFeedList(feedTimeLine, context, feedView, mRecyclerView);
+                        }
+                    });
         }
     }
 
@@ -57,17 +81,31 @@ public class FeedPresenter extends BasePresenter<IFeedView> {
             layoutManager = feedView.getLayoutManager();
 
             feedApi.getNextFeed(next.substring(next.length()-1))
+                    .onErrorResumeNext(new Func1<Throwable, Observable<? extends FeedTimeLine>>() {
+                        @Override
+                        public Observable<? extends FeedTimeLine> call(Throwable throwable) {
+                            return Observable.error(ExceptionEngine.handleException(throwable));
+                        }
+                    })
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(feedTimeLine -> {
-                        disPlayFeedList(feedTimeLine, context, feedView, mRecyclerView);
-                    }, this::loadError);
-        }
-    }
+                    .subscribe(new MyObserver<FeedTimeLine>() {
+                        @Override
+                        protected void onError(ApiException ex) {
+                            Toast.makeText(context, ex.getDisplayMessage(), Toast.LENGTH_SHORT).show();
+                        }
 
-    private void loadError(Throwable throwable) {
-        throwable.printStackTrace();
-        Toast.makeText(context, "网络有问题", Toast.LENGTH_SHORT).show();
+                        @Override
+                        public void onCompleted() {
+
+                        }
+
+                        @Override
+                        public void onNext(FeedTimeLine feedTimeLine) {
+                            disPlayFeedList(feedTimeLine, context, feedView, mRecyclerView);
+                        }
+                    });
+        }
     }
 
     private void disPlayFeedList(FeedTimeLine feedTimeLine, Context context, IFeedView feedView, RecyclerView recyclerView) {

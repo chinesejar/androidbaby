@@ -3,9 +3,14 @@ package timeroute.androidbaby.ui.presenter;
 import android.content.Context;
 import android.widget.Toast;
 
+import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
+import timeroute.androidbaby.api.exception.ApiException;
+import timeroute.androidbaby.api.exception.ExceptionEngine;
 import timeroute.androidbaby.bean.user.Profile;
+import timeroute.androidbaby.support.MyObserver;
 import timeroute.androidbaby.ui.base.BasePresenter;
 import timeroute.androidbaby.ui.view.IMineProfileView;
 import timeroute.androidbaby.util.SharedPreferenceUtils;
@@ -46,22 +51,37 @@ public class MineProfilePresenter extends BasePresenter<IMineProfileView> {
         }
         if(mineProfileView != null){
             userApi.putProfile("Token "+token, id, profile)
+                    .onErrorResumeNext(new Func1<Throwable, Observable<? extends Void>>() {
+                        @Override
+                        public Observable<? extends Void> call(Throwable throwable) {
+                            return Observable.error(ExceptionEngine.handleException(throwable));
+                        }
+                    })
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(avoid -> {
-                        Toast.makeText(context, "更新成功", Toast.LENGTH_SHORT).show();
-                        if(type.equals("nickname") || type.equals("assignment")){
-                            sharedPreferenceUtils.setString(type, value);
-                        }else if(type.equals("gender")) {
-                            sharedPreferenceUtils.setString(type, profile.getGender());
+                    .subscribe(new MyObserver<Void>() {
+                        @Override
+                        protected void onError(ApiException ex) {
+                            Toast.makeText(context, ex.getDisplayMessage(), Toast.LENGTH_SHORT).show();
                         }
-                        mineProfileView.setTextView(type, value);
-                    }, this::loadError);
+
+                        @Override
+                        public void onCompleted() {
+
+                        }
+
+                        @Override
+                        public void onNext(Void aVoid) {
+                            Toast.makeText(context, "更新成功", Toast.LENGTH_SHORT).show();
+                            if(type.equals("nickname") || type.equals("assignment")){
+                                sharedPreferenceUtils.setString(type, value);
+                            }else if(type.equals("gender")) {
+                                sharedPreferenceUtils.setString(type, profile.getGender());
+                            }
+                            mineProfileView.setTextView(type, value);
+                        }
+                    });
         }
     }
 
-    private void loadError(Throwable throwable) {
-        throwable.printStackTrace();
-        Toast.makeText(context, throwable.getMessage(), Toast.LENGTH_SHORT).show();
-    }
 }

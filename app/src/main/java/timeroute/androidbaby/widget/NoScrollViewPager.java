@@ -13,8 +13,8 @@ public class NoScrollViewPager extends ViewPager {
     /** 触摸时当前的点 **/
     PointF curP = new PointF();
 
-    /** 自定义手势**/
     private GestureDetector mGestureDetector;
+
 
     public NoScrollViewPager(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -29,11 +29,6 @@ public class NoScrollViewPager extends ViewPager {
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         return super.onInterceptTouchEvent(ev);//default
-        //当拦截触摸事件到达此位置的时候，返回true，
-        //说明将onTouch拦截在此控件，进而执行此控件的onTouchEvent
-//        return true;
-        //接近水平滑动时子控件处理该事件，否则交给父控件处理
-//        return mGestureDetector.onTouchEvent(ev);
     }
 
     @Override
@@ -52,16 +47,8 @@ public class NoScrollViewPager extends ViewPager {
         }
 
         if(ev.getAction() == MotionEvent.ACTION_MOVE){
-            float distanceX = curP.x - downP.x;
-            float distanceY = curP.y - downP.y;
-            //接近水平滑动，ViewPager控件捕获手势，水平滚动
-            if(Math.abs(distanceX) > Math.abs(distanceY)){
-                //此句代码是为了通知他的父ViewPager现在进行的是本控件的操作，不要对我的操作进行干扰
-                getParent().requestDisallowInterceptTouchEvent(true);
-            }else{
-                //接近垂直滑动，交给父控件处理
-                getParent().requestDisallowInterceptTouchEvent(false);
-            }
+            //此句代码是为了通知他的父ViewPager现在进行的是本控件的操作，不要对我的操作进行干扰
+            getParent().requestDisallowInterceptTouchEvent(true);
         }
 
         return super.onTouchEvent(ev);

@@ -1,13 +1,19 @@
 package timeroute.androidbaby.ui.presenter;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
+import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
+import timeroute.androidbaby.api.exception.ApiException;
+import timeroute.androidbaby.api.exception.ExceptionEngine;
 import timeroute.androidbaby.bean.user.Profile;
 import timeroute.androidbaby.bean.user.UserToken;
 import timeroute.androidbaby.bean.user.User;
+import timeroute.androidbaby.support.MyObserver;
 import timeroute.androidbaby.ui.base.BasePresenter;
 import timeroute.androidbaby.ui.view.ILoginView;
 import timeroute.androidbaby.util.SharedPreferenceUtils;
@@ -32,18 +38,34 @@ public class LoginPresenter extends BasePresenter<ILoginView> {
         user.setPassword(password);
         if(loginView != null){
             userApi.getToken(user)
+                    .onErrorResumeNext(new Func1<Throwable, Observable<? extends UserToken>>() {
+                        @Override
+                        public Observable<? extends UserToken> call(Throwable throwable) {
+                            return Observable.error(ExceptionEngine.handleException(throwable));
+                        }
+                    })
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(userToken -> {
-                        displayToken(userToken, username, password);
-                    }, this::loadError);
-        }
-    }
+            .subscribe(new MyObserver<UserToken>() {
+                @Override
+                protected void onError(ApiException ex) {
+                    Log.d("login", ex.getDisplayMessage());
+                    loginView.displayProgressBar(false);
+                    Toast.makeText(context, ex.getDisplayMessage(), Toast.LENGTH_SHORT).show();
+                }
 
-    private void loadError(Throwable throwable) {
-        throwable.printStackTrace();
-        Toast.makeText(context, throwable.getMessage(), Toast.LENGTH_SHORT).show();
-        loginView.displayProgressBar(false);
+                @Override
+                public void onCompleted() {
+
+                }
+
+                @Override
+                public void onNext(UserToken userToken) {
+                    Log.d("Login", userToken.toString());
+                    displayToken(userToken, username, password);
+                }
+            });
+        }
     }
 
     private void displayToken(UserToken userToken, String username, String password) {

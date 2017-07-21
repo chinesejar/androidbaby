@@ -1,9 +1,6 @@
 package timeroute.androidbaby.ui.presenter;
 
 import android.content.Context;
-import android.net.Uri;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -14,15 +11,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
+import timeroute.androidbaby.api.exception.ApiException;
+import timeroute.androidbaby.api.exception.ExceptionEngine;
 import timeroute.androidbaby.bean.feed.Feed;
 import timeroute.androidbaby.bean.feed.FeedPic;
 import timeroute.androidbaby.bean.user.ImageToken;
-import timeroute.androidbaby.ui.adapter.FeedListAdapter;
+import timeroute.androidbaby.support.MyObserver;
 import timeroute.androidbaby.ui.base.BasePresenter;
-import timeroute.androidbaby.ui.view.IDiscoveryView;
-import timeroute.androidbaby.ui.view.IFeedView;
 import timeroute.androidbaby.ui.view.IPostView;
 import timeroute.androidbaby.util.SharedPreferenceUtils;
 
@@ -48,14 +47,33 @@ public class PostPresenter extends BasePresenter<IPostView> {
         postView = getView();
         if(postView != null){
             feedApi.getImageToken("Token "+token, list.size())
+                    .onErrorResumeNext(new Func1<Throwable, Observable<? extends List<ImageToken>>>() {
+                        @Override
+                        public Observable<? extends List<ImageToken>> call(Throwable throwable) {
+                            return Observable.error(ExceptionEngine.handleException(throwable));
+                        }
+                    })
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(tokens -> {
-                        for(int i=0;i<tokens.size();i++){
-                            Log.d(TAG, tokens.get(i).getToken());
+                    .subscribe(new MyObserver<List<ImageToken>>() {
+                        @Override
+                        protected void onError(ApiException ex) {
+                            Toast.makeText(context, ex.getDisplayMessage(), Toast.LENGTH_SHORT).show();
                         }
-                        postImage(list, content, tokens);
-                    }, this::loadError);
+
+                        @Override
+                        public void onCompleted() {
+
+                        }
+
+                        @Override
+                        public void onNext(List<ImageToken> tokens) {
+                            for(int i=0;i<tokens.size();i++){
+                                Log.d(TAG, tokens.get(i).getToken());
+                            }
+                            postImage(list, content, tokens);
+                        }
+                    });
         }
     }
 
@@ -87,18 +105,32 @@ public class PostPresenter extends BasePresenter<IPostView> {
         feed.setFeedPic(feedPics);
         String token = sharedPreferenceUtils.getString("token");
         feedApi.postFeed("Token "+token, feed)
+                .onErrorResumeNext(new Func1<Throwable, Observable<? extends Feed>>() {
+                    @Override
+                    public Observable<? extends Feed> call(Throwable throwable) {
+                        return Observable.error(ExceptionEngine.handleException(throwable));
+                    }
+                })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(feed_res -> {
-                    Toast.makeText(context, "更新成功", Toast.LENGTH_SHORT).show();
-                    Log.d(TAG, feed_res.toString());
-                    postView.sendSuccess();
-                }, this::loadError);
-    }
+                .subscribe(new MyObserver<Feed>() {
+                    @Override
+                    protected void onError(ApiException ex) {
+                        Toast.makeText(context, ex.getDisplayMessage(), Toast.LENGTH_SHORT).show();
+                    }
 
-    private void loadError(Throwable throwable) {
-        throwable.printStackTrace();
-        Toast.makeText(context, throwable.getMessage(), Toast.LENGTH_SHORT).show();
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onNext(Feed feed) {
+                        Toast.makeText(context, "更新成功", Toast.LENGTH_SHORT).show();
+                        Log.d(TAG, feed.toString());
+                        postView.sendSuccess();
+                    }
+                });
     }
 
 }
