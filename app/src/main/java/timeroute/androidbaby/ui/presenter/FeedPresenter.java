@@ -146,7 +146,9 @@ public class FeedPresenter extends BasePresenter<IFeedView> {
                         return;
                     }
                     if(next == null){
-                        adapter.updateLoadStatus(adapter.LOAD_NONE);
+                        if(adapter != null){
+                            adapter.updateLoadStatus(adapter.LOAD_NONE);
+                        }
                         return;
                     }
                     if (lastVisibleItem + 1 == layoutManager

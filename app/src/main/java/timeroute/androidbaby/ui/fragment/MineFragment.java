@@ -52,6 +52,7 @@ public class MineFragment extends IBaseFragment<IMineView, MinePresenter> implem
     private String avatar;
     private String nickname;
     private String assignment;
+    private boolean loaded = false;
 
     public static final int REQUEST_CAMERA = 1;
     public static final int REQUEST_ALBUM = 2;
@@ -96,6 +97,7 @@ public class MineFragment extends IBaseFragment<IMineView, MinePresenter> implem
     @Override
     protected void initView(View rootView) {
         sharedPreferenceUtils = new SharedPreferenceUtils(getContext(), "user");
+        mLayoutManager = new LinearLayoutManager(getContext());
 
         avatar_imageView.setOnClickListener(view -> {
             if(ContextCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
@@ -113,14 +115,14 @@ public class MineFragment extends IBaseFragment<IMineView, MinePresenter> implem
                 );
             }
         });
-
-        mLayoutManager = new LinearLayoutManager(getContext());
         profile_layout.setOnClickListener(view -> {
             Intent intent = new Intent(getActivity(), MineProfileActivity.class);
             startActivity(intent);
         });
 
-        refreshProfile();
+        if(!loaded){
+            refreshProfile();
+        }
     }
 
     public void onClickPicker() {
