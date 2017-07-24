@@ -50,7 +50,7 @@ public class MineProfilePresenter extends BasePresenter<IMineProfileView> {
             }
         }
         if(mineProfileView != null){
-            userApi.putProfile("Token "+token, id, profile)
+            userApi.putProfile("JWT "+token, id, profile)
                     .onErrorResumeNext(new Func1<Throwable, Observable<? extends Void>>() {
                         @Override
                         public Observable<? extends Void> call(Throwable throwable) {

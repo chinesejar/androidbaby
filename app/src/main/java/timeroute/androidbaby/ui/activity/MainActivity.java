@@ -1,10 +1,7 @@
 package timeroute.androidbaby.ui.activity;
 
 import android.support.design.widget.BottomNavigationView;
-import android.support.v4.view.ViewPager;
 import android.os.Bundle;
-import android.view.MotionEvent;
-import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;

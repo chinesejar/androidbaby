@@ -6,6 +6,7 @@ import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutCompat;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,22 +53,22 @@ public class FeedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public static final int LOAD_END = 3;
     private static final int TYPE_FOOTER = -1;
 
-    public FeedListAdapter(Context context, FeedTimeLine feedTimeLine){
+    public FeedListAdapter(Context context, FeedTimeLine feedTimeLine) {
         this.context = context;
         this.feedTimeLine = feedTimeLine;
     }
 
     @Override
-    public int getItemViewType(int position){
-        if(feedTimeLine.getFeeds() != null){
-            if(position+1==getItemCount()){
+    public int getItemViewType(int position) {
+        if (feedTimeLine.getFeeds() != null) {
+            if (position + 1 == getItemCount()) {
                 return TYPE_FOOTER;
-            }else {
+            } else {
                 return position;
             }
-        }else if(position+1==getItemCount()){
+        } else if (position + 1 == getItemCount()) {
             return TYPE_FOOTER;
-        }else{
+        } else {
             return position;
         }
     }
@@ -95,7 +96,7 @@ public class FeedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         @Bind(R.id.create_time)
         TextView create_time;
 
-        public FeedViewHolder(View itemView){
+        public FeedViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
 
@@ -105,17 +106,17 @@ public class FeedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         }
 
-        public void bindItem(Feed feed){
+        public void bindItem(Feed feed) {
             loadCirclePic(context, feed.getUser().getAvatar(), avatar);
-            avatar.setOnClickListener(v->{
+            avatar.setOnClickListener(v -> {
 
             });
             username.setText(feed.getUser().getNickname());
             content.setText(feed.getContent());
-            if(feed.getFeedPic().size() > 0){
+            if (feed.getFeedPic().size() > 0) {
                 horizontalListViewFeedPic.setVisibility(View.VISIBLE);
                 list = new ArrayList<Map<String, Object>>();
-                for(int i=0;i<feed.getFeedPic().size();i++){
+                for (int i = 0; i < feed.getFeedPic().size(); i++) {
                     Map<String, Object> map = new HashMap<String, Object>();
                     map.put("url", feed.getFeedPic().get(i).getUrl());
                     list.add(map);
@@ -175,7 +176,7 @@ public class FeedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public int getItemCount() {
         // TODO Auto-generated method stub
-        return feedTimeLine==null?0:feedTimeLine.getFeeds().size()+1;
+        return feedTimeLine == null ? 0 : feedTimeLine.getFeeds().size() + 1;
     }
 
     @Override
@@ -185,12 +186,11 @@ public class FeedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
-    {
-        if(viewType == TYPE_FOOTER){
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        if (viewType == TYPE_FOOTER) {
             View view = View.inflate(parent.getContext(), R.layout.activity_view_footer, null);
             return new FooterViewHolder(view);
-        }else{
+        } else {
             View view = View.inflate(parent.getContext(), R.layout.layout_feed, null);
             return new FeedViewHolder(view);
         }
@@ -201,8 +201,8 @@ public class FeedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         if (holder instanceof FeedViewHolder) {
             FeedViewHolder feedHolder = (FeedViewHolder) holder;
             feedHolder.bindItem(feedTimeLine.getFeeds().get(position));
-        }else if(holder instanceof FooterViewHolder){
-            FooterViewHolder footerViewHolder = (FooterViewHolder)holder;
+        } else if (holder instanceof FooterViewHolder) {
+            FooterViewHolder footerViewHolder = (FooterViewHolder) holder;
             footerViewHolder.bindItem();
         }
     }

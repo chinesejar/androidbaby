@@ -45,7 +45,7 @@ public class MinePresenter extends BasePresenter<IMineView> {
         mineView = getView();
         String token = sharedPreferenceUtils.getString("token");
         if(mineView != null){
-            userApi.getImageToken("Token "+token)
+            userApi.getImageToken("JWT "+token)
                     .onErrorResumeNext(new Func1<Throwable, Observable<? extends ImageToken>>() {
                         @Override
                         public Observable<? extends ImageToken> call(Throwable throwable) {

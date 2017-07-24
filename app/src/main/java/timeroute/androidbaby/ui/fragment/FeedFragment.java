@@ -1,13 +1,17 @@
 package timeroute.androidbaby.ui.fragment;
 
 
+import android.Manifest;
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,6 +25,8 @@ import timeroute.androidbaby.ui.base.IBaseFragment;
 import timeroute.androidbaby.ui.presenter.FeedPresenter;
 import timeroute.androidbaby.ui.view.IFeedView;
 import timeroute.androidbaby.widget.NoScrollViewPager;
+
+import static timeroute.androidbaby.ui.fragment.MineFragment.PERMISSION_CAMERA;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -51,7 +57,20 @@ public class FeedFragment extends IBaseFragment<IFeedView, FeedPresenter> implem
         mLayoutManager = new LinearLayoutManager(getContext());
         feed_list.setLayoutManager(mLayoutManager);
         floatingActionButton.setOnClickListener(view -> {
-            startActivity(new Intent(getActivity(), PostActivity.class));
+            if(ContextCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
+                    && ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+                    && ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+                startActivity(new Intent(getActivity(), PostActivity.class));
+            }else {
+                ActivityCompat.requestPermissions(getActivity(),
+                        new String[] {
+                                Manifest.permission.CAMERA,
+                                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                                Manifest.permission.READ_EXTERNAL_STORAGE
+                        },
+                        PERMISSION_CAMERA
+                );
+            }
         });
     }
 

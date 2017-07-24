@@ -46,7 +46,7 @@ public class PostPresenter extends BasePresenter<IPostView> {
         String token = sharedPreferenceUtils.getString("token");
         postView = getView();
         if(postView != null){
-            feedApi.getImageToken("Token "+token, list.size())
+            feedApi.getImageToken("JWT "+token, list.size())
                     .onErrorResumeNext(new Func1<Throwable, Observable<? extends List<ImageToken>>>() {
                         @Override
                         public Observable<? extends List<ImageToken>> call(Throwable throwable) {
@@ -104,7 +104,7 @@ public class PostPresenter extends BasePresenter<IPostView> {
         }
         feed.setFeedPic(feedPics);
         String token = sharedPreferenceUtils.getString("token");
-        feedApi.postFeed("Token "+token, feed)
+        feedApi.postFeed("JWT "+token, feed)
                 .onErrorResumeNext(new Func1<Throwable, Observable<? extends Feed>>() {
                     @Override
                     public Observable<? extends Feed> call(Throwable throwable) {
