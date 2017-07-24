@@ -240,11 +240,13 @@ public class MineFragment extends IBaseFragment<IMineView, MinePresenter> implem
         nickname_TextView.setText(nickname);
         assignment = sharedPreferenceUtils.getString("assignment");
 
-        Log.d("tag", assignment.toString());
-        if(assignment.length() == 0){
-            assignment_TextView.setText("完善个性签名");
-        }else {
-            assignment_TextView.setText(assignment);
+        if(assignment != null){
+            Log.d("tag", assignment.toString());
+            if(assignment.length() == 0){
+                assignment_TextView.setText("完善个性签名");
+            }else {
+                assignment_TextView.setText(assignment);
+            }
         }
     }
 

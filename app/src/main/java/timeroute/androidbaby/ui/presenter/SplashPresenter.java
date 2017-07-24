@@ -116,7 +116,6 @@ public class SplashPresenter extends BasePresenter<ISplashView> {
         sharedPreferenceUtils.setString("assignment", profile.getAssignment());
         sharedPreferenceUtils.setString("gender", profile.getGender());
         sharedPreferenceUtils.setString("avatar", profile.getAvatar());
-        //sharedPreferenceUtils.setString("email", profile.getEmail());
         splashView.toMain();
     }
 

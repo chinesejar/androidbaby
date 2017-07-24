@@ -185,7 +185,13 @@ public class FeedPresenter extends BasePresenter<IFeedView> {
                 }
             });
             recyclerView.setAdapter(adapter);
-            adapter.notifyDataSetChanged();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    adapter.notifyDataSetChanged();
+                }
+            }, 2000);
+            //adapter.notifyDataSetChanged();
         }
         next = feedTimeLine.getNext();
         if(next == "null"){

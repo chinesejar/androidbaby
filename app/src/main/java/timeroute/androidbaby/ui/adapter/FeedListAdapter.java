@@ -269,10 +269,13 @@ public class FeedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     public static void loadCirclePic(final Context context, String url, ImageView imageView) {
-        Picasso.with(context)
-                .load(url)
-                .transform(new RoundTransform())
-                .into(imageView);
+        if(url != null){
+            Picasso.with(context)
+                    .load(url)
+                    .placeholder(R.drawable.avatar)
+                    .transform(new RoundTransform())
+                    .into(imageView);
+        }
 
     }
 }

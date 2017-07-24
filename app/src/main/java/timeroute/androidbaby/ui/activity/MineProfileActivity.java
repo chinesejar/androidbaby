@@ -73,15 +73,16 @@ public class MineProfileActivity extends IBaseActivity<IMineProfileView, MinePro
             textViewAssignment.setText(assignment);
         }
         String gender = sharedPreferenceUtils.getString("gender");
-        Log.d("gender", gender);
-        if(gender.equals("F")){
-            textViewGender.setText("女");
-        }else if(gender.equals("M")){
-            textViewGender.setText("男");
-        }else if(gender.equals("B")){
-            textViewGender.setText("双性人");
-        }else {
-            textViewGender.setText("请选择性别");
+        if(gender != null){
+            if(gender.equals("F")){
+                textViewGender.setText("女");
+            }else if(gender.equals("M")){
+                textViewGender.setText("男");
+            }else if(gender.equals("B")){
+                textViewGender.setText("双性人");
+            }else {
+                textViewGender.setText("请选择性别");
+            }
         }
 
         layoutNickname.setOnClickListener(view -> {

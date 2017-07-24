@@ -68,9 +68,6 @@ public class PostPresenter extends BasePresenter<IPostView> {
 
                         @Override
                         public void onNext(List<ImageToken> tokens) {
-                            for(int i=0;i<tokens.size();i++){
-                                Log.d(TAG, tokens.get(i).getToken());
-                            }
                             postImage(list, content, tokens);
                         }
                     });

@@ -109,7 +109,7 @@ public class LoginActivity extends IBaseActivity<ILoginView, LoginPresenter> imp
 
     private boolean isUsernameValid(String username) {
         //TODO: Replace this with your own logic
-        return username.length() >= 8;
+        return username.length() >= 6;
     }
 
     private boolean isPasswordValid(String password) {

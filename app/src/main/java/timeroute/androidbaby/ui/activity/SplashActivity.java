@@ -59,8 +59,8 @@ public class SplashActivity extends IBaseActivity<ISplashView, SplashPresenter> 
         new Handler().postDelayed(() -> {
             if (username != null && password != null) {
                 if(token != null) {
-                    //mPresenter.refreshToken(token);
-                    mPresenter.getToken(username, password);
+                    mPresenter.refreshToken(token);
+                    //mPresenter.getToken(username, password);
                 }else {
                     mPresenter.getToken(username, password);
                 }
@@ -75,17 +75,12 @@ public class SplashActivity extends IBaseActivity<ISplashView, SplashPresenter> 
         splash_view.splashAndDisappear(new SplashView.ISplashListener() {
             @Override
             public void onStart() {
-                // log the animation start event
-                if (BuildConfig.DEBUG) {
-                    Log.d(TAG, "splash started");
-                }
             }
 
             @Override
             public void onUpdate(float completionFraction) {
                 // log animation update events
                 if (BuildConfig.DEBUG) {
-                    Log.d(TAG, "splash at " + String.format("%.2f", (completionFraction * 100)) + "%");
                 }
             }
 
@@ -93,7 +88,6 @@ public class SplashActivity extends IBaseActivity<ISplashView, SplashPresenter> 
             public void onEnd() {
                 // log the animation end event
                 if (BuildConfig.DEBUG) {
-                    Log.d(TAG, "splash ended");
                 }
                 // free the view so that it turns into garbage
                 splash_view = null;

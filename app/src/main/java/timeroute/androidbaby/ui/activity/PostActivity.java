@@ -151,7 +151,6 @@ public class PostActivity extends IBaseActivity<IPostView, PostPresenter> implem
                 setData(Matisse.obtainResult(data));
                 listViewPic.setAdapter(simpleAdapter);
                 listViewPic.setOnItemClickListener((adapterView, view, i, l) -> {
-                    Log.d("pic", view.findViewById(R.id.image_view_pic).toString());
                     new AlertDialog.Builder(this)
                             .setTitle("删除")
                             .setMessage("删除该图片?")
@@ -162,7 +161,6 @@ public class PostActivity extends IBaseActivity<IPostView, PostPresenter> implem
                             .setNegativeButton("取消", null)
                     .show();
                 });
-                Log.d(TAG, "pics:\t"+pics);
                 break;
         }
     }

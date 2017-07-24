@@ -98,7 +98,7 @@ public class MinePresenter extends BasePresenter<IMineView> {
                     profile.setAvatar(baseAvatarUrl+name);
                     int id = sharedPreferenceUtils.getInt("id");
                     String token = sharedPreferenceUtils.getString("token");
-                    userApi.putProfile("Token "+token, id, profile)
+                    userApi.putProfile("JWT "+token, id, profile)
                             .onErrorResumeNext(new Func1<Throwable, Observable<? extends Void>>() {
                                 @Override
                                 public Observable<? extends Void> call(Throwable throwable) {

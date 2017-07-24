@@ -92,7 +92,6 @@ public class MainActivity extends IBaseActivity {
 
             @Override
             public void onPageScrollStateChanged(int state) {
-                Log.d(TAG, "page state: "+String.valueOf(state));
             }
         });
 
