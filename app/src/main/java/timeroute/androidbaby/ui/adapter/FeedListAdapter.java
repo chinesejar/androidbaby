@@ -2,6 +2,12 @@ package timeroute.androidbaby.ui.adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.widget.CardView;
@@ -16,8 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.BitmapImageViewTarget;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,6 +35,7 @@ import timeroute.androidbaby.R;
 import timeroute.androidbaby.bean.feed.Feed;
 import timeroute.androidbaby.bean.feed.FeedTimeLine;
 import timeroute.androidbaby.ui.view.RecyclerViewClickListener;
+import timeroute.androidbaby.util.RoundTransform;
 import timeroute.androidbaby.util.ScreenUtil;
 import timeroute.androidbaby.widget.HorizontalListView;
 
@@ -86,6 +92,13 @@ public class FeedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         notifyDataSetChanged();
     }
 
+    public void updateLikeStatus(Feed feed) {
+        List<Feed> feeds = feedTimeLine.getFeeds();
+        int position = feeds.indexOf(feed);
+        feeds.get(position).setLike_count(feed.getLikeCount()+1);
+        notifyDataSetChanged();
+    }
+
     class FeedViewHolder extends RecyclerView.ViewHolder {
         @Bind(R.id.card_feeds)
         CardView cardView;
@@ -108,7 +121,7 @@ public class FeedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         @Bind(R.id.create_time)
         TextView create_time;
 
-        public FeedViewHolder(View itemView, final RecyclerViewClickListener listener) {
+        public FeedViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
 
@@ -172,7 +185,7 @@ public class FeedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             }
             like.setText(String.valueOf(feed.getLikeCount()));
             imageButtonLike.setOnClickListener(view -> {
-                listener.onLikeClicked(feed.getFeedId());
+                listener.onLikeClicked(feed);
             });
             comment.setText(String.valueOf(feed.getCommentCount()));
             imageButtonComment.setOnClickListener(view -> {
@@ -240,7 +253,7 @@ public class FeedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             return new FooterViewHolder(view);
         } else {
             View view = View.inflate(parent.getContext(), R.layout.layout_feed, null);
-            return new FeedViewHolder(view, listener);
+            return new FeedViewHolder(view);
         }
     }
 
@@ -256,18 +269,10 @@ public class FeedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     public static void loadCirclePic(final Context context, String url, ImageView imageView) {
-        Glide.with(context)
+        Picasso.with(context)
                 .load(url)
-                .asBitmap()
-                .into(new BitmapImageViewTarget(imageView) {
-                    @Override
-                    protected void setResource(Bitmap resource) {
-                        RoundedBitmapDrawable circularBitmapDrawable =
-                                RoundedBitmapDrawableFactory.create(context.getResources(), resource);
-                        circularBitmapDrawable.setCircular(true);
-                        imageView.setImageDrawable(circularBitmapDrawable);
-                    }
-                });
+                .transform(new RoundTransform())
+                .into(imageView);
 
     }
 }

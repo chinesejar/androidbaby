@@ -70,12 +70,24 @@ public class Feed implements Serializable {
         }
     }
 
+    public void setFeedId(int id) {
+        this.id = id;
+    }
+
     public void setContent(String content){
         this.content = content;
     }
 
     public void setFeedPic(List<FeedPic> feed_pic){
         this.feed_pic = feed_pic;
+    }
+
+    public void setLike_count(int like_count) {
+        this.like_count = like_count;
+    }
+
+    public void setComment_count(int comment_count){
+        this.comment_count = comment_count;
     }
 
     @Override

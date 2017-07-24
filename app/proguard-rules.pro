@@ -24,4 +24,5 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
--dontwarn com.squareup.picasso.**
+-dontwarn com.bumptech.glide.**
+-dontwarn com.squareup.okhttp.**

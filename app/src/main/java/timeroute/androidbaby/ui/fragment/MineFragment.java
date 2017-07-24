@@ -5,7 +5,6 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -16,8 +15,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.View;
@@ -25,8 +22,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.BitmapImageViewTarget;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.IOException;
@@ -37,8 +33,8 @@ import timeroute.androidbaby.ui.activity.MineProfileActivity;
 import timeroute.androidbaby.ui.base.IBaseFragment;
 import timeroute.androidbaby.ui.presenter.MinePresenter;
 import timeroute.androidbaby.ui.view.IMineView;
+import timeroute.androidbaby.util.RoundTransform;
 import timeroute.androidbaby.util.SharedPreferenceUtils;
-import timeroute.androidbaby.widget.NoScrollViewPager;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -254,18 +250,10 @@ public class MineFragment extends IBaseFragment<IMineView, MinePresenter> implem
 
     @Override
     public void setAvatar(String url) {
-        Glide.with(getContext())
+        Picasso.with(getContext())
                 .load(url)
-                .asBitmap()
-                .into(new BitmapImageViewTarget(avatar_imageView) {
-                    @Override
-                    protected void setResource(Bitmap resource) {
-                        RoundedBitmapDrawable circularBitmapDrawable =
-                                RoundedBitmapDrawableFactory.create(getContext().getResources(), resource);
-                        circularBitmapDrawable.setCircular(true);
-                        avatar_imageView.setImageDrawable(circularBitmapDrawable);
-                    }
-                });
+                .transform(new RoundTransform())
+                .into(avatar_imageView);
     }
 
     @Override

@@ -53,7 +53,6 @@ public class ApiRetrofit {
 
             }
             Response originalResponse = chain.proceed(request);
-            Log.d("code", originalResponse.code()+"");
             if (StateUtils.isNetworkAvailable(MyApp.context)) {
                 int maxAge = 0; // read from cache
                 return originalResponse.newBuilder()

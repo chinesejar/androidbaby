@@ -12,9 +12,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
 
 import butterknife.Bind;
 import timeroute.androidbaby.R;
@@ -22,7 +20,6 @@ import timeroute.androidbaby.ui.activity.PostActivity;
 import timeroute.androidbaby.ui.base.IBaseFragment;
 import timeroute.androidbaby.ui.presenter.FeedPresenter;
 import timeroute.androidbaby.ui.view.IFeedView;
-import timeroute.androidbaby.ui.view.RecyclerViewClickListener;
 import timeroute.androidbaby.widget.ABSwipeRefreshLayout;
 
 import static timeroute.androidbaby.ui.fragment.MineFragment.PERMISSION_CAMERA;
