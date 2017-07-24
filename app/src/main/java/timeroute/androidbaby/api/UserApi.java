@@ -18,7 +18,7 @@ import timeroute.androidbaby.bean.user.UserToken;
 
 public interface UserApi {
 
-    @POST("token/")
+    @POST("api-token-auth/")
     Observable<UserToken> getToken(@Body User user);
 
     @GET("avatar/")

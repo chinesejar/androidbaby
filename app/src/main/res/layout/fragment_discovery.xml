@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     tools:context="timeroute.androidbaby.ui.fragment.DiscoveryFragment">
 
-    <android.support.v4.widget.SwipeRefreshLayout
+    <timeroute.androidbaby.widget.ABSwipeRefreshLayout
         android:id="@+id/swipe_refresh"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
@@ -12,6 +12,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="discovery" />
-        </android.support.v4.widget.SwipeRefreshLayout>
+        </timeroute.androidbaby.widget.ABSwipeRefreshLayout>
 
 </FrameLayout>

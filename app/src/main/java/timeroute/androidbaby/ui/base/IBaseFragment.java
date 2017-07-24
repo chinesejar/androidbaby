@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import butterknife.ButterKnife;
 import timeroute.androidbaby.R;
+import timeroute.androidbaby.widget.ABSwipeRefreshLayout;
 
 /**
  * Created by chinesejar on 17-7-14.
@@ -21,7 +22,7 @@ public abstract class IBaseFragment<V, T extends BasePresenter<V>> extends Fragm
     protected T mPresenter;
 
     private boolean mIsRequestDataRefresh = false;
-    private SwipeRefreshLayout mRefreshLayout;
+    private ABSwipeRefreshLayout mRefreshLayout;
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -48,7 +49,7 @@ public abstract class IBaseFragment<V, T extends BasePresenter<V>> extends Fragm
     }
 
     private void setupSwipeRefresh(View view){
-        mRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh);
+        mRefreshLayout = (ABSwipeRefreshLayout) view.findViewById(R.id.swipe_refresh);
         if(mRefreshLayout != null){
             mRefreshLayout.setProgressViewOffset(true, 0, (int) TypedValue
                     .applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24,getResources().getDisplayMetrics()));

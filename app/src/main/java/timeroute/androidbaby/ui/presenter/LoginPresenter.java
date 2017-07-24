@@ -71,6 +71,7 @@ public class LoginPresenter extends BasePresenter<ILoginView> {
     private void displayToken(UserToken userToken, String username, String password) {
         Profile profile = userToken.getProfile();
         loginView.displayProgressBar(false);
+        Log.d("tag", userToken.toString());
         SharedPreferenceUtils sharedPreferenceUtils = new SharedPreferenceUtils(context, "user");
         sharedPreferenceUtils.setString("token", userToken.getToken());
         sharedPreferenceUtils.setString("username", username);
@@ -81,7 +82,7 @@ public class LoginPresenter extends BasePresenter<ILoginView> {
         sharedPreferenceUtils.setString("assignment", profile.getAssignment());
         sharedPreferenceUtils.setString("gender", profile.getGender());
         sharedPreferenceUtils.setString("avatar", profile.getAvatar());
-        sharedPreferenceUtils.setString("email", profile.getEmail());
+        //sharedPreferenceUtils.setString("email", profile.getEmail());
         loginView.toMain();
     }
 }

@@ -1,6 +1,7 @@
 package timeroute.androidbaby.ui.presenter;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import rx.Observable;
@@ -68,6 +69,7 @@ public class SplashPresenter extends BasePresenter<ISplashView> {
 
     private void displayToken(UserToken userToken, String username, String password) {
         Profile profile = userToken.getProfile();
+        Log.d("tag", userToken.toString());
         sharedPreferenceUtils = new SharedPreferenceUtils(context, "user");
         String last_token = sharedPreferenceUtils.getString("token");
         if(last_token != userToken.getToken()){
@@ -81,7 +83,7 @@ public class SplashPresenter extends BasePresenter<ISplashView> {
         sharedPreferenceUtils.setString("assignment", profile.getAssignment());
         sharedPreferenceUtils.setString("gender", profile.getGender());
         sharedPreferenceUtils.setString("avatar", profile.getAvatar());
-        sharedPreferenceUtils.setString("email", profile.getEmail());
+        //sharedPreferenceUtils.setString("email", profile.getEmail());
         splashView.toMain();
     }
 }
