@@ -8,7 +8,9 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -32,6 +34,7 @@ import timeroute.androidbaby.bean.feed.Feed;
 import timeroute.androidbaby.bean.feed.FeedPic;
 import timeroute.androidbaby.bean.feed.FeedTimeLine;
 import timeroute.androidbaby.util.ScreenUtil;
+import timeroute.androidbaby.widget.ABSwipeRefreshLayout;
 import timeroute.androidbaby.widget.HorizontalListView;
 
 /**
@@ -40,6 +43,7 @@ import timeroute.androidbaby.widget.HorizontalListView;
 
 public class FeedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    private static final String TAG = "FeedListAdapter";
     private Context context;
     private FeedTimeLine feedTimeLine;
     private int status = 1;
@@ -52,6 +56,12 @@ public class FeedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public static final int LOAD_NONE = 2;
     public static final int LOAD_END = 3;
     private static final int TYPE_FOOTER = -1;
+
+    private float downX;
+    private float downY;
+    private float upX;
+    private float upY;
+    private boolean isUpOrDown = true;
 
     public FeedListAdapter(Context context, FeedTimeLine feedTimeLine) {
         this.context = context;
@@ -127,6 +137,36 @@ public class FeedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                         new String[]{"url"},
                         new int[]{R.id.image_view_pic});
                 horizontalListViewFeedPic.setAdapter(feedPicAdapter);
+                horizontalListViewFeedPic.setOnTouchListener((view, motionEvent) -> {
+                    Log.d(TAG, motionEvent.toString());
+                    float x = motionEvent.getX();
+                    float y = motionEvent.getY();
+                    int action = motionEvent.getAction();
+                    switch (action){
+                        case MotionEvent.ACTION_DOWN:
+                            downX = x;
+                            downY = y;
+                            //view.getParent().requestDisallowInterceptTouchEvent(true);
+                            break;
+                        case MotionEvent.ACTION_MOVE:
+                            upX = x;
+                            upY = y;
+                            if(isUpOrDown){
+                                if(Math.abs(upX-downX)>8&&Math.abs(upY-downY)>8){
+                                    if(Math.abs(upX-downX)>Math.abs(upY-downY)){
+                                        view.getParent().requestDisallowInterceptTouchEvent(true);
+                                        isUpOrDown = false;
+                                    }
+                                }
+                            }
+                            break;
+                        case MotionEvent.ACTION_UP:
+                            view.getParent().requestDisallowInterceptTouchEvent(false);
+                            isUpOrDown = true;
+                            break;
+                    }
+                    return false;
+                });
             }
             like.setText(String.valueOf(feed.getLikeCount()));
             comment.setText(String.valueOf(feed.getCommentCount()));

@@ -2,6 +2,7 @@ package timeroute.androidbaby.ui.activity;
 
 import android.support.design.widget.BottomNavigationView;
 import android.os.Bundle;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +19,8 @@ import timeroute.androidbaby.ui.fragment.MineFragment;
 import timeroute.androidbaby.widget.NoScrollViewPager;
 
 public class MainActivity extends IBaseActivity {
+
+    private static final String TAG = "MainActivity";
 
     @Bind(R.id.content_viewPager)
     NoScrollViewPager content_viewPager;
@@ -49,20 +52,20 @@ public class MainActivity extends IBaseActivity {
         fragmentList.add(new DiscoveryFragment());
         fragmentList.add(new MineFragment());
         content_viewPager.setOffscreenPageLimit(3);
-        content_viewPager.setAdapter(new ViewPagerFgAdapter(getSupportFragmentManager(), fragmentList));
         // 禁止左右滑动，改为淡入淡出
-        content_viewPager.setPageTransformer(true, (view, position) -> {
-            view.setTranslationX(view.getWidth() * -position);
-
-            if(position <= -1.0F || position >= 1.0F) {
-                view.setAlpha(0.0F);
-            } else if( position == 0.0F ) {
-                view.setAlpha(1.0F);
-            } else {
-                // position is between -1.0F & 0.0F OR 0.0F & 1.0F
-                view.setAlpha(1.0F - Math.abs(position));
-            }
-        });
+//        content_viewPager.setPageTransformer(true, (view, position) -> {
+//            view.setTranslationX(view.getWidth() * -position);
+//
+//            if(position <= -1.0F || position >= 1.0F) {
+//                view.setAlpha(0.0F);
+//            } else if( position == 0.0F ) {
+//                view.setAlpha(1.0F);
+//            } else {
+//                // position is between -1.0F & 0.0F OR 0.0F & 1.0F
+//                view.setAlpha(1.0F - Math.abs(position));
+//            }
+//        });
+        content_viewPager.setAdapter(new ViewPagerFgAdapter(getSupportFragmentManager(), fragmentList));
         content_viewPager.addOnPageChangeListener(new NoScrollViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -89,6 +92,7 @@ public class MainActivity extends IBaseActivity {
 
             @Override
             public void onPageScrollStateChanged(int state) {
+                Log.d(TAG, "page state: "+String.valueOf(state));
             }
         });
 

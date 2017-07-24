@@ -38,6 +38,7 @@ import timeroute.androidbaby.ui.base.IBaseFragment;
 import timeroute.androidbaby.ui.presenter.MinePresenter;
 import timeroute.androidbaby.ui.view.IMineView;
 import timeroute.androidbaby.util.SharedPreferenceUtils;
+import timeroute.androidbaby.widget.NoScrollViewPager;
 
 import static android.app.Activity.RESULT_OK;
 
