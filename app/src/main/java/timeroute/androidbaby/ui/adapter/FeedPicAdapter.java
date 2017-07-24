@@ -1,6 +1,7 @@
 package timeroute.androidbaby.ui.adapter;
 
 import android.content.Context;
+import android.graphics.drawable.BitmapDrawable;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -33,16 +34,17 @@ public class FeedPicAdapter extends SimpleAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View vi = convertView;
-        if (convertView == null)
+        if (convertView == null) {
             vi = inflater.inflate(R.layout.layout_feed_pic, null);
+        }
 
         HashMap<String, Object> data = (HashMap<String, Object>) getItem(position);
         ImageView image = (ImageView) vi.findViewById(R.id.image_view_pic);
         String image_url = (String) data.get("url");
         Glide.with(mContext)
                 .load(image_url+"?imageMogr2/thumbnail/600x"+String.valueOf(DensityUtil.dip2px(mContext, 200))+"/format/webp/blur/1x0/quality/75|imageslim")
-                .asBitmap()
                 .diskCacheStrategy(DiskCacheStrategy.RESULT)
+                .crossFade()
                 .into(image);
         return vi;
     }

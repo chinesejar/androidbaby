@@ -6,17 +6,14 @@ import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutCompat;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -31,10 +28,9 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import timeroute.androidbaby.R;
 import timeroute.androidbaby.bean.feed.Feed;
-import timeroute.androidbaby.bean.feed.FeedPic;
 import timeroute.androidbaby.bean.feed.FeedTimeLine;
+import timeroute.androidbaby.ui.view.RecyclerViewClickListener;
 import timeroute.androidbaby.util.ScreenUtil;
-import timeroute.androidbaby.widget.ABSwipeRefreshLayout;
 import timeroute.androidbaby.widget.HorizontalListView;
 
 /**
@@ -44,6 +40,7 @@ import timeroute.androidbaby.widget.HorizontalListView;
 public class FeedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final String TAG = "FeedListAdapter";
+    private RecyclerViewClickListener listener;
     private Context context;
     private FeedTimeLine feedTimeLine;
     private int status = 1;
@@ -63,7 +60,8 @@ public class FeedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private float upY;
     private boolean isUpOrDown = true;
 
-    public FeedListAdapter(Context context, FeedTimeLine feedTimeLine) {
+    public FeedListAdapter(Context context, FeedTimeLine feedTimeLine, RecyclerViewClickListener listener) {
+        this.listener = listener;
         this.context = context;
         this.feedTimeLine = feedTimeLine;
     }
@@ -101,12 +99,16 @@ public class FeedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         HorizontalListView horizontalListViewFeedPic;
         @Bind(R.id.like)
         TextView like;
+        @Bind(R.id.imageButtonLike)
+        ImageButton imageButtonLike;
         @Bind(R.id.comment)
         TextView comment;
+        @Bind(R.id.imageButtonComment)
+        ImageButton imageButtonComment;
         @Bind(R.id.create_time)
         TextView create_time;
 
-        public FeedViewHolder(View itemView) {
+        public FeedViewHolder(View itemView, final RecyclerViewClickListener listener) {
             super(itemView);
             ButterKnife.bind(this, itemView);
 
@@ -118,8 +120,10 @@ public class FeedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         public void bindItem(Feed feed) {
             loadCirclePic(context, feed.getUser().getAvatar(), avatar);
-            avatar.setOnClickListener(v -> {
-
+            avatar.setOnClickListener(view -> {
+                if(listener != null){
+                    listener.onAvatarClicked(feed.getUser().getId());
+                }
             });
             username.setText(feed.getUser().getNickname());
             content.setText(feed.getContent());
@@ -138,7 +142,6 @@ public class FeedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                         new int[]{R.id.image_view_pic});
                 horizontalListViewFeedPic.setAdapter(feedPicAdapter);
                 horizontalListViewFeedPic.setOnTouchListener((view, motionEvent) -> {
-                    Log.d(TAG, motionEvent.toString());
                     float x = motionEvent.getX();
                     float y = motionEvent.getY();
                     int action = motionEvent.getAction();
@@ -146,7 +149,6 @@ public class FeedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                         case MotionEvent.ACTION_DOWN:
                             downX = x;
                             downY = y;
-                            //view.getParent().requestDisallowInterceptTouchEvent(true);
                             break;
                         case MotionEvent.ACTION_MOVE:
                             upX = x;
@@ -169,7 +171,13 @@ public class FeedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 });
             }
             like.setText(String.valueOf(feed.getLikeCount()));
+            imageButtonLike.setOnClickListener(view -> {
+                listener.onLikeClicked(feed.getFeedId());
+            });
             comment.setText(String.valueOf(feed.getCommentCount()));
+            imageButtonComment.setOnClickListener(view -> {
+                listener.onCommentClicked(feed.getFeedId());
+            });
             create_time.setText(String.valueOf(feed.getCreate_time()));
         }
     }
@@ -232,7 +240,7 @@ public class FeedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             return new FooterViewHolder(view);
         } else {
             View view = View.inflate(parent.getContext(), R.layout.layout_feed, null);
-            return new FeedViewHolder(view);
+            return new FeedViewHolder(view, listener);
         }
     }
 

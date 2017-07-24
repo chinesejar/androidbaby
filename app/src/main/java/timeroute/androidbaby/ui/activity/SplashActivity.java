@@ -25,7 +25,6 @@ public class SplashActivity extends IBaseActivity<ISplashView, SplashPresenter> 
 
     private static final String TAG = "SplashActivity";
 
-    private Handler handler = new Handler();
     private boolean isLogin = false;
 
     @Bind(R.id.splash_view)
@@ -55,27 +54,20 @@ public class SplashActivity extends IBaseActivity<ISplashView, SplashPresenter> 
     private void startLoadingData() {
         SharedPreferenceUtils sharedPreferenceUtils = new SharedPreferenceUtils(this, "user");
         String token = sharedPreferenceUtils.getString("token");
-        if (token != null) {
-            long cur_timestamp = System.currentTimeMillis();
-            long last_login = sharedPreferenceUtils.getLong("last_login");
-            Log.d(TAG, String.valueOf(last_login));
-            Log.d(TAG, String.valueOf(cur_timestamp));
-            if(last_login != 0 && (cur_timestamp - last_login)/1000<3600){
-                isLogin = true;
-                new Handler().postDelayed(()->{
-                    onLoadingDataEnded();
-                }, 1500);
-            }else{
-                String username = sharedPreferenceUtils.getString("username");
-                String password = sharedPreferenceUtils.getString("password");
-                Log.d(TAG, "is loging");
-                mPresenter.getToken(username, password);
-            }
-        } else {
-            new Handler().postDelayed(() -> {
+        String username = sharedPreferenceUtils.getString("username");
+        String password = sharedPreferenceUtils.getString("password");
+        new Handler().postDelayed(() -> {
+            if (username != null && password != null) {
+                if(token != null) {
+                    //mPresenter.refreshToken(token);
+                    mPresenter.getToken(username, password);
+                }else {
+                    mPresenter.getToken(username, password);
+                }
+            } else {
                 onLoadingDataEnded();
-            }, 1500);
-        }
+            }
+        }, 1500);
     }
 
     private void onLoadingDataEnded() {

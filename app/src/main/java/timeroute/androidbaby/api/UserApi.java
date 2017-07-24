@@ -21,6 +21,9 @@ public interface UserApi {
     @POST("api-token-auth/")
     Observable<UserToken> getToken(@Body User user);
 
+    @POST("api-token-refresh/")
+    Observable<UserToken> refreshToken(@Body UserToken userToken);
+
     @GET("avatar/")
     Observable<ImageToken> getImageToken(@Header("Authorization") String authorization);
 

@@ -1,5 +1,7 @@
 package timeroute.androidbaby.api;
 
+import android.util.Log;
+
 import java.io.File;
 import java.util.concurrent.TimeUnit;
 
@@ -23,6 +25,7 @@ public class ApiRetrofit {
     public FeedApi feedApiService;
     public UserApi userApiService;
     public static final String BASE_URL = "http://120.92.80.41:12000/";
+    //public static final String BASE_URL = "http://192.168.155.4:9000";
 
     public FeedApi getFeedApiService(){
         return feedApiService;
@@ -50,6 +53,7 @@ public class ApiRetrofit {
 
             }
             Response originalResponse = chain.proceed(request);
+            Log.d("code", originalResponse.code()+"");
             if (StateUtils.isNetworkAvailable(MyApp.context)) {
                 int maxAge = 0; // read from cache
                 return originalResponse.newBuilder()

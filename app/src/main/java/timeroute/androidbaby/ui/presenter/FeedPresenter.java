@@ -19,6 +19,7 @@ import timeroute.androidbaby.support.MyObserver;
 import timeroute.androidbaby.ui.adapter.FeedListAdapter;
 import timeroute.androidbaby.ui.base.BasePresenter;
 import timeroute.androidbaby.ui.view.IFeedView;
+import timeroute.androidbaby.ui.view.RecyclerViewClickListener;
 
 /**
  * Created by chinesejar on 17-7-14.
@@ -122,7 +123,22 @@ public class FeedPresenter extends BasePresenter<IFeedView> {
             adapter.notifyDataSetChanged();
         } else {
             timeLine = feedTimeLine;
-            adapter = new FeedListAdapter(context, timeLine);
+            adapter = new FeedListAdapter(context, timeLine, new RecyclerViewClickListener() {
+                @Override
+                public void onAvatarClicked(int user_id) {
+                    Log.d("usreid", "userid:" + user_id);
+                }
+
+                @Override
+                public void onLikeClicked(int feed_id) {
+                    Log.d("feedid", "feedid:" + feed_id);
+                }
+
+                @Override
+                public void onCommentClicked(int feed_id) {
+                    Log.d("feedid", "feedid:" + feed_id);
+                }
+            });
             recyclerView.setAdapter(adapter);
             adapter.notifyDataSetChanged();
         }

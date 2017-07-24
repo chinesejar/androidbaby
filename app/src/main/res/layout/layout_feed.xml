@@ -86,6 +86,7 @@
                     android:gravity="center|left">
 
                     <ImageButton
+                        android:id="@+id/imageButtonLike"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@drawable/likecomment"
@@ -107,6 +108,7 @@
                     android:gravity="center|left">
 
                     <ImageButton
+                        android:id="@+id/imageButtonComment"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@drawable/likecomment"

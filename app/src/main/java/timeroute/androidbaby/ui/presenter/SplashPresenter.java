@@ -67,14 +67,68 @@ public class SplashPresenter extends BasePresenter<ISplashView> {
         }
     }
 
+    public void refreshToken(String token){
+        splashView = getView();
+        UserToken userToken = new UserToken();
+        userToken.setToken(token);
+        Log.d("token", userToken.toString());
+        if(splashView != null){
+            userApi.refreshToken(userToken)
+                    .onErrorResumeNext(new Func1<Throwable, Observable<? extends UserToken>>() {
+                        @Override
+                        public Observable<? extends UserToken> call(Throwable throwable) {
+                            return Observable.error(ExceptionEngine.handleException(throwable));
+                        }
+                    })
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new MyObserver<UserToken>() {
+                        @Override
+                        protected void onError(ApiException ex) {
+                            Toast.makeText(context, ex.getDisplayMessage(), Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onCompleted() {
+
+                        }
+
+                        @Override
+                        public void onNext(UserToken userToken) {
+                            displayRefreshToken(userToken);
+                        }
+                    });
+        }
+    }
+
+    private void displayRefreshToken(UserToken userToken) {
+        Profile profile = userToken.getProfile();
+        Log.d("tag", userToken.toString());
+        sharedPreferenceUtils = new SharedPreferenceUtils(context, "user");
+        String last_token = sharedPreferenceUtils.getString("token");
+        Log.d("last_token", last_token);
+        Log.d("cur_token", userToken.getToken());
+        if(last_token != userToken.getToken()){
+            sharedPreferenceUtils.setString("token", userToken.getToken());
+        }
+        sharedPreferenceUtils.setInt("id", profile.getId());
+        sharedPreferenceUtils.setString("nickname", profile.getNickname());
+        sharedPreferenceUtils.setString("assignment", profile.getAssignment());
+        sharedPreferenceUtils.setString("gender", profile.getGender());
+        sharedPreferenceUtils.setString("avatar", profile.getAvatar());
+        //sharedPreferenceUtils.setString("email", profile.getEmail());
+        splashView.toMain();
+    }
+
     private void displayToken(UserToken userToken, String username, String password) {
         Profile profile = userToken.getProfile();
         Log.d("tag", userToken.toString());
         sharedPreferenceUtils = new SharedPreferenceUtils(context, "user");
         String last_token = sharedPreferenceUtils.getString("token");
+        Log.d("last_token", last_token);
+        Log.d("cur_token", userToken.getToken());
         if(last_token != userToken.getToken()){
             sharedPreferenceUtils.setString("token", userToken.getToken());
-            sharedPreferenceUtils.setLong("last_login", System.currentTimeMillis());
         }
         sharedPreferenceUtils.setString("username", username);
         sharedPreferenceUtils.setString("password", password);

@@ -12,6 +12,7 @@ import retrofit2.http.Path;
 import rx.Observable;
 import timeroute.androidbaby.bean.feed.Feed;
 import timeroute.androidbaby.bean.feed.FeedTimeLine;
+import timeroute.androidbaby.bean.feed.Like;
 import timeroute.androidbaby.bean.user.ImageToken;
 
 /**
@@ -34,4 +35,7 @@ public interface FeedApi {
 
     @POST("feed/")
     Observable<Feed> postFeed(@Header("Authorization") String authorization, @Body Feed feed);
+
+    @POST("like/")
+    Observable<Like> postLike(@Header("Authorization") String authorization, @Body Like like);
 }
