@@ -11,4 +11,6 @@ public interface IFeedView {
     void setDataRefresh(boolean refresh);
     RecyclerView getRecyclerView();
     LinearLayoutManager getLayoutManager();
+
+    void goToUser(int user_id);
 }

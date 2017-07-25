@@ -71,7 +71,6 @@ public class SplashPresenter extends BasePresenter<ISplashView> {
         splashView = getView();
         UserToken userToken = new UserToken();
         userToken.setToken(token);
-        Log.d("token", userToken.toString());
         if(splashView != null){
             userApi.refreshToken(userToken)
                     .onErrorResumeNext(new Func1<Throwable, Observable<? extends UserToken>>() {
@@ -103,11 +102,8 @@ public class SplashPresenter extends BasePresenter<ISplashView> {
 
     private void displayRefreshToken(UserToken userToken) {
         Profile profile = userToken.getProfile();
-        Log.d("tag", userToken.toString());
         sharedPreferenceUtils = new SharedPreferenceUtils(context, "user");
         String last_token = sharedPreferenceUtils.getString("token");
-        Log.d("last_token", last_token);
-        Log.d("cur_token", userToken.getToken());
         if(last_token != userToken.getToken()){
             sharedPreferenceUtils.setString("token", userToken.getToken());
         }
@@ -121,11 +117,8 @@ public class SplashPresenter extends BasePresenter<ISplashView> {
 
     private void displayToken(UserToken userToken, String username, String password) {
         Profile profile = userToken.getProfile();
-        Log.d("tag", userToken.toString());
         sharedPreferenceUtils = new SharedPreferenceUtils(context, "user");
         String last_token = sharedPreferenceUtils.getString("token");
-        Log.d("last_token", last_token);
-        Log.d("cur_token", userToken.getToken());
         if(last_token != userToken.getToken()){
             sharedPreferenceUtils.setString("token", userToken.getToken());
         }

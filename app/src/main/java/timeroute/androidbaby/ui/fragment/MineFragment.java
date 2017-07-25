@@ -16,7 +16,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.widget.LinearLayoutManager;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -30,6 +29,7 @@ import java.io.IOException;
 import butterknife.Bind;
 import timeroute.androidbaby.R;
 import timeroute.androidbaby.ui.activity.MineProfileActivity;
+import timeroute.androidbaby.ui.activity.SettingActivity;
 import timeroute.androidbaby.ui.base.IBaseFragment;
 import timeroute.androidbaby.ui.presenter.MinePresenter;
 import timeroute.androidbaby.ui.view.IMineView;
@@ -73,8 +73,6 @@ public class MineFragment extends IBaseFragment<IMineView, MinePresenter> implem
     LinearLayout profile_layout;
     @Bind(R.id.mine_setting)
     LinearLayout setting_layout;
-    @Bind(R.id.mine_about)
-    LinearLayout about_layout;
 
     public MineFragment() {
         // Required empty public constructor
@@ -115,6 +113,9 @@ public class MineFragment extends IBaseFragment<IMineView, MinePresenter> implem
         profile_layout.setOnClickListener(view -> {
             Intent intent = new Intent(getActivity(), MineProfileActivity.class);
             startActivity(intent);
+        });
+        setting_layout.setOnClickListener(view -> {
+            startActivity(new Intent(getActivity(), SettingActivity.class));
         });
 
         if(!loaded){
@@ -169,12 +170,10 @@ public class MineFragment extends IBaseFragment<IMineView, MinePresenter> implem
     }
 
     private void createImageFile() {
-        Log.d("dir", Environment.getExternalStorageDirectory().toString());
         mImageFile = new File(Environment.getExternalStorageDirectory(), "images/avatar.jpg");
         try {
             mImageFile.createNewFile();
         }catch (IOException e){
-            Log.d("create", e.getMessage());
         }
     }
 
@@ -241,7 +240,6 @@ public class MineFragment extends IBaseFragment<IMineView, MinePresenter> implem
         assignment = sharedPreferenceUtils.getString("assignment");
 
         if(assignment != null){
-            Log.d("tag", assignment.toString());
             if(assignment.length() == 0){
                 assignment_TextView.setText("完善个性签名");
             }else {

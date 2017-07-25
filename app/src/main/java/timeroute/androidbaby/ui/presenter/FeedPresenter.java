@@ -1,6 +1,7 @@
 package timeroute.androidbaby.ui.presenter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -142,7 +143,6 @@ public class FeedPresenter extends BasePresenter<IFeedView> {
 
                         @Override
                         public void onNext(Response<Object> objectResponse) {
-                            Log.d("like", "code: "+objectResponse.code());
                             if(objectResponse.code() == 201){
                                 adapter.updateLikeStatus(feed);
                             }else if(objectResponse.code() == 200){
@@ -154,7 +154,6 @@ public class FeedPresenter extends BasePresenter<IFeedView> {
     }
 
     private void disPlayFeedList(FeedTimeLine feedTimeLine, Context context, IFeedView feedView, RecyclerView recyclerView) {
-        Log.d("serializer", feedTimeLine.toString());
         if (isLoadMore) {
             if (next == null) {
                 adapter.updateLoadStatus(adapter.LOAD_NONE);
@@ -170,12 +169,11 @@ public class FeedPresenter extends BasePresenter<IFeedView> {
             adapter = new FeedListAdapter(context, timeLine, new RecyclerViewClickListener() {
                 @Override
                 public void onAvatarClicked(int user_id) {
-                    Log.d("usreid", "userid:" + user_id);
+                    feedView.goToUser(user_id);
                 }
 
                 @Override
                 public void onLikeClicked(Feed feed) {
-                    Log.d("feedid", "feedid:" + feed);
                     postLike(feed);
                 }
 
@@ -185,13 +183,9 @@ public class FeedPresenter extends BasePresenter<IFeedView> {
                 }
             });
             recyclerView.setAdapter(adapter);
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    adapter.notifyDataSetChanged();
-                }
+            new Handler().postDelayed(() -> {
+                adapter.notifyDataSetChanged();
             }, 2000);
-            //adapter.notifyDataSetChanged();
         }
         next = feedTimeLine.getNext();
         if(next == "null"){

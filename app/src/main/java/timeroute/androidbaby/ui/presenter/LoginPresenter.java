@@ -49,7 +49,6 @@ public class LoginPresenter extends BasePresenter<ILoginView> {
             .subscribe(new MyObserver<UserToken>() {
                 @Override
                 protected void onError(ApiException ex) {
-                    Log.d("login", ex.getDisplayMessage());
                     loginView.displayProgressBar(false);
                     Toast.makeText(context, ex.getDisplayMessage(), Toast.LENGTH_SHORT).show();
                 }
@@ -61,7 +60,6 @@ public class LoginPresenter extends BasePresenter<ILoginView> {
 
                 @Override
                 public void onNext(UserToken userToken) {
-                    Log.d("Login", userToken.toString());
                     displayToken(userToken, username, password);
                 }
             });
@@ -71,7 +69,6 @@ public class LoginPresenter extends BasePresenter<ILoginView> {
     private void displayToken(UserToken userToken, String username, String password) {
         Profile profile = userToken.getProfile();
         loginView.displayProgressBar(false);
-        Log.d("tag", userToken.toString());
         SharedPreferenceUtils sharedPreferenceUtils = new SharedPreferenceUtils(context, "user");
         sharedPreferenceUtils.setString("token", userToken.getToken());
         sharedPreferenceUtils.setString("username", username);

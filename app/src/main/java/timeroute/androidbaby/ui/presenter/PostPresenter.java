@@ -124,7 +124,6 @@ public class PostPresenter extends BasePresenter<IPostView> {
                     @Override
                     public void onNext(Feed feed) {
                         Toast.makeText(context, "更新成功", Toast.LENGTH_SHORT).show();
-                        Log.d(TAG, feed.toString());
                         postView.sendSuccess();
                     }
                 });

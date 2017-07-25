@@ -17,6 +17,7 @@ import android.view.View;
 import butterknife.Bind;
 import timeroute.androidbaby.R;
 import timeroute.androidbaby.ui.activity.PostActivity;
+import timeroute.androidbaby.ui.activity.UserActivity;
 import timeroute.androidbaby.ui.base.IBaseFragment;
 import timeroute.androidbaby.ui.presenter.FeedPresenter;
 import timeroute.androidbaby.ui.view.IFeedView;
@@ -92,5 +93,12 @@ public class FeedFragment extends IBaseFragment<IFeedView, FeedPresenter> implem
     @Override
     public LinearLayoutManager getLayoutManager() {
         return mLayoutManager;
+    }
+
+    @Override
+    public void goToUser(int user_id) {
+        Intent intent = new Intent(getContext(), UserActivity.class);
+        intent.putExtra("user_id", user_id);
+        startActivity(intent);
     }
 }
