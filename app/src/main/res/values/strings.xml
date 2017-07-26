@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">安卓宝宝</string>
+    <string name="version_label">版本</string>
+    <string name="version">1.0.0</string>
+    <string name="publish_label">发布</string>
+    <string name="publish">20170725</string>
     <string name="tab_feed">最新</string>
     <string name="tab_discovery">探索</string>
     <string name="tab_profile">我的</string>
