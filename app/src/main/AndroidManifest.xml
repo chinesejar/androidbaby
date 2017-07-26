@@ -51,7 +51,8 @@
             android:name=".ui.activity.PostActivity"
             android:theme="@style/MainTheme">
             </activity>
-        <activity android:name=".ui.activity.UserActivity">
+        <activity android:name=".ui.activity.UserActivity"
+            android:theme="@style/MainTheme">
 
         </activity>
         <activity

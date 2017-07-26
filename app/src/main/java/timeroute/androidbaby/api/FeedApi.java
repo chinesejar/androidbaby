@@ -28,6 +28,12 @@ public interface FeedApi {
     @GET("feed/")
     Observable<FeedTimeLine> getNextFeed(@Header("Authorization") String authorization, @Query("page") String page);
 
+    @GET("feed/")
+    Observable<FeedTimeLine> getLatestUserFeed(@Header("Authorization") String authorization, @Query("user") int user_id);
+
+    @GET("feed/")
+    Observable<FeedTimeLine> getNextUserFeed(@Header("Authorization") String authorization, @Query("page") String page, @Query("user") int user_id);
+
     @GET("feed/{id}")
     Observable<Feed> getDetailFeed(@Header("Authorization") String authorization, @Path("id") String id);
 

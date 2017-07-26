@@ -1,17 +1,12 @@
 package timeroute.androidbaby.ui.presenter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.widget.Toast;
 
-
-import retrofit2.Response;
 import rx.Observable;
-import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
@@ -19,25 +14,25 @@ import timeroute.androidbaby.api.exception.ApiException;
 import timeroute.androidbaby.api.exception.ExceptionEngine;
 import timeroute.androidbaby.bean.feed.Feed;
 import timeroute.androidbaby.bean.feed.FeedTimeLine;
-import timeroute.androidbaby.bean.feed.Like;
 import timeroute.androidbaby.support.MyObserver;
 import timeroute.androidbaby.ui.adapter.FeedListAdapter;
 import timeroute.androidbaby.ui.base.BasePresenter;
-import timeroute.androidbaby.ui.view.IFeedView;
+import timeroute.androidbaby.ui.view.IUserView;
 import timeroute.androidbaby.ui.view.RecyclerViewClickListener;
 import timeroute.androidbaby.util.SharedPreferenceUtils;
 
 /**
- * Created by chinesejar on 17-7-14.
+ * Created by chinesejar on 17-7-25.
  */
 
-public class FeedPresenter extends BasePresenter<IFeedView> {
+public class UserPresenter extends BasePresenter<IUserView> {
 
+    private static final String TAG = "UserPresenter";
     private SharedPreferenceUtils sharedPreferenceUtils;
     private String token;
 
     private Context context;
-    private IFeedView feedView;
+    private IUserView userView;
     private RecyclerView mRecyclerView;
     private LinearLayoutManager layoutManager;
     private FeedTimeLine timeLine;
@@ -46,19 +41,19 @@ public class FeedPresenter extends BasePresenter<IFeedView> {
     private boolean isLoadMore = false;
     private String next;
 
-    public FeedPresenter(Context context){
+    public UserPresenter(Context context){
         this.context = context;
         sharedPreferenceUtils = new SharedPreferenceUtils(this.context, "user");
         token = sharedPreferenceUtils.getString("token");
     }
 
-    public void getLatestFeed(){
-        feedView = getView();
-        if(feedView != null){
-            mRecyclerView = feedView.getRecyclerView();
-            layoutManager = feedView.getLayoutManager();
+    public void getLatestUserFeed(int user_id){
+        userView = getView();
+        if(userView != null){
+            mRecyclerView = userView.getRecyclerView();
+            layoutManager = userView.getLayoutManager();
 
-            feedApi.getLatestFeed("JWT "+token)
+            feedApi.getLatestUserFeed("JWT "+token, user_id)
                     .onErrorResumeNext(new Func1<Throwable, Observable<? extends FeedTimeLine>>() {
                         @Override
                         public Observable<? extends FeedTimeLine> call(Throwable throwable) {
@@ -80,84 +75,17 @@ public class FeedPresenter extends BasePresenter<IFeedView> {
 
                         @Override
                         public void onNext(FeedTimeLine feedTimeLine) {
-                            disPlayFeedList(feedTimeLine, context, feedView, mRecyclerView);
+                            disPlayFeedList(feedTimeLine, context, userView, mRecyclerView);
                         }
                     });
         }
     }
 
-    public void getNextFeed(){
-        feedView = getView();
-        if(feedView!=null){
-            mRecyclerView = feedView.getRecyclerView();
-            layoutManager = feedView.getLayoutManager();
-
-            feedApi.getNextFeed("JWT "+token, next.substring(next.length()-1))
-                    .onErrorResumeNext(new Func1<Throwable, Observable<? extends FeedTimeLine>>() {
-                        @Override
-                        public Observable<? extends FeedTimeLine> call(Throwable throwable) {
-                            return Observable.error(ExceptionEngine.handleException(throwable));
-                        }
-                    })
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new MyObserver<FeedTimeLine>() {
-                        @Override
-                        protected void onError(ApiException ex) {
-                            Toast.makeText(context, ex.getDisplayMessage(), Toast.LENGTH_SHORT).show();
-                        }
-
-                        @Override
-                        public void onCompleted() {
-
-                        }
-
-                        @Override
-                        public void onNext(FeedTimeLine feedTimeLine) {
-                            disPlayFeedList(feedTimeLine, context, feedView, mRecyclerView);
-                        }
-                    });
-        }
-    }
-
-    public void postLike(Feed feed){
-        feedView = getView();
-        if(feedView!=null){
-            mRecyclerView = feedView.getRecyclerView();
-            layoutManager = feedView.getLayoutManager();
-            Like like = new Like();
-            like.setFeed_id(feed.getFeedId());
-            feedApi.postLike("JWT "+ token, like)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Subscriber<Response<Object>>() {
-                        @Override
-                        public void onCompleted() {
-
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-
-                        }
-
-                        @Override
-                        public void onNext(Response<Object> objectResponse) {
-                            if(objectResponse.code() == 201){
-                                adapter.updateLikeStatus(feed);
-                            }else if(objectResponse.code() == 200){
-                                Toast.makeText(context, "已经点过赞了", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
-        }
-    }
-
-    private void disPlayFeedList(FeedTimeLine feedTimeLine, Context context, IFeedView feedView, RecyclerView recyclerView) {
+    private void disPlayFeedList(FeedTimeLine feedTimeLine, Context context, IUserView userView, RecyclerView recyclerView) {
         if (isLoadMore) {
             if (next == null) {
                 adapter.updateLoadStatus(adapter.LOAD_NONE);
-                feedView.setDataRefresh(false);
+                userView.setDataRefresh(false);
                 return;
             }
             else {
@@ -169,17 +97,14 @@ public class FeedPresenter extends BasePresenter<IFeedView> {
             adapter = new FeedListAdapter(context, timeLine, new RecyclerViewClickListener() {
                 @Override
                 public void onAvatarClicked(int user_id, String nickname) {
-                    feedView.goToUser(user_id, nickname);
                 }
 
                 @Override
                 public void onLikeClicked(Feed feed) {
-                    postLike(feed);
                 }
 
                 @Override
                 public void onCommentClicked(int feed_id) {
-                    Log.d("feedid", "feedid:" + feed_id);
                 }
             });
             recyclerView.setAdapter(adapter);
@@ -188,10 +113,10 @@ public class FeedPresenter extends BasePresenter<IFeedView> {
             }, 2000);
         }
         next = feedTimeLine.getNext();
-        if(next.equals("null")){
+        if(next == "null"){
             next = null;
         }
-        feedView.setDataRefresh(false);
+        userView.setDataRefresh(false);
     }
 
     public void scrollRecycleView() {
@@ -217,7 +142,7 @@ public class FeedPresenter extends BasePresenter<IFeedView> {
                         adapter.updateLoadStatus(adapter.LOAD_PULL_TO);
                         isLoadMore = true;
                         adapter.updateLoadStatus(adapter.LOAD_MORE);
-                        new Handler().postDelayed(() -> getNextFeed(), 1000);
+                        //new Handler().postDelayed(() -> getNextFeed(), 1000);
                     }
                 }
             }
@@ -229,5 +154,4 @@ public class FeedPresenter extends BasePresenter<IFeedView> {
             }
         });
     }
-
 }
