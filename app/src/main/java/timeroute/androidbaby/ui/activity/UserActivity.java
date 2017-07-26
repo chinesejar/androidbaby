@@ -15,6 +15,8 @@ public class UserActivity extends AppCompatActivity {
         setContentView(R.layout.activity_user);
         Intent intent = getIntent();
         int user_id = intent.getIntExtra("user_id", -1);
+        String nickname = intent.getStringExtra("nickname");
+        getSupportActionBar().setTitle(nickname);
         if(user_id >= 0){
             Log.d("USER", String.valueOf(user_id));
         }

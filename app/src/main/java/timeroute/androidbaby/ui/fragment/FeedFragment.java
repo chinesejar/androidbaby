@@ -96,9 +96,10 @@ public class FeedFragment extends IBaseFragment<IFeedView, FeedPresenter> implem
     }
 
     @Override
-    public void goToUser(int user_id) {
+    public void goToUser(int user_id, String nickname) {
         Intent intent = new Intent(getContext(), UserActivity.class);
         intent.putExtra("user_id", user_id);
+        intent.putExtra("nickname", nickname);
         startActivity(intent);
     }
 }

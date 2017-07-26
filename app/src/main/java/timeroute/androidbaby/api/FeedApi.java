@@ -23,13 +23,13 @@ import timeroute.androidbaby.bean.user.ImageToken;
 public interface FeedApi {
 
     @GET("feed/")
-    Observable<FeedTimeLine> getLatestFeed();
+    Observable<FeedTimeLine> getLatestFeed(@Header("Authorization") String authorization);
 
     @GET("feed/")
-    Observable<FeedTimeLine> getNextFeed(@Query("page") String page);
+    Observable<FeedTimeLine> getNextFeed(@Header("Authorization") String authorization, @Query("page") String page);
 
     @GET("feed/{id}")
-    Observable<Feed> getDetailFeed(@Path("id") String id);
+    Observable<Feed> getDetailFeed(@Header("Authorization") String authorization, @Path("id") String id);
 
     @GET("feed_token/")
     Observable<List<ImageToken>> getImageToken(@Header("Authorization") String authorization, @Query("count") int count);

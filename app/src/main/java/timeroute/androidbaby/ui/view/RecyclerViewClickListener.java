@@ -7,7 +7,7 @@ import timeroute.androidbaby.bean.feed.Feed;
  */
 
 public interface RecyclerViewClickListener {
-    void onAvatarClicked(int user_id);
+    void onAvatarClicked(int user_id, String nickname);
     void onLikeClicked(Feed feed);
     void onCommentClicked(int feed_id);
 }

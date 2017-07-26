@@ -34,6 +34,7 @@ import timeroute.androidbaby.util.SharedPreferenceUtils;
 public class FeedPresenter extends BasePresenter<IFeedView> {
 
     private SharedPreferenceUtils sharedPreferenceUtils;
+    private String token;
 
     private Context context;
     private IFeedView feedView;
@@ -48,6 +49,7 @@ public class FeedPresenter extends BasePresenter<IFeedView> {
     public FeedPresenter(Context context){
         this.context = context;
         sharedPreferenceUtils = new SharedPreferenceUtils(this.context, "user");
+        token = sharedPreferenceUtils.getString("token");
     }
 
     public void getLatestFeed(){
@@ -56,7 +58,7 @@ public class FeedPresenter extends BasePresenter<IFeedView> {
             mRecyclerView = feedView.getRecyclerView();
             layoutManager = feedView.getLayoutManager();
 
-            feedApi.getLatestFeed()
+            feedApi.getLatestFeed("JWT "+token)
                     .onErrorResumeNext(new Func1<Throwable, Observable<? extends FeedTimeLine>>() {
                         @Override
                         public Observable<? extends FeedTimeLine> call(Throwable throwable) {
@@ -90,7 +92,7 @@ public class FeedPresenter extends BasePresenter<IFeedView> {
             mRecyclerView = feedView.getRecyclerView();
             layoutManager = feedView.getLayoutManager();
 
-            feedApi.getNextFeed(next.substring(next.length()-1))
+            feedApi.getNextFeed("JWT "+token, next.substring(next.length()-1))
                     .onErrorResumeNext(new Func1<Throwable, Observable<? extends FeedTimeLine>>() {
                         @Override
                         public Observable<? extends FeedTimeLine> call(Throwable throwable) {
@@ -123,8 +125,6 @@ public class FeedPresenter extends BasePresenter<IFeedView> {
         if(feedView!=null){
             mRecyclerView = feedView.getRecyclerView();
             layoutManager = feedView.getLayoutManager();
-
-            String token = sharedPreferenceUtils.getString("token");
             Like like = new Like();
             like.setFeed_id(feed.getFeedId());
             feedApi.postLike("JWT "+ token, like)
@@ -168,8 +168,8 @@ public class FeedPresenter extends BasePresenter<IFeedView> {
             timeLine = feedTimeLine;
             adapter = new FeedListAdapter(context, timeLine, new RecyclerViewClickListener() {
                 @Override
-                public void onAvatarClicked(int user_id) {
-                    feedView.goToUser(user_id);
+                public void onAvatarClicked(int user_id, String nickname) {
+                    feedView.goToUser(user_id, nickname);
                 }
 
                 @Override
