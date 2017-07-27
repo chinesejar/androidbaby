@@ -11,17 +11,17 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.io.File;
 import java.io.IOException;
@@ -44,6 +44,7 @@ import static android.app.Activity.RESULT_OK;
 public class MineFragment extends IBaseFragment<IMineView, MinePresenter> implements IMineView {
 
     private SharedPreferenceUtils sharedPreferenceUtils;
+    private RxPermissions rxPermissions;
 
     private LinearLayoutManager mLayoutManager;
     private String avatar;
@@ -94,21 +95,17 @@ public class MineFragment extends IBaseFragment<IMineView, MinePresenter> implem
         sharedPreferenceUtils = new SharedPreferenceUtils(getContext(), "user");
         mLayoutManager = new LinearLayoutManager(getContext());
 
+        rxPermissions = new RxPermissions(getActivity());
+
         avatar_imageView.setOnClickListener(view -> {
-            if(ContextCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
-                    && ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
-                    && ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
-                onClickPicker();
-            }else {
-                ActivityCompat.requestPermissions(getActivity(),
-                        new String[] {
-                                Manifest.permission.CAMERA,
-                                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                                Manifest.permission.READ_EXTERNAL_STORAGE
-                        },
-                        PERMISSION_CAMERA
-                );
-            }
+            rxPermissions.request(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    .subscribe(granted -> {
+                        if(granted){
+                            onClickPicker();
+                        }else {
+                            Toast.makeText(getActivity(), "未开启权限", Toast.LENGTH_SHORT).show();
+                        }
+                    });
         });
         profile_layout.setOnClickListener(view -> {
             Intent intent = new Intent(getActivity(), MineProfileActivity.class);

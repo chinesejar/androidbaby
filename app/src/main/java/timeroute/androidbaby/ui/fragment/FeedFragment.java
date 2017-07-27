@@ -3,16 +3,16 @@ package timeroute.androidbaby.ui.fragment;
 
 import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Toast;
+
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import butterknife.Bind;
 import timeroute.androidbaby.R;
@@ -23,14 +23,13 @@ import timeroute.androidbaby.ui.presenter.FeedPresenter;
 import timeroute.androidbaby.ui.view.IFeedView;
 import timeroute.androidbaby.widget.ABSwipeRefreshLayout;
 
-import static timeroute.androidbaby.ui.fragment.MineFragment.PERMISSION_CAMERA;
-
 /**
  * A simple {@link Fragment} subclass.
  */
 public class FeedFragment extends IBaseFragment<IFeedView, FeedPresenter> implements IFeedView {
 
     private static final String TAG = "FeedFragment";
+    private RxPermissions rxPermissions;
 
     private LinearLayoutManager mLayoutManager;
     @Bind(R.id.swipe_refresh)
@@ -54,21 +53,16 @@ public class FeedFragment extends IBaseFragment<IFeedView, FeedPresenter> implem
     protected void initView(View rootView) {
         mLayoutManager = new LinearLayoutManager(getContext());
         feed_list.setLayoutManager(mLayoutManager);
+        rxPermissions = new RxPermissions(getActivity());
         floatingActionButton.setOnClickListener(view -> {
-            if(ContextCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
-                    && ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
-                    && ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
-                startActivity(new Intent(getActivity(), PostActivity.class));
-            }else {
-                ActivityCompat.requestPermissions(getActivity(),
-                        new String[] {
-                                Manifest.permission.CAMERA,
-                                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                                Manifest.permission.READ_EXTERNAL_STORAGE
-                        },
-                        PERMISSION_CAMERA
-                );
-            }
+            rxPermissions.request(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    .subscribe(granted -> {
+                        if(granted){
+                            startActivity(new Intent(getActivity(), PostActivity.class));
+                        }else {
+                            Toast.makeText(getActivity(), "未开启权限", Toast.LENGTH_SHORT).show();
+                        }
+                    });
         });
     }
 
