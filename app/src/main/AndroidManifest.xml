@@ -41,30 +41,26 @@
         </activity>
         <activity
             android:name=".ui.activity.MineProfileActivity"
-            android:theme="@style/MainTheme">
-            </activity>
+            android:theme="@style/MainTheme"></activity>
         <activity
             android:name=".ui.activity.LoginActivity"
-            android:label="@string/title_activity_login">
-            </activity>
+            android:label="@string/title_activity_login"></activity>
         <activity
             android:name=".ui.activity.PostActivity"
-            android:theme="@style/MainTheme">
-            </activity>
-        <activity android:name=".ui.activity.UserActivity"
-            android:theme="@style/MainTheme">
-
-        </activity>
+            android:theme="@style/MainTheme"></activity>
+        <activity
+            android:name=".ui.activity.UserActivity"
+            android:theme="@style/MainTheme"></activity>
         <activity
             android:name=".ui.activity.SettingActivity"
             android:label="@string/title_activity_setting"
-            android:theme="@style/MainTheme">
-            </activity>
-        <activity android:name=".ui.activity.AboutActivity"
+            android:theme="@style/MainTheme"></activity>
+        <activity
+            android:name=".ui.activity.AboutActivity"
             android:label="@string/title_activity_about"
-            android:theme="@style/MainTheme">
-
-        </activity>
+            android:theme="@style/MainTheme"></activity>
+        <activity android:name=".ui.activity.ImageViewActivity"
+            android:theme="@style/MainTheme"></activity>
     </application>
 
 </manifest>

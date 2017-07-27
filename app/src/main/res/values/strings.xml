@@ -19,6 +19,10 @@
     <string name="title_activity_about">关于</string>
     <string name="title_activity_login">登录</string>
 
+    <!-- Strings related to menu -->
+    <string name="menu_send">发送</string>
+    <string name="menu_download">下载</string>
+
     <!-- Strings related to login -->
     <string name="prompt_username">用户名</string>
     <string name="prompt_password">密码</string>

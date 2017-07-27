@@ -1,6 +1,7 @@
 package timeroute.androidbaby.ui.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -16,6 +17,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -34,6 +36,7 @@ import butterknife.ButterKnife;
 import timeroute.androidbaby.R;
 import timeroute.androidbaby.bean.feed.Feed;
 import timeroute.androidbaby.bean.feed.FeedTimeLine;
+import timeroute.androidbaby.ui.activity.ImageViewActivity;
 import timeroute.androidbaby.ui.view.RecyclerViewClickListener;
 import timeroute.androidbaby.util.RoundTransform;
 import timeroute.androidbaby.util.ScreenUtil;
@@ -181,6 +184,12 @@ public class FeedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                             break;
                     }
                     return false;
+                });
+                horizontalListViewFeedPic.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        context.startActivity(new Intent(context, ImageViewActivity.class));
+                    }
                 });
             }
             like.setText(String.valueOf(feed.getLikeCount()));
