@@ -10,13 +10,9 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.Toast;
-
-import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import butterknife.Bind;
 import timeroute.androidbaby.R;
-import timeroute.androidbaby.ui.activity.PostActivity;
 import timeroute.androidbaby.ui.activity.UserActivity;
 import timeroute.androidbaby.ui.base.IBaseFragment;
 import timeroute.androidbaby.ui.presenter.FeedPresenter;
@@ -29,15 +25,12 @@ import timeroute.androidbaby.widget.ABSwipeRefreshLayout;
 public class FeedFragment extends IBaseFragment<IFeedView, FeedPresenter> implements IFeedView {
 
     private static final String TAG = "FeedFragment";
-    private RxPermissions rxPermissions;
 
     private LinearLayoutManager mLayoutManager;
     @Bind(R.id.swipe_refresh)
     ABSwipeRefreshLayout abSwipeRefreshLayout;
     @Bind(R.id.feed_list)
     RecyclerView feed_list;
-    //@Bind(R.id.fab_feed)
-    //FloatingActionButton floatingActionButton;
 
     @Override
     protected FeedPresenter createPresenter() {
@@ -53,17 +46,6 @@ public class FeedFragment extends IBaseFragment<IFeedView, FeedPresenter> implem
     protected void initView(View rootView) {
         mLayoutManager = new LinearLayoutManager(getContext());
         feed_list.setLayoutManager(mLayoutManager);
-        rxPermissions = new RxPermissions(getActivity());
-//        floatingActionButton.setOnClickListener(view -> {
-//            rxPermissions.request(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-//                    .subscribe(granted -> {
-//                        if(granted){
-//                            startActivity(new Intent(getActivity(), PostActivity.class));
-//                        }else {
-//                            Toast.makeText(getActivity(), "未开启权限", Toast.LENGTH_SHORT).show();
-//                        }
-//                    });
-//        });
     }
 
     @Override

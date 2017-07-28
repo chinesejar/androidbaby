@@ -1,9 +1,16 @@
 package timeroute.androidbaby.ui.activity;
 
+import android.Manifest;
+import android.annotation.TargetApi;
+import android.content.Intent;
+import android.os.Build;
 import android.support.design.widget.BottomNavigationView;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.widget.Toast;
+
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +29,7 @@ import timeroute.androidbaby.widget.NoScrollViewPager;
 public class MainActivity extends IBaseActivity {
 
     private static final String TAG = "MainActivity";
+    private RxPermissions rxPermissions;
 
     @Bind(R.id.content_viewPager)
     NoScrollViewPager content_viewPager;
@@ -48,7 +56,20 @@ public class MainActivity extends IBaseActivity {
         initNavigationView();
     }
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     private void initNavigationView() {
+
+        rxPermissions = new RxPermissions(this);
+        floatingActionButton.setOnClickListener(view -> {
+            rxPermissions.request(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    .subscribe(granted -> {
+                        if(granted){
+                            startActivity(new Intent(this, PostActivity.class));
+                        }else {
+                            Toast.makeText(this, "未开启权限", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        });
 
         fragmentList = new ArrayList<>();
         fragmentList.add(new FeedFragment());
