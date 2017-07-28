@@ -2,6 +2,7 @@ package timeroute.androidbaby.ui.presenter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -98,7 +99,7 @@ public class FeedPresenter extends BasePresenter<IFeedView> {
                 Log.d(TAG, "next is null");
                 return;
             }
-            feedApi.getNextFeed("JWT "+token, next.substring(next.length()-1))
+            feedApi.getNextFeed("JWT "+token, Uri.parse(next).getQueryParameter("page"))
                     .onErrorResumeNext(new Func1<Throwable, Observable<? extends FeedTimeLine>>() {
                         @Override
                         public Observable<? extends FeedTimeLine> call(Throwable throwable) {

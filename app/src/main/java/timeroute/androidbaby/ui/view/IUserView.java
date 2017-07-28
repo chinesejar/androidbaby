@@ -13,4 +13,6 @@ public interface IUserView {
     void setDataRefresh(boolean b);
 
     LinearLayoutManager getLayoutManager();
+
+    int getUserId();
 }

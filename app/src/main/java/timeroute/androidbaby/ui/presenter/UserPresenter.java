@@ -1,9 +1,11 @@
 package timeroute.androidbaby.ui.presenter;
 
 import android.content.Context;
+import android.net.Uri;
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.widget.Toast;
 
 import rx.Observable;
@@ -81,7 +83,46 @@ public class UserPresenter extends BasePresenter<IUserView> {
         }
     }
 
+    public void getNextUserFeed(int user_id){
+        userView = getView();
+        if(userView != null){
+            mRecyclerView = userView.getRecyclerView();
+            layoutManager = userView.getLayoutManager();
+
+            if(next == null){
+                Log.d(TAG, "next is null");
+                return;
+            }
+            feedApi.getNextUserFeed("JWT "+token, Uri.parse(next).getQueryParameter("page"), user_id)
+                    .onErrorResumeNext(new Func1<Throwable, Observable<? extends FeedTimeLine>>() {
+                        @Override
+                        public Observable<? extends FeedTimeLine> call(Throwable throwable) {
+                            return Observable.error(ExceptionEngine.handleException(throwable));
+                        }
+                    })
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new MyObserver<FeedTimeLine>() {
+                        @Override
+                        protected void onError(ApiException ex) {
+                            Toast.makeText(context, ex.getDisplayMessage(), Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onCompleted() {
+
+                        }
+
+                        @Override
+                        public void onNext(FeedTimeLine feedTimeLine) {
+                            disPlayFeedList(feedTimeLine, context, userView, mRecyclerView);
+                        }
+                    });
+        }
+    }
+
     private void disPlayFeedList(FeedTimeLine feedTimeLine, Context context, IUserView userView, RecyclerView recyclerView) {
+        Log.d(TAG, "next: "+next);
         if (isLoadMore) {
             if (next == null) {
                 adapter.updateLoadStatus(adapter.LOAD_NONE);
@@ -142,7 +183,7 @@ public class UserPresenter extends BasePresenter<IUserView> {
                         adapter.updateLoadStatus(adapter.LOAD_PULL_TO);
                         isLoadMore = true;
                         adapter.updateLoadStatus(adapter.LOAD_MORE);
-                        //new Handler().postDelayed(() -> getNextFeed(), 1000);
+                        new Handler().postDelayed(() -> getNextUserFeed(userView.getUserId()), 1000);
                     }
                 }
             }

@@ -18,6 +18,7 @@ public class UserActivity extends IBaseActivity<IUserView, UserPresenter> implem
 
     private LinearLayoutManager mLayoutManager;
     private boolean mIsRequestDataRefresh = false;
+    private int user_id;
 
     @Bind(R.id.feed_list)
     RecyclerView mRecyclerView;
@@ -36,7 +37,7 @@ public class UserActivity extends IBaseActivity<IUserView, UserPresenter> implem
         setupSwipeRefresh();
 
         Intent intent = getIntent();
-        int user_id = intent.getIntExtra("user_id", -1);
+        user_id = intent.getIntExtra("user_id", -1);
         String nickname = intent.getStringExtra("nickname");
         getSupportActionBar().setTitle(nickname);
         if(user_id >= 0){
@@ -71,7 +72,8 @@ public class UserActivity extends IBaseActivity<IUserView, UserPresenter> implem
     }
 
     public void requestDataRefresh() {
-        mIsRequestDataRefresh = true;
+        setDataRefresh(true);
+        mPresenter.getLatestUserFeed(user_id);
     }
 
 
@@ -104,6 +106,11 @@ public class UserActivity extends IBaseActivity<IUserView, UserPresenter> implem
     @Override
     public LinearLayoutManager getLayoutManager() {
         return mLayoutManager;
+    }
+
+    @Override
+    public int getUserId() {
+        return user_id;
     }
 
 }
