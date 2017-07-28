@@ -3,7 +3,6 @@ package timeroute.androidbaby.ui.adapter;
 import android.content.Context;
 import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +19,7 @@ import timeroute.androidbaby.widget.TouchImageView;
 
 public class ViewPagerImageAdapter extends PagerAdapter {
 
+    private View mCurrentView;
 
     private ArrayList<String> IMAGES;
     private LayoutInflater inflater;
@@ -57,7 +57,6 @@ public class ViewPagerImageAdapter extends PagerAdapter {
                 .into(imageView);
         view.addView(imageLayout, 0);
         imageView.setOnClickListener(view1 -> {
-            Log.d("tag", "click");
             listener.toggleActionBar();
         });
         return imageLayout;
@@ -77,5 +76,12 @@ public class ViewPagerImageAdapter extends PagerAdapter {
         return null;
     }
 
+    @Override
+    public void setPrimaryItem(ViewGroup container, int position, Object object) {
+        mCurrentView = (View)object;
+    }
 
+    public View getPrimaryItem() {
+        return mCurrentView;
+    }
 }

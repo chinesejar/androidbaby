@@ -33,6 +33,8 @@ import timeroute.androidbaby.util.SharedPreferenceUtils;
 
 public class FeedPresenter extends BasePresenter<IFeedView> {
 
+    private static final String TAG = "FeedPresenter";
+
     private SharedPreferenceUtils sharedPreferenceUtils;
     private String token;
 
@@ -92,6 +94,10 @@ public class FeedPresenter extends BasePresenter<IFeedView> {
             mRecyclerView = feedView.getRecyclerView();
             layoutManager = feedView.getLayoutManager();
 
+            if(next == null){
+                Log.d(TAG, "next is null");
+                return;
+            }
             feedApi.getNextFeed("JWT "+token, next.substring(next.length()-1))
                     .onErrorResumeNext(new Func1<Throwable, Observable<? extends FeedTimeLine>>() {
                         @Override

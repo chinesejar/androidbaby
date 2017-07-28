@@ -36,8 +36,8 @@ public class FeedFragment extends IBaseFragment<IFeedView, FeedPresenter> implem
     ABSwipeRefreshLayout abSwipeRefreshLayout;
     @Bind(R.id.feed_list)
     RecyclerView feed_list;
-    @Bind(R.id.fab_feed)
-    FloatingActionButton floatingActionButton;
+    //@Bind(R.id.fab_feed)
+    //FloatingActionButton floatingActionButton;
 
     @Override
     protected FeedPresenter createPresenter() {
@@ -54,16 +54,16 @@ public class FeedFragment extends IBaseFragment<IFeedView, FeedPresenter> implem
         mLayoutManager = new LinearLayoutManager(getContext());
         feed_list.setLayoutManager(mLayoutManager);
         rxPermissions = new RxPermissions(getActivity());
-        floatingActionButton.setOnClickListener(view -> {
-            rxPermissions.request(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                    .subscribe(granted -> {
-                        if(granted){
-                            startActivity(new Intent(getActivity(), PostActivity.class));
-                        }else {
-                            Toast.makeText(getActivity(), "未开启权限", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-        });
+//        floatingActionButton.setOnClickListener(view -> {
+//            rxPermissions.request(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+//                    .subscribe(granted -> {
+//                        if(granted){
+//                            startActivity(new Intent(getActivity(), PostActivity.class));
+//                        }else {
+//                            Toast.makeText(getActivity(), "未开启权限", Toast.LENGTH_SHORT).show();
+//                        }
+//                    });
+//        });
     }
 
     @Override

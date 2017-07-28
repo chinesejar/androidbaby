@@ -19,15 +19,4 @@
 
     </timeroute.androidbaby.widget.ABSwipeRefreshLayout>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab_feed"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
-        android:layout_marginBottom="15dp"
-        android:layout_marginRight="15dp"
-        app:elevation="6dp"
-        app:backgroundTint="@color/colorPrimaryDark"
-        android:src="@drawable/ic_mode_edit"/>
-
 </FrameLayout>

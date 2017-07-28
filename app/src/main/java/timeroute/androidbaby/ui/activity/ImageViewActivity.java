@@ -1,16 +1,14 @@
 package timeroute.androidbaby.ui.activity;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
 
 import java.util.ArrayList;
 
@@ -22,11 +20,13 @@ import timeroute.androidbaby.ui.base.IBaseActivity;
 import timeroute.androidbaby.ui.presenter.ImageViewPresenter;
 import timeroute.androidbaby.ui.view.IImageViewView;
 import timeroute.androidbaby.ui.view.ImageViewClickListener;
+import timeroute.androidbaby.widget.TouchImageView;
 
 public class ImageViewActivity extends IBaseActivity<IImageViewView, ImageViewPresenter> implements IImageViewView {
 
     private static final String TAG = "ImageViewActivity";
     private ArrayList<String> arrayImages;
+    private ViewPagerImageAdapter imageAdapter;
     private ImageViewClickListener imageViewClickListener;
     private boolean isShow = true;
 
@@ -67,7 +67,7 @@ public class ImageViewActivity extends IBaseActivity<IImageViewView, ImageViewPr
             }
             isShow = !isShow;
         };
-        ViewPagerImageAdapter imageAdapter = new ViewPagerImageAdapter(this, arrayImages, imageViewClickListener);
+        imageAdapter = new ViewPagerImageAdapter(this, arrayImages, imageViewClickListener);
         viewPager.setAdapter(imageAdapter);
         viewPager.setCurrentItem(index);
         indicator.setViewPager(viewPager);
@@ -89,6 +89,8 @@ public class ImageViewActivity extends IBaseActivity<IImageViewView, ImageViewPr
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.action_download:
+                ImageView imageView = (TouchImageView) imageAdapter.getPrimaryItem().findViewById(R.id.image);
+                mPresenter.saveImage(imageView.getDrawable());
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
