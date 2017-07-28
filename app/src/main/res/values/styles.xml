@@ -16,6 +16,11 @@
         <item name="android:colorControlNormal" tools:targetApi="lollipop">#FFFFFF</item>
     </style>
 
+    <style name="ImageViewToolbarTheme">
+        <item name="android:colorControlNormal" tools:targetApi="lollipop">#FFFFFF</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
     <style name="BottomNavigationTheme" parent="Widget.Design.BottomNavigationView">
         <item name="android:background">@color/tabBarPrimary</item>
         <item name="itemIconTint">#CCCCCC</item>

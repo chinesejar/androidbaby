@@ -14,6 +14,7 @@ import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -146,7 +147,9 @@ public class FeedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             if (feed.getFeedPic().size() > 0) {
                 horizontalListViewFeedPic.setVisibility(View.VISIBLE);
                 list = new ArrayList<Map<String, Object>>();
+                String[] images = new String[feed.getFeedPic().size()];
                 for (int i = 0; i < feed.getFeedPic().size(); i++) {
+                    images[i] = feed.getFeedPic().get(i).getUrl();
                     Map<String, Object> map = new HashMap<String, Object>();
                     map.put("url", feed.getFeedPic().get(i).getUrl());
                     list.add(map);
@@ -185,11 +188,11 @@ public class FeedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     }
                     return false;
                 });
-                horizontalListViewFeedPic.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                        context.startActivity(new Intent(context, ImageViewActivity.class));
-                    }
+                horizontalListViewFeedPic.setOnItemClickListener((adapterView, view, i, l) -> {
+                    Intent intent = new Intent(context, ImageViewActivity.class);
+                    intent.putExtra("index", i);
+                    intent.putExtra("images", images);
+                    context.startActivity(intent);
                 });
             }
             like.setText(String.valueOf(feed.getLikeCount()));
