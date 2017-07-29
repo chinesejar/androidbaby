@@ -139,7 +139,7 @@ public class FeedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             loadCirclePic(context, feed.getUser().getAvatar(), avatar);
             avatar.setOnClickListener(view -> {
                 if(listener != null){
-                    listener.onAvatarClicked(feed.getUser().getId(), feed.getUser().getNickname());
+                    listener.onAvatarClicked(feed.getUser().getId(), feed.getUser().getNickname(), feed.getUser().getAssignment(), feed.getUser().getAvatar());
                 }
             });
             username.setText(feed.getUser().getNickname());

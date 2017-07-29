@@ -12,5 +12,5 @@ public interface IFeedView {
     RecyclerView getRecyclerView();
     LinearLayoutManager getLayoutManager();
 
-    void goToUser(int user_id, String nickname);
+    void goToUser(int user_id, String nickname, String assignment, String avatar);
 }

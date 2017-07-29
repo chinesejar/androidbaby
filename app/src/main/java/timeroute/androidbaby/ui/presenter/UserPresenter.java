@@ -137,7 +137,7 @@ public class UserPresenter extends BasePresenter<IUserView> {
             timeLine = feedTimeLine;
             adapter = new FeedListAdapter(context, timeLine, new RecyclerViewClickListener() {
                 @Override
-                public void onAvatarClicked(int user_id, String nickname) {
+                public void onAvatarClicked(int user_id, String nickname, String assignment, String avatar) {
                 }
 
                 @Override

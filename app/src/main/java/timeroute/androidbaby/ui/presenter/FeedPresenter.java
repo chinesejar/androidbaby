@@ -175,8 +175,8 @@ public class FeedPresenter extends BasePresenter<IFeedView> {
             timeLine = feedTimeLine;
             adapter = new FeedListAdapter(context, timeLine, new RecyclerViewClickListener() {
                 @Override
-                public void onAvatarClicked(int user_id, String nickname) {
-                    feedView.goToUser(user_id, nickname);
+                public void onAvatarClicked(int user_id, String nickname, String assignment, String avatar) {
+                    feedView.goToUser(user_id, nickname, assignment, avatar);
                 }
 
                 @Override

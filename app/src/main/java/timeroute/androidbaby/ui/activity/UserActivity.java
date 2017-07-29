@@ -1,18 +1,28 @@
 package timeroute.androidbaby.ui.activity;
 
 import android.content.Intent;
+import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.util.TypedValue;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import butterknife.Bind;
 import timeroute.androidbaby.R;
 import timeroute.androidbaby.ui.base.IBaseActivity;
 import timeroute.androidbaby.ui.presenter.UserPresenter;
+import timeroute.androidbaby.ui.view.AppBarStateChangeListener;
 import timeroute.androidbaby.ui.view.IUserView;
+import timeroute.androidbaby.util.RoundTransform;
 
 public class UserActivity extends IBaseActivity<IUserView, UserPresenter> implements IUserView {
 
@@ -20,6 +30,14 @@ public class UserActivity extends IBaseActivity<IUserView, UserPresenter> implem
     private boolean mIsRequestDataRefresh = false;
     private int user_id;
 
+    @Bind(R.id.collapsing_toolbar)
+    CollapsingToolbarLayout collapsingToolbarLayout;
+    @Bind(R.id.avatar)
+    ImageView imageViewAvatar;
+    @Bind(R.id.nickname)
+    TextView textViewNickname;
+    @Bind(R.id.assignment)
+    TextView textViewAssignment;
     @Bind(R.id.feed_list)
     RecyclerView mRecyclerView;
     @Bind(R.id.swipe_refresh)
@@ -39,13 +57,36 @@ public class UserActivity extends IBaseActivity<IUserView, UserPresenter> implem
         Intent intent = getIntent();
         user_id = intent.getIntExtra("user_id", -1);
         String nickname = intent.getStringExtra("nickname");
-        getSupportActionBar().setTitle(nickname);
+        String assignment = intent.getStringExtra("assignment");
+        String avatar = intent.getStringExtra("avatar");
+        textViewNickname.setText(nickname);
+        textViewAssignment.setText(assignment);
+        collapsingToolbarLayout.setTitle(nickname);
+        Picasso.with(this)
+                .load(avatar)
+                .transform(new RoundTransform())
+                .into(imageViewAvatar);
         if(user_id >= 0){
             Log.d("USER", String.valueOf(user_id));
             setDataRefresh(true);
             mPresenter.getLatestUserFeed(user_id);
             mPresenter.scrollRecycleView();
         }
+
+        mAppBar.addOnOffsetChangedListener(new AppBarStateChangeListener() {
+            @Override
+            public void onStateChanged(AppBarLayout appBarLayout, State state) {
+                if( state == State.EXPANDED ) {
+                    Log.d("STATE", state.name());
+                    collapsingToolbarLayout.setTitleEnabled(false);
+                }else if(state == State.COLLAPSED){
+                    Log.d("STATE", state.name());
+                }else {
+                    Log.d("STATE", state.name());
+                    collapsingToolbarLayout.setTitleEnabled(true);
+                }
+            }
+        });
     }
 
     @Override
