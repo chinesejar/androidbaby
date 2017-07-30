@@ -145,7 +145,18 @@ public class UserPresenter extends BasePresenter<IUserView> {
                 }
 
                 @Override
-                public void onCommentClicked(int feed_id) {
+                public void onCommentClicked(Feed feed) {
+
+                }
+
+                @Override
+                public void onCardViewClick(Feed feed) {
+
+                }
+
+                @Override
+                public void onImageViewClick(int i, String[] images) {
+
                 }
             });
             recyclerView.setAdapter(adapter);

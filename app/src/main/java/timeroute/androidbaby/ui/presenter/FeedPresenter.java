@@ -22,6 +22,7 @@ import timeroute.androidbaby.bean.feed.Feed;
 import timeroute.androidbaby.bean.feed.FeedTimeLine;
 import timeroute.androidbaby.bean.feed.Like;
 import timeroute.androidbaby.support.MyObserver;
+import timeroute.androidbaby.ui.activity.FeedDetailActivity;
 import timeroute.androidbaby.ui.adapter.FeedListAdapter;
 import timeroute.androidbaby.ui.base.BasePresenter;
 import timeroute.androidbaby.ui.view.IFeedView;
@@ -185,8 +186,19 @@ public class FeedPresenter extends BasePresenter<IFeedView> {
                 }
 
                 @Override
-                public void onCommentClicked(int feed_id) {
-                    Log.d("feedid", "feedid:" + feed_id);
+                public void onCommentClicked(Feed feed) {
+                    Log.d("feedid", "feedid:" + feed.getFeedId());
+                    feedView.goToFeedDetail(feed);
+                }
+
+                @Override
+                public void onCardViewClick(Feed feed) {
+                    feedView.goToFeedDetail(feed);
+                }
+
+                @Override
+                public void onImageViewClick(int i, String[] images) {
+                    feedView.goToImageView(i, images);
                 }
             });
             recyclerView.setAdapter(adapter);

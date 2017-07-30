@@ -37,6 +37,7 @@ import butterknife.ButterKnife;
 import timeroute.androidbaby.R;
 import timeroute.androidbaby.bean.feed.Feed;
 import timeroute.androidbaby.bean.feed.FeedTimeLine;
+import timeroute.androidbaby.ui.activity.FeedDetailActivity;
 import timeroute.androidbaby.ui.activity.ImageViewActivity;
 import timeroute.androidbaby.ui.view.RecyclerViewClickListener;
 import timeroute.androidbaby.util.RoundTransform;
@@ -136,6 +137,10 @@ public class FeedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
 
         public void bindItem(Feed feed) {
+            cardView.setOnClickListener(view -> {
+                Log.d(TAG, "card click "+feed.getFeedId());
+                listener.onCardViewClick(feed);
+            });
             loadCirclePic(context, feed.getUser().getAvatar(), avatar);
             avatar.setOnClickListener(view -> {
                 if(listener != null){
@@ -189,10 +194,7 @@ public class FeedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     return false;
                 });
                 horizontalListViewFeedPic.setOnItemClickListener((adapterView, view, i, l) -> {
-                    Intent intent = new Intent(context, ImageViewActivity.class);
-                    intent.putExtra("index", i);
-                    intent.putExtra("images", images);
-                    context.startActivity(intent);
+                    listener.onImageViewClick(i, images);
                 });
             }
             like.setText(String.valueOf(feed.getLikeCount()));
@@ -201,7 +203,7 @@ public class FeedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             });
             comment.setText(String.valueOf(feed.getCommentCount()));
             imageButtonComment.setOnClickListener(view -> {
-                listener.onCommentClicked(feed.getFeedId());
+                listener.onCommentClicked(feed);
             });
             create_time.setText(String.valueOf(feed.getCreate_time()));
         }

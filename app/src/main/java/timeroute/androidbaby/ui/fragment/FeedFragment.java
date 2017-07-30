@@ -7,10 +7,14 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 
 import butterknife.Bind;
 import timeroute.androidbaby.R;
+import timeroute.androidbaby.bean.feed.Feed;
+import timeroute.androidbaby.ui.activity.FeedDetailActivity;
+import timeroute.androidbaby.ui.activity.ImageViewActivity;
 import timeroute.androidbaby.ui.activity.UserActivity;
 import timeroute.androidbaby.ui.base.IBaseFragment;
 import timeroute.androidbaby.ui.presenter.FeedPresenter;
@@ -84,5 +88,20 @@ public class FeedFragment extends IBaseFragment<IFeedView, FeedPresenter> implem
         intent.putExtra("assignment", assignment);
         intent.putExtra("avatar", avatar);
         startActivity(intent);
+    }
+
+    @Override
+    public void goToImageView(int i, String[] images){
+        Intent intent = new Intent(getContext(), ImageViewActivity.class);
+        intent.putExtra("index", i);
+        intent.putExtra("images", images);
+        getContext().startActivity(intent);
+    }
+
+    @Override
+    public void goToFeedDetail(Feed feed){
+        Intent intent = new Intent(getContext(), FeedDetailActivity.class);
+        intent.putExtra("feed", feed);
+        getContext().startActivity(intent);
     }
 }

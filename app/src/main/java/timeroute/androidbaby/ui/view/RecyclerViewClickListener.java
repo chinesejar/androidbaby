@@ -9,5 +9,9 @@ import timeroute.androidbaby.bean.feed.Feed;
 public interface RecyclerViewClickListener {
     void onAvatarClicked(int user_id, String nickname, String assignment, String avatar);
     void onLikeClicked(Feed feed);
-    void onCommentClicked(int feed_id);
+    void onCommentClicked(Feed feed);
+
+    void onCardViewClick(Feed feed);
+
+    void onImageViewClick(int i, String[] images);
 }
