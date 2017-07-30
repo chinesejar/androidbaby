@@ -3,6 +3,7 @@ package timeroute.androidbaby.ui.adapter;
 import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutCompat;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -77,12 +78,16 @@ public class CommentListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     }
 
     class CommentViewHolder extends RecyclerView.ViewHolder {
+        @Bind(R.id.linearLayoutComment)
+        LinearLayout linearLayoutComment;
         @Bind(R.id.avatar)
         ImageView avatar;
         @Bind(R.id.nickname)
         TextView nickname;
         @Bind(R.id.content)
         TextView content;
+        @Bind(R.id.comment_or_reply)
+        TextView comment_or_reply;
         @Bind(R.id.at)
         TextView at;
         @Bind(R.id.create_time)
@@ -91,6 +96,10 @@ public class CommentListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         public CommentViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+
+            ScreenUtil screenUtil = ScreenUtil.instance(context);
+            int screenWidth = screenUtil.getScreenWidth();
+            linearLayoutComment.setLayoutParams(new LinearLayout.LayoutParams(screenWidth, LinearLayout.LayoutParams.WRAP_CONTENT));
         }
 
         public void bindItem(Comment comment) {
@@ -101,12 +110,18 @@ public class CommentListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 }
             });
             nickname.setText(comment.getCreator().getNickname());
-            at.setText(comment.getAt().getNickname());
-            at.setOnClickListener(view -> {
-                if(listener != null){
-                    listener.onAvatarClicked(comment.getAt().getId(), comment.getAt().getNickname(), comment.getAt().getAssignment(), comment.getAt().getAvatar());
-                }
-            });
+            if(comment.getAt() != null){
+                at.setVisibility(View.VISIBLE);
+                comment_or_reply.setText("回复");
+                at.setText(comment.getAt().getNickname());
+                at.setOnClickListener(view -> {
+                    if(listener != null){
+                        listener.onAvatarClicked(comment.getAt().getId(), comment.getAt().getNickname(), comment.getAt().getAssignment(), comment.getAt().getAvatar());
+                    }
+                });
+            }else {
+                comment_or_reply.setText("评论");
+            }
             content.setText(comment.getContent());
             create_time.setText(String.valueOf(comment.getCreate_time()));
         }

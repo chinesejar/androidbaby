@@ -10,15 +10,20 @@
     <include layout="@layout/activity_view_toolbar"/>
 
     <LinearLayout
+        android:id="@+id/feed_detail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
         <include layout="@layout/layout_feed"/>
+
         <timeroute.androidbaby.widget.ABSwipeRefreshLayout
             android:id="@+id/swipe_refresh"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:background="?attr/selectableItemBackground">
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerViewComment"
                 android:layout_width="match_parent"
@@ -27,5 +32,18 @@
             </android.support.v7.widget.RecyclerView>
         </timeroute.androidbaby.widget.ABSwipeRefreshLayout>
     </LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:layout_marginRight="15dp"
+        app:layout_anchor="@id/feed_detail"
+        app:layout_anchorGravity="bottom|end"
+        app:layout_behavior="timeroute.androidbaby.widget.FloatButtonBehavior"
+        app:elevation="6dp"
+        app:backgroundTint="@color/colorPrimaryDark"
+        app:srcCompat="@drawable/ic_mode_comment"/>
 
 </android.support.design.widget.CoordinatorLayout>

@@ -70,12 +70,12 @@ public class Comment implements Serializable {
 
     @Override
     public String toString() {
-        return "Feed{" +
+        return "Comment{" +
                 "feed_id='" + feed_id + '\'' +
                 ", creator=" + creator +
                 ", at=" + at +
                 ", content='" + content + '\'' +
-                ", create—_time='" + create_time +
+                ", create_time='" + create_time +
                 '}';
     }
 }

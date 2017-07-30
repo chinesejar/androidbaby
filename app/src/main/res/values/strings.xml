@@ -40,6 +40,9 @@
     <string name="mine_profile_assignment">签名</string>
     <string name="mine_profile_gender">性别</string>
 
+    <!-- hint -->
+    <string name="comment_hint">开始评论吧～～～</string>
+
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="error_invalid_email">This email address is invalid</string>

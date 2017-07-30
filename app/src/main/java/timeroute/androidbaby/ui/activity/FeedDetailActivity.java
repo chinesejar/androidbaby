@@ -3,17 +3,23 @@ package timeroute.androidbaby.ui.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -76,6 +82,8 @@ public class FeedDetailActivity extends IBaseActivity<IFeedDetailView, FeedDetai
     RecyclerView mRecyclerView;
     @Bind(R.id.swipe_refresh)
     SwipeRefreshLayout mRefreshLayout;
+    @Bind(R.id.fab)
+    FloatingActionButton floatingActionButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +92,10 @@ public class FeedDetailActivity extends IBaseActivity<IFeedDetailView, FeedDetai
     }
 
     private void initView() {
+        mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        setupSwipeRefresh();
+
         Intent intent = getIntent();
         feed = (Feed) intent.getSerializableExtra("feed");
         feed_id = feed.getFeedId();
@@ -102,6 +114,28 @@ public class FeedDetailActivity extends IBaseActivity<IFeedDetailView, FeedDetai
             mPresenter.getLatestComment(feed_id);
             mPresenter.scrollRecycleView();
         }
+        floatingActionButton.setOnClickListener(view -> {
+            openCommentDialog(false);
+        });
+    }
+
+    private void openCommentDialog(boolean isReply) {
+        View view = LayoutInflater.from(this).inflate(R.layout.alertdialog_comment, null);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog alertDialog = builder.setView(view).setCancelable(true).create();
+        Window window = alertDialog.getWindow();
+        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
+        layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
+        layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        window.setAttributes(layoutParams);
+        alertDialog.setContentView(view);
+        TextView comment_or_reply = (TextView)view.findViewById(R.id.comment_or_reply);
+        if(isReply){
+            comment_or_reply.setText("回复");
+        }else {
+            comment_or_reply.setText("评论");
+        }
+        alertDialog.show();
     }
 
     @Override

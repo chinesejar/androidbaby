@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context="timeroute.androidbaby.ui.activity.PostActivity">
 
@@ -12,12 +13,17 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_margin="10dp"
+        app:cardPreventCornerOverlap="true"
+        app:cardUseCompatPadding="true"
+        app:contentPadding="8dp"
+        app:cardElevation="3dp"
         android:padding="10dp">
 
         <EditText
             android:id="@+id/editTextContent"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="match_parent"
+            android:background="@null"
             android:layout_margin="10dp"
             android:gravity="top"
             android:hint="@string/post_hint"

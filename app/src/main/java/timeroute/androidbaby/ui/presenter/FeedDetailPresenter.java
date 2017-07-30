@@ -77,13 +77,13 @@ public class FeedDetailPresenter extends BasePresenter<IFeedDetailView> {
                         @Override
                         public void onNext(CommentTimeLine commentTimeLine) {
                             Log.d(TAG, commentTimeLine.toString());
-                            disPlayFeedList(commentTimeLine, context, feedDetailView, mRecyclerView);
+                            disPlayCommentList(commentTimeLine, context, feedDetailView, mRecyclerView);
                         }
                     });
         }
     }
 
-    private void disPlayFeedList(CommentTimeLine commentTimeLine, Context context, IFeedDetailView feedDetailView, RecyclerView recyclerView) {
+    private void disPlayCommentList(CommentTimeLine commentTimeLine, Context context, IFeedDetailView feedDetailView, RecyclerView recyclerView) {
         Log.d(TAG, "next: "+next);
         if (isLoadMore) {
             if (next == null) {

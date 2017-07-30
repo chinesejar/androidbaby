@@ -11,7 +11,7 @@ public class CommentTimeLine implements Serializable {
 
     private String count;
     private String next;
-    private List<Comment> comments;
+    private List<Comment> results;
 
     public String getCount() {
         return count;
@@ -26,15 +26,15 @@ public class CommentTimeLine implements Serializable {
     }
 
     public List<Comment> getComments() {
-        return comments;
+        return results;
     }
 
     @Override
     public String toString() {
-        return "FeedTimeLine{" +
+        return "CommentTimeLine{" +
                 "count='" + count + '\'' +
                 ",next='" + next + '\'' +
-                ",comments=" + comments +
+                ",results=" + results +
                 "}";
     }
 }
