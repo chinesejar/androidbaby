@@ -21,6 +21,7 @@ import timeroute.androidbaby.api.exception.ExceptionEngine;
 import timeroute.androidbaby.bean.feed.Feed;
 import timeroute.androidbaby.bean.feed.FeedTimeLine;
 import timeroute.androidbaby.bean.feed.Like;
+import timeroute.androidbaby.bean.user.Profile;
 import timeroute.androidbaby.support.MyObserver;
 import timeroute.androidbaby.ui.activity.FeedDetailActivity;
 import timeroute.androidbaby.ui.adapter.FeedListAdapter;
@@ -199,6 +200,11 @@ public class FeedPresenter extends BasePresenter<IFeedView> {
                 @Override
                 public void onImageViewClick(int i, String[] images) {
                     feedView.goToImageView(i, images);
+                }
+
+                @Override
+                public void onAtClicked(Profile profile) {
+
                 }
             });
             recyclerView.setAdapter(adapter);

@@ -1,15 +1,10 @@
 package timeroute.androidbaby.ui.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutCompat;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -17,22 +12,15 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import timeroute.androidbaby.R;
 import timeroute.androidbaby.bean.feed.Comment;
 import timeroute.androidbaby.bean.feed.CommentTimeLine;
-import timeroute.androidbaby.bean.feed.Feed;
-import timeroute.androidbaby.bean.feed.FeedTimeLine;
+import timeroute.androidbaby.ui.view.IFeedDetailView;
 import timeroute.androidbaby.ui.view.RecyclerViewClickListener;
 import timeroute.androidbaby.util.RoundTransform;
 import timeroute.androidbaby.util.ScreenUtil;
-import timeroute.androidbaby.widget.HorizontalListView;
 
 /**
  * Created by chinesejar on 17-7-8.
@@ -52,7 +40,8 @@ public class CommentListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     public static final int LOAD_END = 3;
     private static final int TYPE_FOOTER = -1;
 
-    public CommentListAdapter(Context context, CommentTimeLine commentTimeLine) {
+    public CommentListAdapter(Context context, CommentTimeLine commentTimeLine, RecyclerViewClickListener listener) {
+        this.listener = listener;
         this.context = context;
         this.commentTimeLine = commentTimeLine;
     }
@@ -124,6 +113,9 @@ public class CommentListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             }
             content.setText(comment.getContent());
             create_time.setText(String.valueOf(comment.getCreate_time()));
+            linearLayoutComment.setOnClickListener(view -> {
+                listener.onAtClicked(comment.getAt());
+            });
         }
     }
 

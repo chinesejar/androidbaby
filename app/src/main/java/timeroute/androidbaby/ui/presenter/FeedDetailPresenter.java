@@ -15,6 +15,8 @@ import timeroute.androidbaby.api.exception.ApiException;
 import timeroute.androidbaby.api.exception.ExceptionEngine;
 import timeroute.androidbaby.bean.feed.Comment;
 import timeroute.androidbaby.bean.feed.CommentTimeLine;
+import timeroute.androidbaby.bean.feed.Feed;
+import timeroute.androidbaby.bean.user.Profile;
 import timeroute.androidbaby.support.MyObserver;
 import timeroute.androidbaby.ui.adapter.CommentListAdapter;
 import timeroute.androidbaby.ui.base.BasePresenter;
@@ -97,7 +99,37 @@ public class FeedDetailPresenter extends BasePresenter<IFeedDetailView> {
             adapter.notifyDataSetChanged();
         } else {
             timeLine = commentTimeLine;
-            adapter = new CommentListAdapter(context, timeLine);
+            adapter = new CommentListAdapter(context, timeLine, new RecyclerViewClickListener() {
+                @Override
+                public void onAvatarClicked(int user_id, String nickname, String assignment, String avatar) {
+
+                }
+
+                @Override
+                public void onLikeClicked(Feed feed) {
+
+                }
+
+                @Override
+                public void onCommentClicked(Feed feed) {
+
+                }
+
+                @Override
+                public void onCardViewClick(Feed feed) {
+
+                }
+
+                @Override
+                public void onImageViewClick(int i, String[] images) {
+
+                }
+
+                @Override
+                public void onAtClicked(Profile profile) {
+                    feedDetailView.openCommentDialog(true, profile);
+                }
+            });
             recyclerView.setAdapter(adapter);
             new Handler().postDelayed(() -> {
                 adapter.notifyDataSetChanged();

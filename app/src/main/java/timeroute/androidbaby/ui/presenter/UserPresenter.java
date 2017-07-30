@@ -16,6 +16,7 @@ import timeroute.androidbaby.api.exception.ApiException;
 import timeroute.androidbaby.api.exception.ExceptionEngine;
 import timeroute.androidbaby.bean.feed.Feed;
 import timeroute.androidbaby.bean.feed.FeedTimeLine;
+import timeroute.androidbaby.bean.user.Profile;
 import timeroute.androidbaby.support.MyObserver;
 import timeroute.androidbaby.ui.adapter.FeedListAdapter;
 import timeroute.androidbaby.ui.base.BasePresenter;
@@ -156,6 +157,11 @@ public class UserPresenter extends BasePresenter<IUserView> {
 
                 @Override
                 public void onImageViewClick(int i, String[] images) {
+
+                }
+
+                @Override
+                public void onAtClicked(Profile profile) {
 
                 }
             });

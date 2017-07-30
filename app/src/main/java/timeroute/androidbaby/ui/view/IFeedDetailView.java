@@ -4,6 +4,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import timeroute.androidbaby.bean.feed.Feed;
+import timeroute.androidbaby.bean.user.Profile;
 
 /**
  * Created by chinesejar on 17-7-14.
@@ -17,4 +18,6 @@ public interface IFeedDetailView {
     LinearLayoutManager getLayoutManager();
 
     int getFeedId();
+
+    void openCommentDialog(boolean isReply, Profile profile);
 }

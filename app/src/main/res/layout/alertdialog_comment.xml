@@ -20,7 +20,6 @@
         android:layout_height="150dp"
         app:cardPreventCornerOverlap="true"
         app:cardUseCompatPadding="true"
-        app:contentPadding="8dp"
         app:cardElevation="3dp">
 
         <EditText

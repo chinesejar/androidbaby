@@ -32,6 +32,7 @@ import butterknife.Bind;
 import timeroute.androidbaby.R;
 import timeroute.androidbaby.bean.feed.Feed;
 import timeroute.androidbaby.bean.feed.FeedPic;
+import timeroute.androidbaby.bean.user.Profile;
 import timeroute.androidbaby.ui.adapter.CommentListAdapter;
 import timeroute.androidbaby.ui.adapter.FeedPicAdapter;
 import timeroute.androidbaby.ui.base.IBaseActivity;
@@ -115,11 +116,12 @@ public class FeedDetailActivity extends IBaseActivity<IFeedDetailView, FeedDetai
             mPresenter.scrollRecycleView();
         }
         floatingActionButton.setOnClickListener(view -> {
-            openCommentDialog(false);
+            openCommentDialog(false, (Profile) null);
         });
     }
 
-    private void openCommentDialog(boolean isReply) {
+    @Override
+    public void openCommentDialog(boolean isReply, Profile profile) {
         View view = LayoutInflater.from(this).inflate(R.layout.alertdialog_comment, null);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         AlertDialog alertDialog = builder.setView(view).setCancelable(true).create();

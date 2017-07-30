@@ -1,6 +1,7 @@
 package timeroute.androidbaby.ui.view;
 
 import timeroute.androidbaby.bean.feed.Feed;
+import timeroute.androidbaby.bean.user.Profile;
 
 /**
  * Created by chinesejar on 17-7-24.
@@ -14,4 +15,6 @@ public interface RecyclerViewClickListener {
     void onCardViewClick(Feed feed);
 
     void onImageViewClick(int i, String[] images);
+
+    void onAtClicked(Profile profile);
 }
