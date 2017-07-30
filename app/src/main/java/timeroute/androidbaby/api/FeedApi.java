@@ -11,6 +11,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.Response;
 import rx.Observable;
+import timeroute.androidbaby.bean.feed.CommentTimeLine;
 import timeroute.androidbaby.bean.feed.Feed;
 import timeroute.androidbaby.bean.feed.FeedTimeLine;
 import timeroute.androidbaby.bean.feed.Like;
@@ -33,6 +34,9 @@ public interface FeedApi {
 
     @GET("feed/")
     Observable<FeedTimeLine> getNextUserFeed(@Header("Authorization") String authorization, @Query("page") String page, @Query("user") int user_id);
+
+    @GET("comment/")
+    Observable<CommentTimeLine> getLatestComment(@Header("Authorization") String authorization, @Query("feed") int feed_id);
 
     @GET("feed/{id}")
     Observable<Feed> getDetailFeed(@Header("Authorization") String authorization, @Path("id") String id);

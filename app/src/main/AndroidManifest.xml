@@ -63,7 +63,9 @@
         <activity
             android:name=".ui.activity.ImageViewActivity"
             android:theme="@style/MainTheme" />
-        <activity android:name=".ui.activity.FeedDetailActivity"></activity>
+        <activity android:name=".ui.activity.FeedDetailActivity"
+            android:label=""
+            android:theme="@style/MainTheme"></activity>
     </application>
 
 </manifest>

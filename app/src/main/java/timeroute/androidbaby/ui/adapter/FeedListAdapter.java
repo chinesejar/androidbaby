@@ -105,12 +105,12 @@ public class FeedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     class FeedViewHolder extends RecyclerView.ViewHolder {
-        @Bind(R.id.card_feeds)
+        @Bind(R.id.card_feed)
         CardView cardView;
         @Bind(R.id.avatar)
         ImageView avatar;
-        @Bind(R.id.username)
-        TextView username;
+        @Bind(R.id.nickname)
+        TextView nickname;
         @Bind(R.id.content)
         TextView content;
         @Bind(R.id.feed_pic)
@@ -147,7 +147,7 @@ public class FeedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     listener.onAvatarClicked(feed.getUser().getId(), feed.getUser().getNickname(), feed.getUser().getAssignment(), feed.getUser().getAvatar());
                 }
             });
-            username.setText(feed.getUser().getNickname());
+            nickname.setText(feed.getUser().getNickname());
             content.setText(feed.getContent());
             if (feed.getFeedPic().size() > 0) {
                 horizontalListViewFeedPic.setVisibility(View.VISIBLE);
