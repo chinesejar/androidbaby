@@ -114,7 +114,7 @@ public class CommentListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             content.setText(comment.getContent());
             create_time.setText(String.valueOf(comment.getCreate_time()));
             linearLayoutComment.setOnClickListener(view -> {
-                listener.onAtClicked(comment.getAt());
+                listener.onAtClicked(comment.getCreator());
             });
         }
     }

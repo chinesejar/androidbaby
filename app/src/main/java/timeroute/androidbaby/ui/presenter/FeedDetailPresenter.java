@@ -4,10 +4,13 @@ import android.content.Context;
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
 import android.util.Log;
 import android.widget.Toast;
 
+import retrofit2.Response;
 import rx.Observable;
+import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
@@ -80,6 +83,54 @@ public class FeedDetailPresenter extends BasePresenter<IFeedDetailView> {
                         public void onNext(CommentTimeLine commentTimeLine) {
                             Log.d(TAG, commentTimeLine.toString());
                             disPlayCommentList(commentTimeLine, context, feedDetailView, mRecyclerView);
+                        }
+                    });
+        }
+    }
+
+    public void postComment(int feed_id, int user_id, String content) {
+        feedDetailView = getView();
+        if(feedDetailView != null){
+            mRecyclerView = feedDetailView.getRecyclerView();
+            layoutManager = feedDetailView.getLayoutManager();
+
+            Comment comment = new Comment();
+            Feed feed = new Feed();
+            feed.setFeedId(feed_id);
+            comment.setFeedId(feed);
+            comment.setContent(content);
+            if(user_id != -1){
+                Profile at = new Profile();
+                at.setId(user_id);
+                comment.setAt(at);
+            }
+            Log.d(TAG, comment.toString());
+            feedApi.postComment("JWT "+token, comment)
+                    .onErrorResumeNext(new Func1<Throwable, Observable<? extends Comment>>() {
+                        @Override
+                        public Observable<? extends Comment> call(Throwable throwable) {
+                            return Observable.error(ExceptionEngine.handleException(throwable));
+                        }
+                    })
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new MyObserver<Comment>() {
+                        @Override
+                        protected void onError(ApiException ex) {
+                            Toast.makeText(context, ex.getDisplayMessage(), Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onCompleted() {
+
+                        }
+
+                        @Override
+                        public void onNext(Comment comment) {
+                            Log.d(TAG, comment.toString());
+                            timeLine.getComments().add(comment);
+                            adapter.notifyDataSetChanged();
+                            Toast.makeText(context, "评论成功", Toast.LENGTH_SHORT).show();
                         }
                     });
         }

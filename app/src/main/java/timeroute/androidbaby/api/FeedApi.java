@@ -11,6 +11,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.Response;
 import rx.Observable;
+import timeroute.androidbaby.bean.feed.Comment;
 import timeroute.androidbaby.bean.feed.CommentTimeLine;
 import timeroute.androidbaby.bean.feed.Feed;
 import timeroute.androidbaby.bean.feed.FeedTimeLine;
@@ -49,4 +50,7 @@ public interface FeedApi {
 
     @POST("like/")
     Observable<Response<Object>> postLike(@Header("Authorization") String authorization, @Body Like like);
+
+    @POST("comment/")
+    Observable<Comment> postComment(@Header("Authorization") String authorization, @Body Comment comment);
 }

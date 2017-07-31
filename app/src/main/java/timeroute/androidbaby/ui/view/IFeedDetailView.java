@@ -3,6 +3,7 @@ package timeroute.androidbaby.ui.view;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import timeroute.androidbaby.bean.feed.Comment;
 import timeroute.androidbaby.bean.feed.Feed;
 import timeroute.androidbaby.bean.user.Profile;
 

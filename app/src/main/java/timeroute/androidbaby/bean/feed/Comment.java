@@ -60,12 +60,16 @@ public class Comment implements Serializable {
         }
     }
 
-    public void setFeedId(int id) {
+    public void setFeedId(Feed feed_id) {
         this.feed_id = feed_id;
     }
 
     public void setContent(String content){
         this.content = content;
+    }
+
+    public void setAt(Profile at) {
+        this.at = at;
     }
 
     @Override

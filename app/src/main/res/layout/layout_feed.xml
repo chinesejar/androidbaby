@@ -67,7 +67,7 @@
 
             <timeroute.androidbaby.widget.HorizontalListView
                 android:id="@+id/feed_pic"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:paddingBottom="10dp"
                 android:layout_height="200dp"
                 android:layout_gravity="center"

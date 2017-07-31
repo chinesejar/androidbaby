@@ -1,12 +1,10 @@
 package timeroute.androidbaby.ui.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -16,6 +14,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -30,10 +30,10 @@ import java.util.Map;
 
 import butterknife.Bind;
 import timeroute.androidbaby.R;
+import timeroute.androidbaby.bean.feed.Comment;
 import timeroute.androidbaby.bean.feed.Feed;
 import timeroute.androidbaby.bean.feed.FeedPic;
 import timeroute.androidbaby.bean.user.Profile;
-import timeroute.androidbaby.ui.adapter.CommentListAdapter;
 import timeroute.androidbaby.ui.adapter.FeedPicAdapter;
 import timeroute.androidbaby.ui.base.IBaseActivity;
 import timeroute.androidbaby.ui.presenter.FeedDetailPresenter;
@@ -59,8 +59,6 @@ public class FeedDetailActivity extends IBaseActivity<IFeedDetailView, FeedDetai
     private float upY;
     private boolean isUpOrDown = true;
 
-    @Bind(R.id.card_feed)
-    CardView cardView;
     @Bind(R.id.avatar)
     ImageView avatar;
     @Bind(R.id.nickname)
@@ -132,11 +130,21 @@ public class FeedDetailActivity extends IBaseActivity<IFeedDetailView, FeedDetai
         window.setAttributes(layoutParams);
         alertDialog.setContentView(view);
         TextView comment_or_reply = (TextView)view.findViewById(R.id.comment_or_reply);
+        EditText editTextContent = (EditText) view.findViewById(R.id.content);
+        Button buttonSure = (Button) view.findViewById(R.id.sure);
+        Button buttonCancel = (Button)view.findViewById(R.id.cancel);
         if(isReply){
             comment_or_reply.setText("回复");
         }else {
             comment_or_reply.setText("评论");
         }
+        buttonCancel.setOnClickListener(view1 -> {
+            alertDialog.dismiss();
+        });
+        buttonSure.setOnClickListener(view1 -> {
+            mPresenter.postComment(feed_id, profile!=null?profile.getId():-1, editTextContent.getText().toString());
+            alertDialog.dismiss();
+        });
         alertDialog.show();
     }
 
