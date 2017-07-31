@@ -204,7 +204,6 @@ public class FeedPresenter extends BasePresenter<IFeedView> {
 
                 @Override
                 public void onAtClicked(Profile profile) {
-
                 }
             });
             recyclerView.setAdapter(adapter);

@@ -20,6 +20,7 @@ import com.squareup.picasso.Picasso;
 
 import butterknife.Bind;
 import timeroute.androidbaby.R;
+import timeroute.androidbaby.bean.feed.Feed;
 import timeroute.androidbaby.ui.base.IBaseActivity;
 import timeroute.androidbaby.ui.presenter.UserPresenter;
 import timeroute.androidbaby.ui.view.AppBarStateChangeListener;
@@ -159,6 +160,21 @@ public class UserActivity extends IBaseActivity<IUserView, UserPresenter> implem
     @Override
     public int getUserId() {
         return user_id;
+    }
+
+    @Override
+    public void goToImageView(int i, String[] images){
+        Intent intent = new Intent(this, ImageViewActivity.class);
+        intent.putExtra("index", i);
+        intent.putExtra("images", images);
+        startActivity(intent);
+    }
+
+    @Override
+    public void goToFeedDetail(Feed feed) {
+        Intent intent = new Intent(this, FeedDetailActivity.class);
+        intent.putExtra("feed", feed);
+        startActivity(intent);
     }
 
 }

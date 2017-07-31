@@ -8,7 +8,9 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.Toast;
 
+import retrofit2.Response;
 import rx.Observable;
+import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
@@ -16,6 +18,7 @@ import timeroute.androidbaby.api.exception.ApiException;
 import timeroute.androidbaby.api.exception.ExceptionEngine;
 import timeroute.androidbaby.bean.feed.Feed;
 import timeroute.androidbaby.bean.feed.FeedTimeLine;
+import timeroute.androidbaby.bean.feed.Like;
 import timeroute.androidbaby.bean.user.Profile;
 import timeroute.androidbaby.support.MyObserver;
 import timeroute.androidbaby.ui.adapter.FeedListAdapter;
@@ -122,6 +125,39 @@ public class UserPresenter extends BasePresenter<IUserView> {
         }
     }
 
+    public void postLike(Feed feed){
+        userView = getView();
+        if(userView!=null){
+            mRecyclerView = userView.getRecyclerView();
+            layoutManager = userView.getLayoutManager();
+            Like like = new Like();
+            like.setFeed_id(feed.getFeedId());
+            feedApi.postLike("JWT "+ token, like)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Subscriber<Response<Object>>() {
+                        @Override
+                        public void onCompleted() {
+
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+
+                        }
+
+                        @Override
+                        public void onNext(Response<Object> objectResponse) {
+                            if(objectResponse.code() == 201){
+                                adapter.updateLikeStatus(feed);
+                            }else if(objectResponse.code() == 200){
+                                Toast.makeText(context, "已经点过赞了", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+        }
+    }
+
     private void disPlayFeedList(FeedTimeLine feedTimeLine, Context context, IUserView userView, RecyclerView recyclerView) {
         Log.d(TAG, "next: "+next);
         if (isLoadMore) {
@@ -143,26 +179,27 @@ public class UserPresenter extends BasePresenter<IUserView> {
 
                 @Override
                 public void onLikeClicked(Feed feed) {
+                    postLike(feed);
                 }
 
                 @Override
                 public void onCommentClicked(Feed feed) {
-
+                    Log.d("feedid", "feedid:" + feed.getFeedId());
+                    userView.goToFeedDetail(feed);
                 }
 
                 @Override
                 public void onCardViewClick(Feed feed) {
-
+                    userView.goToFeedDetail(feed);
                 }
 
                 @Override
                 public void onImageViewClick(int i, String[] images) {
-
+                    userView.goToImageView(i, images);
                 }
 
                 @Override
                 public void onAtClicked(Profile profile) {
-
                 }
             });
             recyclerView.setAdapter(adapter);
