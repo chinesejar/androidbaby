@@ -9,6 +9,11 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
 
+    <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+
     <application
         android:name=".MyApp"
         android:allowBackup="true"
@@ -63,9 +68,13 @@
         <activity
             android:name=".ui.activity.ImageViewActivity"
             android:theme="@style/MainTheme" />
-        <activity android:name=".ui.activity.FeedDetailActivity"
+        <activity
+            android:name=".ui.activity.FeedDetailActivity"
             android:label=""
-            android:theme="@style/MainTheme"></activity>
+            android:theme="@style/MainTheme" />
+        <activity
+            android:name=".RegisterActivity"
+            android:label="@string/title_activity_register"></activity>
     </application>
 
 </manifest>

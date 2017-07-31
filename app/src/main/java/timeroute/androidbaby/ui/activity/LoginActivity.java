@@ -35,6 +35,8 @@ public class LoginActivity extends IBaseActivity<ILoginView, LoginPresenter> imp
     EditText editTextPassword;
     @Bind(R.id.username_sign_in_button)
     Button buttonLogin;
+    @Bind(R.id.register_button)
+    Button buttonRegister;
 
     @Override
     protected LoginPresenter createPresenter() {
@@ -56,6 +58,13 @@ public class LoginActivity extends IBaseActivity<ILoginView, LoginPresenter> imp
         buttonLogin.setOnClickListener(view -> {
             attemptLogin();
         });
+        buttonRegister.setOnClickListener(view -> {
+            goToRegister();
+        });
+    }
+
+    private void goToRegister() {
+        startActivity(new Intent(this, RegisterActivity.class));
     }
 
 
