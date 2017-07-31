@@ -38,7 +38,7 @@
                         android:id="@+id/avatar"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:src="@drawable/ic_face" />
+                        app:srcCompat="@drawable/ic_face" />
 
                     <TextView
                         android:id="@+id/nickname"
@@ -90,8 +90,8 @@
                         android:id="@+id/imageButtonLike"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/likecomment"
-                        android:src="@drawable/ic_thumb_up" />
+                        android:background="@drawable/like_comment_bg"
+                        app:srcCompat="@drawable/ic_thumb_up" />
 
                     <TextView
                         android:id="@+id/like"
@@ -112,8 +112,8 @@
                         android:id="@+id/imageButtonComment"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/likecomment"
-                        android:src="@drawable/ic_comment" />
+                        android:background="@drawable/like_comment_bg"
+                        app:srcCompat="@drawable/ic_comment" />
 
                     <TextView
                         android:id="@+id/comment"

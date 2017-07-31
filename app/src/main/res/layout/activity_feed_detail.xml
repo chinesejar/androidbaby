@@ -89,7 +89,7 @@
                         android:id="@+id/imageButtonLike"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/likecomment"
+                        android:background="@drawable/like_comment_bg"
                         app:srcCompat="@drawable/ic_thumb_up" />
 
                     <TextView
@@ -111,7 +111,7 @@
                         android:id="@+id/imageButtonComment"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/likecomment"
+                        android:background="@drawable/like_comment_bg"
                         app:srcCompat="@drawable/ic_comment" />
 
                     <TextView
@@ -145,6 +145,7 @@
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="15dp"
         app:layout_anchor="@id/feed_detail"
         app:layout_anchorGravity="bottom|end"
         app:layout_behavior="timeroute.androidbaby.widget.FloatButtonBehavior"
