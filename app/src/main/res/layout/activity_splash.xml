@@ -6,6 +6,7 @@
 
     <timeroute.androidbaby.widget.SplashView
         android:id="@+id/splash_view"
+        class="timeroute.androidbaby.widget.SplashView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:duration="500"

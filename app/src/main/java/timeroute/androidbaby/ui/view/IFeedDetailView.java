@@ -21,4 +21,6 @@ public interface IFeedDetailView {
     int getFeedId();
 
     void openCommentDialog(boolean isReply, Profile profile);
+
+    void updateLikeStatus();
 }

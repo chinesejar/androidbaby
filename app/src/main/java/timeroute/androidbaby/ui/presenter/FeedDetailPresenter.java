@@ -11,6 +11,7 @@ import android.widget.Toast;
 import retrofit2.Response;
 import rx.Observable;
 import rx.Observer;
+import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
@@ -19,6 +20,7 @@ import timeroute.androidbaby.api.exception.ExceptionEngine;
 import timeroute.androidbaby.bean.feed.Comment;
 import timeroute.androidbaby.bean.feed.CommentTimeLine;
 import timeroute.androidbaby.bean.feed.Feed;
+import timeroute.androidbaby.bean.feed.Like;
 import timeroute.androidbaby.bean.user.Profile;
 import timeroute.androidbaby.support.MyObserver;
 import timeroute.androidbaby.ui.adapter.CommentListAdapter;
@@ -83,6 +85,40 @@ public class FeedDetailPresenter extends BasePresenter<IFeedDetailView> {
                         public void onNext(CommentTimeLine commentTimeLine) {
                             Log.d(TAG, commentTimeLine.toString());
                             disPlayCommentList(commentTimeLine, context, feedDetailView, mRecyclerView);
+                        }
+                    });
+        }
+    }
+
+    public void postLike(Feed feed){
+        feedDetailView = getView();
+        if(feedDetailView!=null){
+            mRecyclerView = feedDetailView.getRecyclerView();
+            layoutManager = feedDetailView.getLayoutManager();
+            Like like = new Like();
+            like.setFeed_id(feed.getFeedId());
+            feedApi.postLike("JWT "+ token, like)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Subscriber<Response<Object>>() {
+                        @Override
+                        public void onCompleted() {
+
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+
+                        }
+
+                        @Override
+                        public void onNext(Response<Object> objectResponse) {
+                            if(objectResponse.code() == 201){
+                                feed.setLike_count(feed.getLikeCount()+1);
+                                feedDetailView.updateLikeStatus();
+                            }else if(objectResponse.code() == 200){
+                                Toast.makeText(context, "已经点过赞了", Toast.LENGTH_SHORT).show();
+                            }
                         }
                     });
         }
@@ -158,7 +194,6 @@ public class FeedDetailPresenter extends BasePresenter<IFeedDetailView> {
 
                 @Override
                 public void onLikeClicked(Feed feed) {
-
                 }
 
                 @Override

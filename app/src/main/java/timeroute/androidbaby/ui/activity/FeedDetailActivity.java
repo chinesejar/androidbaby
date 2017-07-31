@@ -113,6 +113,9 @@ public class FeedDetailActivity extends IBaseActivity<IFeedDetailView, FeedDetai
             mPresenter.getLatestComment(feed_id);
             mPresenter.scrollRecycleView();
         }
+        imageButtonLike.setOnClickListener(view -> {
+            mPresenter.postLike(feed);
+        });
         floatingActionButton.setOnClickListener(view -> {
             openCommentDialog(false, (Profile) null);
         });
@@ -146,6 +149,12 @@ public class FeedDetailActivity extends IBaseActivity<IFeedDetailView, FeedDetai
             alertDialog.dismiss();
         });
         alertDialog.show();
+    }
+
+    @Override
+    public void updateLikeStatus() {
+        like.setText(String.valueOf(Integer.valueOf(like.getText().toString())+1));
+        Toast.makeText(this, "点赞成功", Toast.LENGTH_SHORT).show();
     }
 
     @Override
