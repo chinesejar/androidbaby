@@ -31,10 +31,10 @@ public class LoginPresenter extends BasePresenter<ILoginView> {
         this.context = context;
     }
 
-    public void getToken(String username, String password){
+    public void getToken(String email, String password){
         loginView = getView();
         User user = new User();
-        user.setUsername(username);
+        user.setEmail(email);
         user.setPassword(password);
         if(loginView != null){
             userApi.getToken(user)
@@ -60,7 +60,7 @@ public class LoginPresenter extends BasePresenter<ILoginView> {
 
                 @Override
                 public void onNext(UserToken userToken) {
-                    displayToken(userToken, username, password);
+                    displayToken(userToken, email, password);
                 }
             });
         }

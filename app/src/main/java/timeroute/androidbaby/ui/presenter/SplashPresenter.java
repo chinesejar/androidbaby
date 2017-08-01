@@ -33,10 +33,10 @@ public class SplashPresenter extends BasePresenter<ISplashView> {
         this.context = context;
     }
 
-    public void getToken(String username, String password){
+    public void getToken(String email, String password){
         splashView = getView();
         User user = new User();
-        user.setUsername(username);
+        user.setEmail(email);
         user.setPassword(password);
         if(splashView != null){
             userApi.getToken(user)
@@ -61,7 +61,7 @@ public class SplashPresenter extends BasePresenter<ISplashView> {
 
                         @Override
                         public void onNext(UserToken userToken) {
-                            displayToken(userToken, username, password);
+                            displayToken(userToken, email, password);
                         }
                     });
         }
