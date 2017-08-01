@@ -30,6 +30,7 @@ import butterknife.Bind;
 import timeroute.androidbaby.R;
 import timeroute.androidbaby.ui.activity.MineProfileActivity;
 import timeroute.androidbaby.ui.activity.SettingActivity;
+import timeroute.androidbaby.ui.activity.UserActivity;
 import timeroute.androidbaby.ui.base.IBaseFragment;
 import timeroute.androidbaby.ui.presenter.MinePresenter;
 import timeroute.androidbaby.ui.view.IMineView;
@@ -47,6 +48,7 @@ public class MineFragment extends IBaseFragment<IMineView, MinePresenter> implem
     private RxPermissions rxPermissions;
 
     private LinearLayoutManager mLayoutManager;
+    private int user_id;
     private String avatar;
     private String nickname;
     private String assignment;
@@ -93,6 +95,10 @@ public class MineFragment extends IBaseFragment<IMineView, MinePresenter> implem
     @Override
     protected void initView(View rootView) {
         sharedPreferenceUtils = new SharedPreferenceUtils(getContext(), "user");
+        user_id = sharedPreferenceUtils.getInt("id");
+        nickname = sharedPreferenceUtils.getString("nickname");
+        assignment = sharedPreferenceUtils.getString("assignment");
+        avatar = sharedPreferenceUtils.getString("avatar");
         mLayoutManager = new LinearLayoutManager(getContext());
 
         rxPermissions = new RxPermissions(getActivity());
@@ -106,6 +112,9 @@ public class MineFragment extends IBaseFragment<IMineView, MinePresenter> implem
                             Toast.makeText(getActivity(), "未开启权限", Toast.LENGTH_SHORT).show();
                         }
                     });
+        });
+        feed_layout.setOnClickListener(view -> {
+            goToUser(user_id, nickname, assignment, avatar);
         });
         profile_layout.setOnClickListener(view -> {
             Intent intent = new Intent(getActivity(), MineProfileActivity.class);
@@ -256,5 +265,15 @@ public class MineFragment extends IBaseFragment<IMineView, MinePresenter> implem
     @Override
     public File getAvatar() {
         return mImageFile;
+    }
+
+    @Override
+    public void goToUser(int user_id, String nickname, String assignment, String avatar) {
+        Intent intent = new Intent(getContext(), UserActivity.class);
+        intent.putExtra("user_id", user_id);
+        intent.putExtra("nickname", nickname);
+        intent.putExtra("assignment", assignment);
+        intent.putExtra("avatar", avatar);
+        startActivity(intent);
     }
 }

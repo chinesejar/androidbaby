@@ -1,5 +1,7 @@
 package timeroute.androidbaby.ui.activity;
 
+import android.Manifest;
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -9,6 +11,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.Toast;
+
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.util.ArrayList;
 
@@ -25,6 +30,7 @@ import timeroute.androidbaby.widget.TouchImageView;
 public class ImageViewActivity extends IBaseActivity<IImageViewView, ImageViewPresenter> implements IImageViewView {
 
     private static final String TAG = "ImageViewActivity";
+    private RxPermissions rxPermissions;
     private ArrayList<String> arrayImages;
     private ViewPagerImageAdapter imageAdapter;
     private ImageViewClickListener imageViewClickListener;
@@ -42,6 +48,7 @@ public class ImageViewActivity extends IBaseActivity<IImageViewView, ImageViewPr
     }
 
     private void initView() {
+        rxPermissions = new RxPermissions(this);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             WindowManager.LayoutParams localLayoutParams = getWindow().getAttributes();
             localLayoutParams.flags = (WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | localLayoutParams.flags);
@@ -84,13 +91,21 @@ public class ImageViewActivity extends IBaseActivity<IImageViewView, ImageViewPr
         return true;
     }
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.action_download:
                 ImageView imageView = (TouchImageView) imageAdapter.getPrimaryItem().findViewById(R.id.image);
-                mPresenter.saveImage(imageView.getDrawable());
+                rxPermissions.request(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        .subscribe(granted -> {
+                            if(granted){
+                                mPresenter.saveImage(imageView.getDrawable());
+                            }else {
+                                Toast.makeText(this, "未开启权限", Toast.LENGTH_SHORT).show();
+                            }
+                        });
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

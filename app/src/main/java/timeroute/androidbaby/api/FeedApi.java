@@ -36,11 +36,11 @@ public interface FeedApi {
     @GET("feed/")
     Observable<FeedTimeLine> getNextUserFeed(@Header("Authorization") String authorization, @Query("page") String page, @Query("user") int user_id);
 
+    @GET("feed/")
+    Observable<FeedTimeLine> getHotFeed(@Header("Authorization") String authorization, @Query("order_by") String order_by);
+
     @GET("comment/")
     Observable<CommentTimeLine> getLatestComment(@Header("Authorization") String authorization, @Query("feed") int feed_id);
-
-    @GET("feed/{id}")
-    Observable<Feed> getDetailFeed(@Header("Authorization") String authorization, @Path("id") String id);
 
     @GET("feed_token/")
     Observable<List<ImageToken>> getImageToken(@Header("Authorization") String authorization, @Query("count") int count);

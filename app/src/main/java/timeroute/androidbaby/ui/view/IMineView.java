@@ -9,4 +9,5 @@ import java.io.File;
 public interface IMineView {
     void setAvatar(String url);
     File getAvatar();
+    void goToUser(int user_id, String nickname, String assignment, String avatar);
 }
