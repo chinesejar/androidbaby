@@ -21,6 +21,7 @@
 
     <!-- Strings related to menu -->
     <string name="menu_send">发送</string>
+    <string name="menu_delete">删除</string>
     <string name="menu_download">下载</string>
 
     <!-- Strings related to login -->
@@ -49,5 +50,7 @@
     <string name="error_gif">x or y bound size should be at least %1$dpx and file size should be no more than %2$sM</string>
     <string name="title_activity_register">注册</string>
 
-    <!-- Strings related to Settings -->
+    <!-- Strings related to FeedDetailActivity -->
+    <string name="comment">评论</string>
+    <string name="reply">回复</string>
 </resources>

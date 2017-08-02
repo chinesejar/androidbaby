@@ -3,6 +3,7 @@ package timeroute.androidbaby.api;
 import java.util.List;
 
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
@@ -39,14 +40,17 @@ public interface FeedApi {
     @GET("feed/")
     Observable<FeedTimeLine> getHotFeed(@Header("Authorization") String authorization, @Query("order_by") String order_by);
 
+    @POST("feed/")
+    Observable<Feed> postFeed(@Header("Authorization") String authorization, @Body Feed feed);
+
+    @DELETE("feed/{feed_id}")
+    Observable<Response<Object>> deleteFeed(@Header("Authorization") String authorization, @Path("feed_id") int feed_id);
+
     @GET("comment/")
     Observable<CommentTimeLine> getLatestComment(@Header("Authorization") String authorization, @Query("feed") int feed_id);
 
     @GET("feed_token/")
     Observable<List<ImageToken>> getImageToken(@Header("Authorization") String authorization, @Query("count") int count);
-
-    @POST("feed/")
-    Observable<Feed> postFeed(@Header("Authorization") String authorization, @Body Feed feed);
 
     @POST("like/")
     Observable<Response<Object>> postLike(@Header("Authorization") String authorization, @Body Like like);

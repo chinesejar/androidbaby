@@ -10,6 +10,8 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -39,14 +41,17 @@ import timeroute.androidbaby.ui.base.IBaseActivity;
 import timeroute.androidbaby.ui.presenter.FeedDetailPresenter;
 import timeroute.androidbaby.ui.view.IFeedDetailView;
 import timeroute.androidbaby.util.RoundTransform;
+import timeroute.androidbaby.util.SharedPreferenceUtils;
 import timeroute.androidbaby.widget.HorizontalListView;
 
 import static android.R.id.list;
+import static android.R.id.shareText;
 
 public class FeedDetailActivity extends IBaseActivity<IFeedDetailView, FeedDetailPresenter> implements IFeedDetailView {
 
     private static final String TAG="FeedDetailActivity";
     private LinearLayoutManager mLayoutManager;
+    private SharedPreferenceUtils sharedPreferenceUtils;
     private boolean mIsRequestDataRefresh = false;
     private int feed_id;
 
@@ -93,6 +98,7 @@ public class FeedDetailActivity extends IBaseActivity<IFeedDetailView, FeedDetai
     private void initView() {
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
+        sharedPreferenceUtils = new SharedPreferenceUtils(this, "user");
         setupSwipeRefresh();
 
         Intent intent = getIntent();
@@ -136,9 +142,9 @@ public class FeedDetailActivity extends IBaseActivity<IFeedDetailView, FeedDetai
         Button buttonSure = (Button) view.findViewById(R.id.sure);
         Button buttonCancel = (Button)view.findViewById(R.id.cancel);
         if(isReply){
-            comment_or_reply.setText("回复");
+            comment_or_reply.setText(getString(R.string.reply));
         }else {
-            comment_or_reply.setText("评论");
+            comment_or_reply.setText(getString(R.string.comment));
         }
         buttonCancel.setOnClickListener(view1 -> {
             alertDialog.dismiss();
@@ -154,6 +160,11 @@ public class FeedDetailActivity extends IBaseActivity<IFeedDetailView, FeedDetai
     public void updateLikeStatus() {
         like.setText(String.valueOf(Integer.valueOf(like.getText().toString())+1));
         Toast.makeText(this, "点赞成功", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void backToParent() {
+        finish();
     }
 
     @Override
@@ -251,6 +262,27 @@ public class FeedDetailActivity extends IBaseActivity<IFeedDetailView, FeedDetai
         } else {
             mRefreshLayout.setRefreshing(true);
             mPresenter.getLatestComment(feed_id);
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        int feed_id = sharedPreferenceUtils.getInt("id");
+        if(feed_id == feed.getUser().getId()) {
+            getMenuInflater().inflate(R.menu.feed_detail, menu);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.action_delete:
+                mPresenter.deleteFeed(feed);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 

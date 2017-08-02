@@ -172,6 +172,38 @@ public class FeedDetailPresenter extends BasePresenter<IFeedDetailView> {
         }
     }
 
+    public void deleteFeed(Feed feed) {
+        feedDetailView = getView();
+        if(feedDetailView != null) {
+            feedApi.deleteFeed("JWT "+token, feed.getFeedId())
+                    .onErrorResumeNext(new Func1<Throwable, Observable<? extends Response<Object>>>() {
+                        @Override
+                        public Observable<? extends Response<Object>> call(Throwable throwable) {
+                            return Observable.error(ExceptionEngine.handleException(throwable));
+                        }
+                    })
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new MyObserver<Response<Object>>() {
+                        @Override
+                        protected void onError(ApiException ex) {
+                            Toast.makeText(context, ex.getDisplayMessage(), Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onCompleted() {
+
+                        }
+
+                        @Override
+                        public void onNext(Response<Object> objectResponse) {
+                            Toast.makeText(context, "删除成功", Toast.LENGTH_SHORT).show();
+                            feedDetailView.backToParent();
+                        }
+                    });
+        }
+    }
+
     private void disPlayCommentList(CommentTimeLine commentTimeLine, Context context, IFeedDetailView feedDetailView, RecyclerView recyclerView) {
         Log.d(TAG, "next: "+next);
         if (isLoadMore) {
@@ -263,4 +295,5 @@ public class FeedDetailPresenter extends BasePresenter<IFeedDetailView> {
             }
         });
     }
+
 }

@@ -23,4 +23,6 @@ public interface IFeedDetailView {
     void openCommentDialog(boolean isReply, Profile profile);
 
     void updateLikeStatus();
+
+    void backToParent();
 }

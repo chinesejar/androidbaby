@@ -65,14 +65,12 @@ public class DiscoveryFragment extends IBaseFragment<IDiscoveryView, DiscoveryPr
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setDataRefresh(true);
-        mPresenter.scrollSwipeLayout();
     }
 
     @Override
     public void requestDataRefresh() {
         super.requestDataRefresh();
         setDataRefresh(true);
-        //mPresenter.getHotFeed();
     }
 
     @Override
@@ -98,13 +96,17 @@ public class DiscoveryFragment extends IBaseFragment<IDiscoveryView, DiscoveryPr
     public void setFeedList(FeedTimeLine feedTimeLine) {
         fragments.clear();
         for(int i=0;i<feedTimeLine.getFeeds().size();i++){
-            fragments.add(CardFragment.newInstance(feedTimeLine.getFeeds().get(i)));
+            if(feedTimeLine.getFeeds().get(i).getFeedPic().size() != 0) {
+                Fragment fragment = CardFragment.newInstance(feedTimeLine.getFeeds().get(i));
+                fragments.add(fragment);
+            }
         }
         contentFragmentAdapter = new ContentFragmentAdapter(getFragmentManager(), fragments);
         orientedViewPager.setOrientation(OrientedViewPager.Orientation.VERTICAL);
         orientedViewPager.setOffscreenPageLimit(4);
         orientedViewPager.setPageTransformer(true, new VerticalStackTransformer(getContext()));
         orientedViewPager.setAdapter(contentFragmentAdapter);
+        mPresenter.scrollSwipeLayout();
         swipeRefreshLayout.setRefreshing(false);
     }
 
