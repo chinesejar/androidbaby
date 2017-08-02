@@ -77,7 +77,6 @@ public class UserActivity extends IBaseActivity<IUserView, UserPresenter> implem
         if(user_id >= 0){
             Log.d("USER", String.valueOf(user_id));
             setDataRefresh(true);
-            mPresenter.getLatestUserFeed(user_id);
             mPresenter.scrollRecycleView();
         }
 
@@ -122,9 +121,8 @@ public class UserActivity extends IBaseActivity<IUserView, UserPresenter> implem
 
     public void requestDataRefresh() {
         setDataRefresh(true);
-        mPresenter.getLatestUserFeed(user_id);
+        //mPresenter.getLatestUserFeed(user_id);
     }
-
 
     public void setRefresh(boolean requestDataRefresh) {
         if (mRefreshLayout == null) {
@@ -132,13 +130,10 @@ public class UserActivity extends IBaseActivity<IUserView, UserPresenter> implem
         }
         if (!requestDataRefresh) {
             mIsRequestDataRefresh = false;
-            mRefreshLayout.postDelayed(() -> {
-                if (mRefreshLayout != null) {
-                    mRefreshLayout.setRefreshing(false);
-                }
-            }, 1000);
+            mRefreshLayout.setRefreshing(false);
         } else {
             mRefreshLayout.setRefreshing(true);
+            mPresenter.getLatestUserFeed(user_id);
         }
     }
 

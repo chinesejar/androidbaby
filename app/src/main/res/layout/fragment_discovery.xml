@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@android:color/white"
-    android:gravity="center_horizontal"
-    android:orientation="vertical">
+    android:gravity="center_horizontal">
 
-    <timeroute.androidbaby.widget.OrientedViewPager
-        android:id="@+id/view_pager"
+    <timeroute.androidbaby.widget.ABSwipeRefreshLayout
+        android:id="@+id/swipe_refresh"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="@android:color/white">
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    </timeroute.androidbaby.widget.OrientedViewPager>
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="100dp"/>
-</LinearLayout>
+        <timeroute.androidbaby.widget.OrientedViewPager
+            android:id="@+id/view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white" />
+    </timeroute.androidbaby.widget.ABSwipeRefreshLayout>
+</android.support.design.widget.CoordinatorLayout>

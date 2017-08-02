@@ -28,6 +28,8 @@ public class FeedFragment extends IBaseFragment<IFeedView, FeedPresenter> implem
 
     private static final String TAG = "FeedFragment";
 
+    private boolean mIsRequestDataRefresh = false;
+
     private LinearLayoutManager mLayoutManager;
     @Bind(R.id.swipe_refresh)
     ABSwipeRefreshLayout abSwipeRefreshLayout;
@@ -54,7 +56,6 @@ public class FeedFragment extends IBaseFragment<IFeedView, FeedPresenter> implem
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setDataRefresh(true);
-        mPresenter.getLatestFeed();
         mPresenter.scrollRecycleView();
     }
 
@@ -62,12 +63,26 @@ public class FeedFragment extends IBaseFragment<IFeedView, FeedPresenter> implem
     public void requestDataRefresh() {
         super.requestDataRefresh();
         setDataRefresh(true);
-        mPresenter.getLatestFeed();
+        //mPresenter.getLatestFeed();
     }
 
     @Override
     public void setDataRefresh(boolean refresh) {
         setRefresh(refresh);
+    }
+
+    @Override
+    public void setRefresh(boolean requestDataRefresh) {
+        if (abSwipeRefreshLayout == null) {
+            return;
+        }
+        if (!requestDataRefresh) {
+            mIsRequestDataRefresh = false;
+            abSwipeRefreshLayout.setRefreshing(false);
+        } else {
+            abSwipeRefreshLayout.setRefreshing(true);
+            mPresenter.getLatestFeed();
+        }
     }
 
     @Override

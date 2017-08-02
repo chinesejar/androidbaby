@@ -110,7 +110,6 @@ public class FeedDetailActivity extends IBaseActivity<IFeedDetailView, FeedDetai
         if(feed_id>0){
             Log.d("feed", String.valueOf(feed_id));
             setDataRefresh(true);
-            mPresenter.getLatestComment(feed_id);
             mPresenter.scrollRecycleView();
         }
         imageButtonLike.setOnClickListener(view -> {
@@ -240,7 +239,6 @@ public class FeedDetailActivity extends IBaseActivity<IFeedDetailView, FeedDetai
 
     public void requestDataRefresh() {
         setDataRefresh(true);
-        mPresenter.getLatestComment(feed_id);
     }
 
     public void setRefresh(boolean requestDataRefresh) {
@@ -249,13 +247,10 @@ public class FeedDetailActivity extends IBaseActivity<IFeedDetailView, FeedDetai
         }
         if (!requestDataRefresh) {
             mIsRequestDataRefresh = false;
-            mRefreshLayout.postDelayed(() -> {
-                if (mRefreshLayout != null) {
-                    mRefreshLayout.setRefreshing(false);
-                }
-            }, 1000);
+            mRefreshLayout.setRefreshing(false);
         } else {
             mRefreshLayout.setRefreshing(true);
+            mPresenter.getLatestComment(feed_id);
         }
     }
 
