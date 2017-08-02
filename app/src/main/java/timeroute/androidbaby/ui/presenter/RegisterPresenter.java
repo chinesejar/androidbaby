@@ -9,6 +9,7 @@ import rx.Scheduler;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
+import timeroute.androidbaby.R;
 import timeroute.androidbaby.api.exception.ApiException;
 import timeroute.androidbaby.api.exception.ExceptionEngine;
 import timeroute.androidbaby.bean.user.Profile;
@@ -40,18 +41,13 @@ public class RegisterPresenter extends BasePresenter<IRegisterView> {
         user.setEmail(email);
         if (registerView != null) {
             userApi.postCode(user)
-                    .onErrorResumeNext(new Func1<Throwable, Observable<? extends Response<Object>>>() {
-                        @Override
-                        public Observable<? extends Response<Object>> call(Throwable throwable) {
-                            return Observable.error(ExceptionEngine.handleException(throwable));
-                        }
-                    })
+                    .onErrorResumeNext(throwable -> Observable.error(ExceptionEngine.handleException(throwable)))
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new MyObserver<Response<Object>>() {
                         @Override
                         protected void onError(ApiException ex) {
-                            Toast.makeText(context, "已发送验证码，30 分钟内不能重复发送", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, context.getString(R.string.send_again_hint), Toast.LENGTH_SHORT).show();
                         }
 
                         @Override
@@ -61,7 +57,7 @@ public class RegisterPresenter extends BasePresenter<IRegisterView> {
 
                         @Override
                         public void onNext(Response<Object> objectResponse) {
-                            Toast.makeText(context, "发送成功", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, context.getString(R.string.send_success), Toast.LENGTH_SHORT).show();
                         }
                     });
         }
@@ -75,18 +71,13 @@ public class RegisterPresenter extends BasePresenter<IRegisterView> {
         user.setCode(code);
         if (registerView != null) {
             userApi.postUser(user)
-                    .onErrorResumeNext(new Func1<Throwable, Observable<? extends Response<Object>>>() {
-                        @Override
-                        public Observable<? extends Response<Object>> call(Throwable throwable) {
-                            return Observable.error(ExceptionEngine.handleException(throwable));
-                        }
-                    })
+                    .onErrorResumeNext(throwable -> Observable.error(ExceptionEngine.handleException(throwable)))
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new MyObserver<Response<Object>>() {
                         @Override
                         protected void onError(ApiException ex) {
-                            Toast.makeText(context, "验证码错误", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, context.getString(R.string.invalid_code), Toast.LENGTH_SHORT).show();
                         }
 
                         @Override
@@ -96,7 +87,7 @@ public class RegisterPresenter extends BasePresenter<IRegisterView> {
 
                         @Override
                         public void onNext(Response<Object> objectResponse) {
-                            Toast.makeText(context, "注册成功", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, context.getString(R.string.register_success), Toast.LENGTH_SHORT).show();
                             registerView.backToLogin();
                         }
                     });

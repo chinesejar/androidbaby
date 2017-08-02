@@ -49,7 +49,6 @@ public class PostActivity extends IBaseActivity<IPostView, PostPresenter> implem
 
     private static final String TAG = "PostActivity";
 
-    private List<Uri> pics;
     List<Map<String, Object>> list;
     private SimpleAdapter simpleAdapter;
 
@@ -67,8 +66,8 @@ public class PostActivity extends IBaseActivity<IPostView, PostPresenter> implem
     }
 
     private void initView() {
-        getSupportActionBar().setTitle(getString(R.string.activity_post));
-        list = new ArrayList<Map<String, Object>>();
+        getSupportActionBar().setTitle(getString(R.string.action_post));
+        list = new ArrayList<>();
         simpleAdapter = new SimpleAdapter(this,
                 list,
                 R.layout.layout_pic,
@@ -77,7 +76,7 @@ public class PostActivity extends IBaseActivity<IPostView, PostPresenter> implem
         imageButtonPick.setOnClickListener(view -> {
             int count = 9-list.size();
             if(count == 0){
-                Toast.makeText(this, "已添加至最大數量", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.max_prompt), Toast.LENGTH_SHORT).show();
             }else {
                 openGallery(count);
             }
@@ -152,13 +151,13 @@ public class PostActivity extends IBaseActivity<IPostView, PostPresenter> implem
                 listViewPic.setAdapter(simpleAdapter);
                 listViewPic.setOnItemClickListener((adapterView, view, i, l) -> {
                     new AlertDialog.Builder(this)
-                            .setTitle("删除")
-                            .setMessage("删除该图片?")
-                            .setPositiveButton("确定", (dialog, j) -> {
+                            .setTitle(getString(R.string.delete_title))
+                            .setMessage(getString(R.string.delete_message))
+                            .setPositiveButton(getString(R.string.sure), (dialog, j) -> {
                                 list.remove(i);
                                 simpleAdapter.notifyDataSetChanged();
                             })
-                            .setNegativeButton("取消", null)
+                            .setNegativeButton(getString(R.string.cancel), null)
                     .show();
                 });
                 break;
@@ -180,7 +179,7 @@ public class PostActivity extends IBaseActivity<IPostView, PostPresenter> implem
 
     public void setData(List<Uri> pics){
         for(int i=0;i<pics.size();i++){
-            Map<String, Object> map = new HashMap<String, Object>();
+            Map<String, Object> map = new HashMap<>();
             new Compressor(this)
                     .compressToFileAsFlowable(new File(getImagePath(pics.get(i), null)))
                     .subscribeOn(Schedulers.io())
@@ -189,9 +188,7 @@ public class PostActivity extends IBaseActivity<IPostView, PostPresenter> implem
                         map.put("pic", file);
                         list.add(map);
                         simpleAdapter.notifyDataSetChanged();
-                    }, (throwable) -> {
-                        throwable.printStackTrace();
-                    });
+                    }, Throwable::printStackTrace);
         }
     }
 
@@ -202,7 +199,7 @@ public class PostActivity extends IBaseActivity<IPostView, PostPresenter> implem
             case R.id.action_send:
                 String content = editTextContent.getText().toString();
                 if(content.length() == 0){
-                    Toast.makeText(this, "请输入内容", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, getString(R.string.empty_prompt), Toast.LENGTH_SHORT).show();
                 }else {
                     mPresenter.getImageToken(list, content);
                 }

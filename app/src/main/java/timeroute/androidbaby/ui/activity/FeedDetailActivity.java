@@ -137,10 +137,10 @@ public class FeedDetailActivity extends IBaseActivity<IFeedDetailView, FeedDetai
         layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
         window.setAttributes(layoutParams);
         alertDialog.setContentView(view);
-        TextView comment_or_reply = (TextView)view.findViewById(R.id.comment_or_reply);
-        EditText editTextContent = (EditText) view.findViewById(R.id.content);
-        Button buttonSure = (Button) view.findViewById(R.id.sure);
-        Button buttonCancel = (Button)view.findViewById(R.id.cancel);
+        TextView comment_or_reply = view.findViewById(R.id.comment_or_reply);
+        EditText editTextContent = view.findViewById(R.id.content);
+        Button buttonSure = view.findViewById(R.id.sure);
+        Button buttonCancel = view.findViewById(R.id.cancel);
         if(isReply){
             comment_or_reply.setText(getString(R.string.reply));
         }else {
@@ -159,7 +159,7 @@ public class FeedDetailActivity extends IBaseActivity<IFeedDetailView, FeedDetai
     @Override
     public void updateLikeStatus() {
         like.setText(String.valueOf(Integer.valueOf(like.getText().toString())+1));
-        Toast.makeText(this, "点赞成功", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getString(R.string.like_success), Toast.LENGTH_SHORT).show();
     }
 
     @Override

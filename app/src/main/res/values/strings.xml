@@ -7,9 +7,8 @@
     <string name="tab_feed">最新</string>
     <string name="tab_discovery">探索</string>
     <string name="tab_profile">我的</string>
-    <string name="activity_post">发布</string>
-    <string name="post_hint">说点什么吧...</string>
-    <string name="loading">正在加载</string>
+    <string name="mine_settings">系统</string>
+    <string name="post_hint">说点什么吧…</string>
     <string name="nickname">昵称</string>
     <string name="assignment">签名</string>
     <string name="gender">性别</string>
@@ -49,8 +48,56 @@
     <string name="error_invalid_email">邮箱地址无效</string>
     <string name="error_gif">x or y bound size should be at least %1$dpx and file size should be no more than %2$sM</string>
     <string name="title_activity_register">注册</string>
+    <string name="register_success">注册成功</string>
+    <string name="send_success">发送成功</string>
+    <string name="send_again_hint">已发送验证码，30 分钟内不能重复发送</string>
+    <string name="invalid_code">验证码错误</string>
 
-    <!-- Strings related to FeedDetailActivity -->
+    <!-- Strings related to Post -->
+    <string name="action_post">发布</string>
+    <string name="empty_prompt">请输入内容</string>
+    <string name="max_prompt">已添加至最大數量</string>
+    <string name="delete_title">删除</string>
+    <string name="delete_message">删除该图片?</string>
+    <string name="sure">确定</string>
+    <string name="cancel">取消</string>
+
+    <!-- Strings related to Feed -->
+    <string name="default_like_count">0</string>
+    <string name="default_comment_count">0</string>
     <string name="comment">评论</string>
     <string name="reply">回复</string>
+    <string name="like">点赞</string>
+    <string name="comment_success">评论成功</string>
+    <string name="reply_success">回复成功</string>
+    <string name="like_success">点赞成功</string>
+    <string name="like_again">已经点过赞了</string>
+    <string name="delete_success">删除成功</string>
+
+    <!-- Strings related to Profile -->
+    <string name="avatar_title">选择照片</string>
+    <string name="avatar_capture">拍照</string>
+    <string name="avatar_gallery">相册</string>
+    <string name="nickname_hint">请输入昵称</string>
+    <string name="assignment_hint">请输入签名</string>
+    <string name="gender_select">请选择性别</string>
+    <string name="gender_male">男</string>
+    <string name="gender_female">女</string>
+    <string name="gender_double">双性人</string>
+    <string name="warning_title">警告</string>
+    <string name="permission_prompt">已禁用该权限，如果想重新使用，进入系统设置->应用->找到该应用打开权限设置</string>
+    <string name="assignment_prompt">完善个性签名</string>
+    <string name="update_success">更新成功</string>
+    <string name="update_fail">更新失败</string>
+
+    <!-- Strings related to Loading -->
+    <string name="loading">正在加载…</string>
+    <string name="load_more">上拉加载更多</string>
+    <string name="load_none">已无更多加载</string>
+
+    <!-- Strings related to image -->
+    <string name="image_save_success">图片已保存</string>
+    
+    <!-- common -->
+    <string name="permission">未开启权限</string>
 </resources>

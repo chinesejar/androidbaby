@@ -37,7 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:background="#fff"
+        android:background="@color/white"
         android:orientation="horizontal"
         android:padding="10dp">
 
@@ -46,7 +46,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="#fff"
-            android:src="@drawable/ic_post_photo" />
+            app:srcCompat="@drawable/ic_post_photo" />
     </LinearLayout>
 
     <timeroute.androidbaby.widget.HorizontalListView

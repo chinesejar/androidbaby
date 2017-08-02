@@ -4,17 +4,15 @@ import android.content.Context;
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
 import android.util.Log;
 import android.widget.Toast;
 
 import retrofit2.Response;
 import rx.Observable;
-import rx.Observer;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
 import rx.schedulers.Schedulers;
+import timeroute.androidbaby.R;
 import timeroute.androidbaby.api.exception.ApiException;
 import timeroute.androidbaby.api.exception.ExceptionEngine;
 import timeroute.androidbaby.bean.feed.Comment;
@@ -28,6 +26,10 @@ import timeroute.androidbaby.ui.base.BasePresenter;
 import timeroute.androidbaby.ui.view.IFeedDetailView;
 import timeroute.androidbaby.ui.view.RecyclerViewClickListener;
 import timeroute.androidbaby.util.SharedPreferenceUtils;
+
+import static timeroute.androidbaby.ui.adapter.CommentListAdapter.LOAD_MORE;
+import static timeroute.androidbaby.ui.adapter.CommentListAdapter.LOAD_NONE;
+import static timeroute.androidbaby.ui.adapter.CommentListAdapter.LOAD_PULL_TO;
 
 /**
  * Created by chinesejar on 17-7-30.
@@ -62,12 +64,7 @@ public class FeedDetailPresenter extends BasePresenter<IFeedDetailView> {
             layoutManager = feedDetailView.getLayoutManager();
 
             feedApi.getLatestComment("JWT "+token, feed_id)
-                    .onErrorResumeNext(new Func1<Throwable, Observable<? extends CommentTimeLine>>() {
-                        @Override
-                        public Observable<? extends CommentTimeLine> call(Throwable throwable) {
-                            return Observable.error(ExceptionEngine.handleException(throwable));
-                        }
-                    })
+                    .onErrorResumeNext(throwable -> Observable.error(ExceptionEngine.handleException(throwable)))
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new MyObserver<CommentTimeLine>() {
@@ -117,7 +114,7 @@ public class FeedDetailPresenter extends BasePresenter<IFeedDetailView> {
                                 feed.setLike_count(feed.getLikeCount()+1);
                                 feedDetailView.updateLikeStatus();
                             }else if(objectResponse.code() == 200){
-                                Toast.makeText(context, "已经点过赞了", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, context.getString(R.string.like_again), Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
@@ -142,12 +139,7 @@ public class FeedDetailPresenter extends BasePresenter<IFeedDetailView> {
             }
             Log.d(TAG, comment.toString());
             feedApi.postComment("JWT "+token, comment)
-                    .onErrorResumeNext(new Func1<Throwable, Observable<? extends Comment>>() {
-                        @Override
-                        public Observable<? extends Comment> call(Throwable throwable) {
-                            return Observable.error(ExceptionEngine.handleException(throwable));
-                        }
-                    })
+                    .onErrorResumeNext(throwable -> Observable.error(ExceptionEngine.handleException(throwable)))
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new MyObserver<Comment>() {
@@ -166,7 +158,7 @@ public class FeedDetailPresenter extends BasePresenter<IFeedDetailView> {
                             Log.d(TAG, comment.toString());
                             timeLine.getComments().add(comment);
                             adapter.notifyDataSetChanged();
-                            Toast.makeText(context, "评论成功", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, context.getString(R.string.comment_success), Toast.LENGTH_SHORT).show();
                         }
                     });
         }
@@ -176,12 +168,7 @@ public class FeedDetailPresenter extends BasePresenter<IFeedDetailView> {
         feedDetailView = getView();
         if(feedDetailView != null) {
             feedApi.deleteFeed("JWT "+token, feed.getFeedId())
-                    .onErrorResumeNext(new Func1<Throwable, Observable<? extends Response<Object>>>() {
-                        @Override
-                        public Observable<? extends Response<Object>> call(Throwable throwable) {
-                            return Observable.error(ExceptionEngine.handleException(throwable));
-                        }
-                    })
+                    .onErrorResumeNext(throwable -> Observable.error(ExceptionEngine.handleException(throwable)))
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new MyObserver<Response<Object>>() {
@@ -197,7 +184,7 @@ public class FeedDetailPresenter extends BasePresenter<IFeedDetailView> {
 
                         @Override
                         public void onNext(Response<Object> objectResponse) {
-                            Toast.makeText(context, "删除成功", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, context.getString(R.string.delete_success), Toast.LENGTH_SHORT).show();
                             feedDetailView.backToParent();
                         }
                     });
@@ -208,7 +195,7 @@ public class FeedDetailPresenter extends BasePresenter<IFeedDetailView> {
         Log.d(TAG, "next: "+next);
         if (isLoadMore) {
             if (next == null) {
-                adapter.updateLoadStatus(adapter.LOAD_NONE);
+                adapter.updateLoadStatus(LOAD_NONE);
                 feedDetailView.setDataRefresh(false);
                 return;
             }
@@ -269,21 +256,20 @@ public class FeedDetailPresenter extends BasePresenter<IFeedDetailView> {
                     lastVisibleItem = layoutManager
                             .findLastVisibleItemPosition();
                     if (layoutManager.getItemCount() == 1) {
-                        adapter.updateLoadStatus(adapter.LOAD_NONE);
+                        adapter.updateLoadStatus(LOAD_NONE);
                         return;
                     }
                     if(next == null){
                         if(adapter != null){
-                            adapter.updateLoadStatus(adapter.LOAD_NONE);
+                            adapter.updateLoadStatus(LOAD_NONE);
                         }
                         return;
                     }
                     if (lastVisibleItem + 1 == layoutManager
                             .getItemCount()) {
-                        adapter.updateLoadStatus(adapter.LOAD_PULL_TO);
+                        adapter.updateLoadStatus(LOAD_PULL_TO);
                         isLoadMore = true;
-                        adapter.updateLoadStatus(adapter.LOAD_MORE);
-                        //new Handler().postDelayed(() -> getNextComment(feedDetailView.getUserId()), 1000);
+                        adapter.updateLoadStatus(LOAD_MORE);
                     }
                 }
             }

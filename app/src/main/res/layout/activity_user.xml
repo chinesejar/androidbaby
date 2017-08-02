@@ -20,7 +20,7 @@
 
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="@dimen/background_height"
                 android:fitsSystemWindows="true"
                 android:scaleType="centerCrop"
                 android:src="@drawable/bg"
@@ -38,15 +38,15 @@
                     android:layout_centerInParent="true">
                     <ImageView
                         android:id="@+id/avatar"
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
+                        android:layout_width="@dimen/avatar_normal"
+                        android:layout_height="@dimen/avatar_normal"
                         android:background="@drawable/avatar_bg"/>
                     <TextView
                         android:id="@+id/nickname"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="18sp"
-                        android:textColor="#fff"
+                        android:textColor="@color/textColorWhite"
                         android:textStyle="bold"
                         android:layout_marginTop="5dp"
                         android:layout_marginBottom="5dp"
@@ -56,9 +56,8 @@
                         android:id="@+id/assignment"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="#fff"
-                        android:textStyle="bold"
-                        android:text="世界再变，创新不变"/>
+                        android:textColor="@color/textColorWhite"
+                        android:textStyle="bold"/>
                 </LinearLayout>
 
             </RelativeLayout>

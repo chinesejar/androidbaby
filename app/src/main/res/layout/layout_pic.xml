@@ -5,9 +5,9 @@
 
     <ImageView
         android:id="@+id/image_view_pic"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginRight="5dp"
+        android:layout_width="@dimen/image_width"
+        android:layout_height="@dimen/image_height"
+        android:layout_marginRight="@dimen/image_margin_right"
         android:scaleType="centerCrop"/>
 
 </LinearLayout>

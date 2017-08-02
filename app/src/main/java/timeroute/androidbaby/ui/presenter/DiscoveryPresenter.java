@@ -46,12 +46,7 @@ public class DiscoveryPresenter extends BasePresenter<IDiscoveryView> {
         discoveryView = getView();
         if(discoveryView != null){
             feedApi.getHotFeed("JWT "+token, "like")
-                    .onErrorResumeNext(new Func1<Throwable, Observable<? extends FeedTimeLine>>() {
-                        @Override
-                        public Observable<? extends FeedTimeLine> call(Throwable throwable) {
-                            return Observable.error(ExceptionEngine.handleException(throwable));
-                        }
-                    })
+                    .onErrorResumeNext(throwable -> Observable.error(ExceptionEngine.handleException(throwable)))
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new MyObserver<FeedTimeLine>() {

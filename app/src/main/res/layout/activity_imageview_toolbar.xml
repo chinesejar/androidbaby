@@ -6,15 +6,15 @@
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
     android:animateLayoutChanges="true"
-    android:background="#30000000">
+    android:background="@color/image_toolbar">
 
     <!-- ToolBar-->
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="#00000000"
-        app:titleTextColor="#fff"
+        android:background="@color/black"
+        app:titleTextColor="@color/textColorWhite"
         app:theme="@style/ImageViewToolbarTheme"
         app:layout_scrollFlags="scroll|enterAlways"/>
 </android.support.design.widget.AppBarLayout>

@@ -2,8 +2,10 @@ package timeroute.androidbaby.ui.fragment;
 
 
 import android.Manifest;
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -58,19 +60,20 @@ public class FeedFragment extends IBaseFragment<IFeedView, FeedPresenter> implem
         return R.layout.fragment_feed;
     }
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @Override
     protected void initView(View rootView) {
         mLayoutManager = new LinearLayoutManager(getContext());
         feed_list.setLayoutManager(mLayoutManager);
         rxPermissions = new RxPermissions(getActivity());
-        FloatingActionButton floatingActionButton = (FloatingActionButton)getActivity().findViewById(R.id.fab);
+        FloatingActionButton floatingActionButton = getActivity().findViewById(R.id.fab);
         floatingActionButton.setOnClickListener(view -> {
             rxPermissions.request(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                     .subscribe(granted -> {
                         if(granted){
                             startActivityForResult(new Intent(getContext(), PostActivity.class), REQUEST_REFRESH);
                         }else {
-                            Toast.makeText(getContext(), "未开启权限", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), getString(R.string.permission), Toast.LENGTH_SHORT).show();
                         }
                     });
         });

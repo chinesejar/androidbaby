@@ -62,26 +62,31 @@ public class MineProfileActivity extends IBaseActivity<IMineProfileView, MinePro
 
         String nickname = sharedPreferenceUtils.getString("nickname");
         if (nickname == null){
-            textViewNickname.setText("请输入昵称");
+            textViewNickname.setText(getString(R.string.nickname_hint));
         }else {
             textViewNickname.setText(nickname);
         }
         String assignment = sharedPreferenceUtils.getString("assignment");
         if(assignment == null){
-            textViewAssignment.setText("请输入签名");
+            textViewAssignment.setText(getString(R.string.assignment_hint));
         }else {
             textViewAssignment.setText(assignment);
         }
         String gender = sharedPreferenceUtils.getString("gender");
         if(gender != null){
-            if(gender.equals("F")){
-                textViewGender.setText("女");
-            }else if(gender.equals("M")){
-                textViewGender.setText("男");
-            }else if(gender.equals("B")){
-                textViewGender.setText("双性人");
-            }else {
-                textViewGender.setText("请选择性别");
+            switch (gender) {
+                case "F":
+                    textViewGender.setText(getString(R.string.gender_female));
+                    break;
+                case "M":
+                    textViewGender.setText(getString(R.string.gender_male));
+                    break;
+                case "B":
+                    textViewGender.setText(getString(R.string.gender_double));
+                    break;
+                default:
+                    textViewGender.setText(getString(R.string.gender_select));
+                    break;
             }
         }
 
@@ -92,16 +97,16 @@ public class MineProfileActivity extends IBaseActivity<IMineProfileView, MinePro
             new AlertDialog.Builder(this)
                     .setTitle(getString(R.string.nickname))
                     .setView(editText)
-                    .setPositiveButton("确定", (dialogInterface, i) -> {
+                    .setPositiveButton(getString(R.string.sure), (dialogInterface, i) -> {
                         String input = editText.getText().toString();
                         if(input.length() == 0){
-                            Toast.makeText(this, "输入为空", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(this, getString(R.string.empty_prompt), Toast.LENGTH_SHORT).show();
                             return;
                         }else {
                             mPresenter.putProfile("nickname", input);
                         }
                     })
-                    .setNegativeButton("取消", null).show();
+                    .setNegativeButton(getString(R.string.cancel), null).show();
         });
         layoutAssignment.setOnClickListener(view -> {
             EditText editText = new EditText(this);
@@ -110,16 +115,15 @@ public class MineProfileActivity extends IBaseActivity<IMineProfileView, MinePro
             new AlertDialog.Builder(this)
                     .setTitle(getString(R.string.assignment))
                     .setView(editText)
-                    .setPositiveButton("确定", ((dialogInterface, i) -> {
+                    .setPositiveButton(getString(R.string.sure), ((dialogInterface, i) -> {
                         String input = editText.getText().toString();
                         if(input.length() == 0){
-                            Toast.makeText(this, "输入为空", Toast.LENGTH_SHORT).show();
-                            return;
+                            Toast.makeText(this, getString(R.string.empty_prompt), Toast.LENGTH_SHORT).show();
                         }else {
                             mPresenter.putProfile("assignment", input);
                         }
                     }))
-                    .setNegativeButton("取消", null).show();
+                    .setNegativeButton(getString(R.string.cancel), null).show();
         });
         layoutGender.setOnClickListener(view -> {
             String[] gender_items = new String[]{"男", "女", "双性人"};
@@ -133,7 +137,7 @@ public class MineProfileActivity extends IBaseActivity<IMineProfileView, MinePro
                                 dialogInterface.dismiss();
                             })
                     )
-                    .setNegativeButton("取消", null).show();
+                    .setNegativeButton(getString(R.string.cancel), null).show();
         });
     }
 
@@ -144,12 +148,16 @@ public class MineProfileActivity extends IBaseActivity<IMineProfileView, MinePro
 
     @Override
     public void setTextView(String type, String value) {
-        if(type == "nickname"){
-            textViewNickname.setText(value);
-        }else if (type == "assignment"){
-            textViewAssignment.setText(value);
-        }else if (type == "gender"){
-            textViewGender.setText(value);
+        switch (type) {
+            case "nickname":
+                textViewNickname.setText(value);
+                break;
+            case "assignment":
+                textViewAssignment.setText(value);
+                break;
+            case "gender":
+                textViewGender.setText(value);
+                break;
         }
     }
 }

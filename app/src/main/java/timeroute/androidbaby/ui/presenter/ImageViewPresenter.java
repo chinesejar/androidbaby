@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import timeroute.androidbaby.R;
 import timeroute.androidbaby.ui.base.BasePresenter;
 import timeroute.androidbaby.ui.view.IImageViewView;
 import timeroute.androidbaby.util.SharedPreferenceUtils;
@@ -40,7 +41,6 @@ public class ImageViewPresenter extends BasePresenter<IImageViewView> {
     public void saveImage(Drawable drawable) {
         Bitmap bitmap = null;
         if(drawable instanceof BitmapDrawable){
-            Log.d(TAG, "is bitmapdrawable");
             BitmapDrawable bitmapDrawable = (BitmapDrawable)drawable;
             if(bitmapDrawable.getBitmap()!=null){
                 bitmap = bitmapDrawable.getBitmap();
@@ -48,7 +48,7 @@ public class ImageViewPresenter extends BasePresenter<IImageViewView> {
                     FileOutputStream fos = new FileOutputStream(getOutputMediaFile());
                     bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
                     fos.close();
-                    Toast.makeText(context, "图片已保存", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, context.getString(R.string.image_save_success), Toast.LENGTH_SHORT).show();
                 } catch (FileNotFoundException e) {
                     Log.d(TAG, "File not found: " + e.getMessage());
                 } catch (IOException e) {

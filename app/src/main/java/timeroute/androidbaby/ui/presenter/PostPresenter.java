@@ -15,6 +15,7 @@ import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
+import timeroute.androidbaby.R;
 import timeroute.androidbaby.api.exception.ApiException;
 import timeroute.androidbaby.api.exception.ExceptionEngine;
 import timeroute.androidbaby.bean.feed.Feed;
@@ -47,12 +48,7 @@ public class PostPresenter extends BasePresenter<IPostView> {
         postView = getView();
         if(postView != null){
             feedApi.getImageToken("JWT "+token, list.size())
-                    .onErrorResumeNext(new Func1<Throwable, Observable<? extends List<ImageToken>>>() {
-                        @Override
-                        public Observable<? extends List<ImageToken>> call(Throwable throwable) {
-                            return Observable.error(ExceptionEngine.handleException(throwable));
-                        }
-                    })
+                    .onErrorResumeNext(throwable -> Observable.error(ExceptionEngine.handleException(throwable)))
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new MyObserver<List<ImageToken>>() {
@@ -93,7 +89,7 @@ public class PostPresenter extends BasePresenter<IPostView> {
                     Log.i("qiniu", "Upload Success");
                 } else {
                     Log.i("qiniu", "Upload Fail");
-                    Toast.makeText(context, "更新失败", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, context.getString(R.string.update_fail), Toast.LENGTH_SHORT).show();
                     //如果失败，这里可以把info信息上报自己的服务器，便于后面分析上传错误原因
                 }
                 Log.i("qiniu", key + ",\r\n " + info + ",\r\n " + response);
@@ -102,12 +98,7 @@ public class PostPresenter extends BasePresenter<IPostView> {
         feed.setFeedPic(feedPics);
         String token = sharedPreferenceUtils.getString("token");
         feedApi.postFeed("JWT "+token, feed)
-                .onErrorResumeNext(new Func1<Throwable, Observable<? extends Feed>>() {
-                    @Override
-                    public Observable<? extends Feed> call(Throwable throwable) {
-                        return Observable.error(ExceptionEngine.handleException(throwable));
-                    }
-                })
+                .onErrorResumeNext(throwable -> Observable.error(ExceptionEngine.handleException(throwable)))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new MyObserver<Feed>() {
@@ -123,7 +114,7 @@ public class PostPresenter extends BasePresenter<IPostView> {
 
                     @Override
                     public void onNext(Feed feed) {
-                        Toast.makeText(context, "更新成功", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, context.getString(R.string.update_success), Toast.LENGTH_SHORT).show();
                         postView.sendSuccess();
                     }
                 });

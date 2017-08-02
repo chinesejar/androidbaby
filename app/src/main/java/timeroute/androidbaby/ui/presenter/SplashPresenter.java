@@ -40,12 +40,7 @@ public class SplashPresenter extends BasePresenter<ISplashView> {
         user.setPassword(password);
         if(splashView != null){
             userApi.getToken(user)
-                    .onErrorResumeNext(new Func1<Throwable, Observable<? extends UserToken>>() {
-                        @Override
-                        public Observable<? extends UserToken> call(Throwable throwable) {
-                            return Observable.error(ExceptionEngine.handleException(throwable));
-                        }
-                    })
+                    .onErrorResumeNext(throwable -> Observable.error(ExceptionEngine.handleException(throwable)))
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new MyObserver<UserToken>() {
@@ -73,12 +68,7 @@ public class SplashPresenter extends BasePresenter<ISplashView> {
         userToken.setToken(token);
         if(splashView != null){
             userApi.refreshToken(userToken)
-                    .onErrorResumeNext(new Func1<Throwable, Observable<? extends UserToken>>() {
-                        @Override
-                        public Observable<? extends UserToken> call(Throwable throwable) {
-                            return Observable.error(ExceptionEngine.handleException(throwable));
-                        }
-                    })
+                    .onErrorResumeNext(throwable -> Observable.error(ExceptionEngine.handleException(throwable)))
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new MyObserver<UserToken>() {
@@ -104,7 +94,7 @@ public class SplashPresenter extends BasePresenter<ISplashView> {
         Profile profile = userToken.getProfile();
         sharedPreferenceUtils = new SharedPreferenceUtils(context, "user");
         String last_token = sharedPreferenceUtils.getString("token");
-        if(last_token != userToken.getToken()){
+        if(!last_token.equals(userToken.getToken())){
             sharedPreferenceUtils.setString("token", userToken.getToken());
         }
         sharedPreferenceUtils.setInt("id", profile.getId());
@@ -119,7 +109,7 @@ public class SplashPresenter extends BasePresenter<ISplashView> {
         Profile profile = userToken.getProfile();
         sharedPreferenceUtils = new SharedPreferenceUtils(context, "user");
         String last_token = sharedPreferenceUtils.getString("token");
-        if(last_token != userToken.getToken()){
+        if(!last_token.equals(userToken.getToken())){
             sharedPreferenceUtils.setString("token", userToken.getToken());
         }
         sharedPreferenceUtils.setString("username", username);
@@ -129,7 +119,6 @@ public class SplashPresenter extends BasePresenter<ISplashView> {
         sharedPreferenceUtils.setString("assignment", profile.getAssignment());
         sharedPreferenceUtils.setString("gender", profile.getGender());
         sharedPreferenceUtils.setString("avatar", profile.getAvatar());
-        //sharedPreferenceUtils.setString("email", profile.getEmail());
         splashView.toMain();
     }
 }

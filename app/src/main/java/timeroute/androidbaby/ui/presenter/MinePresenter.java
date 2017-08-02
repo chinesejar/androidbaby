@@ -16,6 +16,7 @@ import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
+import timeroute.androidbaby.R;
 import timeroute.androidbaby.api.exception.ApiException;
 import timeroute.androidbaby.api.exception.ExceptionEngine;
 import timeroute.androidbaby.bean.user.ImageToken;
@@ -46,12 +47,7 @@ public class MinePresenter extends BasePresenter<IMineView> {
         String token = sharedPreferenceUtils.getString("token");
         if(mineView != null){
             userApi.getImageToken("JWT "+token)
-                    .onErrorResumeNext(new Func1<Throwable, Observable<? extends ImageToken>>() {
-                        @Override
-                        public Observable<? extends ImageToken> call(Throwable throwable) {
-                            return Observable.error(ExceptionEngine.handleException(throwable));
-                        }
-                    })
+                    .onErrorResumeNext(throwable -> Observable.error(ExceptionEngine.handleException(throwable)))
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new MyObserver<ImageToken>() {
@@ -99,12 +95,7 @@ public class MinePresenter extends BasePresenter<IMineView> {
                     int id = sharedPreferenceUtils.getInt("id");
                     String token = sharedPreferenceUtils.getString("token");
                     userApi.putProfile("JWT "+token, id, profile)
-                            .onErrorResumeNext(new Func1<Throwable, Observable<? extends Void>>() {
-                                @Override
-                                public Observable<? extends Void> call(Throwable throwable) {
-                                    return Observable.error(ExceptionEngine.handleException(throwable));
-                                }
-                            })
+                            .onErrorResumeNext(throwable -> Observable.error(ExceptionEngine.handleException(throwable)))
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(new MyObserver<Void>() {
@@ -120,17 +111,15 @@ public class MinePresenter extends BasePresenter<IMineView> {
 
                                 @Override
                                 public void onNext(Void aVoid) {
-                                    Toast.makeText(context, "更新成功", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(context, context.getString(R.string.update_success), Toast.LENGTH_SHORT).show();
                                     sharedPreferenceUtils.setString("avatar", baseAvatarUrl+name);
                                     mineView.setAvatar(baseAvatarUrl+name);
                                 }
                             });
                 } else {
-                    Log.i("qiniu", "Upload Fail");
-                    Toast.makeText(context, "更新失败", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, context.getString(R.string.update_fail), Toast.LENGTH_SHORT).show();
                     //如果失败，这里可以把info信息上报自己的服务器，便于后面分析上传错误原因
                 }
-                Log.i("qiniu", key + ",\r\n " + info + ",\r\n " + response);
             }, null);
         }
     }

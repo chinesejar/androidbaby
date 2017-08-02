@@ -38,12 +38,7 @@ public class LoginPresenter extends BasePresenter<ILoginView> {
         user.setPassword(password);
         if(loginView != null){
             userApi.getToken(user)
-                    .onErrorResumeNext(new Func1<Throwable, Observable<? extends UserToken>>() {
-                        @Override
-                        public Observable<? extends UserToken> call(Throwable throwable) {
-                            return Observable.error(ExceptionEngine.handleException(throwable));
-                        }
-                    })
+                    .onErrorResumeNext(throwable -> Observable.error(ExceptionEngine.handleException(throwable)))
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
             .subscribe(new MyObserver<UserToken>() {
@@ -78,7 +73,6 @@ public class LoginPresenter extends BasePresenter<ILoginView> {
         sharedPreferenceUtils.setString("assignment", profile.getAssignment());
         sharedPreferenceUtils.setString("gender", profile.getGender());
         sharedPreferenceUtils.setString("avatar", profile.getAvatar());
-        //sharedPreferenceUtils.setString("email", profile.getEmail());
         loginView.toMain();
     }
 }

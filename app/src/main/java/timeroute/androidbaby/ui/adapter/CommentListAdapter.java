@@ -101,7 +101,7 @@ public class CommentListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             nickname.setText(comment.getCreator().getNickname());
             if(comment.getAt() != null){
                 at.setVisibility(View.VISIBLE);
-                comment_or_reply.setText("回复");
+                comment_or_reply.setText(context.getString(R.string.reply));
                 at.setText(comment.getAt().getNickname());
                 at.setOnClickListener(view -> {
                     if(listener != null){
@@ -109,7 +109,7 @@ public class CommentListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     }
                 });
             }else {
-                comment_or_reply.setText("评论");
+                comment_or_reply.setText(context.getString(R.string.comment));
             }
             content.setText(comment.getContent());
             create_time.setText(String.valueOf(comment.getCreate_time()));
@@ -137,18 +137,17 @@ public class CommentListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             switch (status) {
                 case LOAD_MORE:
                     progress.setVisibility(View.VISIBLE);
-                    tv_load_prompt.setText("正在加载...");
+                    tv_load_prompt.setText(context.getString(R.string.loading));
                     itemView.setVisibility(View.VISIBLE);
                     break;
                 case LOAD_PULL_TO:
                     progress.setVisibility(View.GONE);
-                    tv_load_prompt.setText("上拉加载更多");
+                    tv_load_prompt.setText(context.getString(R.string.load_more));
                     itemView.setVisibility(View.VISIBLE);
                     break;
                 case LOAD_NONE:
-                    System.out.println("LOAD_NONE----");
                     progress.setVisibility(View.GONE);
-                    tv_load_prompt.setText("已无更多加载");
+                    tv_load_prompt.setText(context.getString(R.string.load_none));
                     break;
                 case LOAD_END:
                     itemView.setVisibility(View.GONE);

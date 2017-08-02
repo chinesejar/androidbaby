@@ -49,7 +49,7 @@ public abstract class IBaseFragment<V, T extends BasePresenter<V>> extends Fragm
     }
 
     private void setupSwipeRefresh(View view){
-        mRefreshLayout = (ABSwipeRefreshLayout) view.findViewById(R.id.swipe_refresh);
+        mRefreshLayout = view.findViewById(R.id.swipe_refresh);
         if(mRefreshLayout != null){
             mRefreshLayout.setProgressViewOffset(true, 0, (int) TypedValue
                     .applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24,getResources().getDisplayMetrics()));

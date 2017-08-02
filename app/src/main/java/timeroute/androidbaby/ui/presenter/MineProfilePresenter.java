@@ -7,6 +7,7 @@ import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
+import timeroute.androidbaby.R;
 import timeroute.androidbaby.api.exception.ApiException;
 import timeroute.androidbaby.api.exception.ExceptionEngine;
 import timeroute.androidbaby.bean.user.Profile;
@@ -36,27 +37,26 @@ public class MineProfilePresenter extends BasePresenter<IMineProfileView> {
         String token = sharedPreferenceUtils.getString("token");
         mineProfileView = getView();
         Profile profile = new Profile();
-        if(type == "nickname"){
-            profile.setNickname(value);
-        }else if (type == "assignment"){
-            profile.setAssignment(value);
-        }else if (type == "gender"){
-            if(value == "男") {
-                profile.setGender("M");
-            }else if (value == "女"){
-                profile.setGender("F");
-            }else if (value == "双性人"){
-                profile.setGender("B");
-            }
+        switch (type) {
+            case "nickname":
+                profile.setNickname(value);
+                break;
+            case "assignment":
+                profile.setAssignment(value);
+                break;
+            case "gender":
+                if (value.equals(context.getString(R.string.gender_male))) {
+                    profile.setGender("M");
+                } else if (value.equals(context.getString(R.string.gender_female))) {
+                    profile.setGender("F");
+                } else if (value.equals(context.getString(R.string.gender_double))) {
+                    profile.setGender("B");
+                }
+                break;
         }
         if(mineProfileView != null){
             userApi.putProfile("JWT "+token, id, profile)
-                    .onErrorResumeNext(new Func1<Throwable, Observable<? extends Void>>() {
-                        @Override
-                        public Observable<? extends Void> call(Throwable throwable) {
-                            return Observable.error(ExceptionEngine.handleException(throwable));
-                        }
-                    })
+                    .onErrorResumeNext(throwable -> Observable.error(ExceptionEngine.handleException(throwable)))
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new MyObserver<Void>() {
@@ -72,7 +72,7 @@ public class MineProfilePresenter extends BasePresenter<IMineProfileView> {
 
                         @Override
                         public void onNext(Void aVoid) {
-                            Toast.makeText(context, "更新成功", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, context.getString(R.string.update_success), Toast.LENGTH_SHORT).show();
                             if(type.equals("nickname") || type.equals("assignment")){
                                 sharedPreferenceUtils.setString(type, value);
                             }else if(type.equals("gender")) {

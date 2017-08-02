@@ -28,8 +28,23 @@
     <dimen name="bottom_margin_big">10dp</dimen>
     <dimen name="bottom_margin_normal">8dp</dimen>
 
+    <!-- post image -->
+    <dimen name="image_width">100dp</dimen>
+    <dimen name="image_height">100dp</dimen>
+    <dimen name="image_margin_right">5dp</dimen>
 
+    <!-- avatar -->
+    <dimen name="avatar_small">40dp</dimen>
+    <dimen name="avatar_normal">40dp</dimen>
 
-    <!-- cardview阴影-->
+    <!-- feed -->
+    <dimen name="image_feed">400dp</dimen>
+    <dimen name="background_height">200dp</dimen>
+    <dimen name="discovery_margin_bottom">110dp</dimen>
+
+    <!-- cardview 阴影-->
     <dimen name="card_elevation">10dp</dimen>
+
+    <!-- image view -->
+    <dimen name="indicator">48dp</dimen>
 </resources>

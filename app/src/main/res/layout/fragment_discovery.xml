@@ -10,7 +10,7 @@
         android:id="@+id/swipe_refresh"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingBottom="120dp"
+        android:paddingBottom="@dimen/discovery_margin_bottom"
         app:layout_constraintBottom_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"

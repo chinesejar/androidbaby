@@ -30,6 +30,10 @@ import timeroute.androidbaby.ui.view.IFeedView;
 import timeroute.androidbaby.ui.view.RecyclerViewClickListener;
 import timeroute.androidbaby.util.SharedPreferenceUtils;
 
+import static timeroute.androidbaby.ui.adapter.FeedListAdapter.LOAD_MORE;
+import static timeroute.androidbaby.ui.adapter.FeedListAdapter.LOAD_NONE;
+import static timeroute.androidbaby.ui.adapter.FeedListAdapter.LOAD_PULL_TO;
+
 /**
  * Created by chinesejar on 17-7-14.
  */
@@ -64,12 +68,7 @@ public class FeedPresenter extends BasePresenter<IFeedView> {
             layoutManager = feedView.getLayoutManager();
 
             feedApi.getLatestFeed("JWT "+token)
-                    .onErrorResumeNext(new Func1<Throwable, Observable<? extends FeedTimeLine>>() {
-                        @Override
-                        public Observable<? extends FeedTimeLine> call(Throwable throwable) {
-                            return Observable.error(ExceptionEngine.handleException(throwable));
-                        }
-                    })
+                    .onErrorResumeNext(throwable -> Observable.error(ExceptionEngine.handleException(throwable)))
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new MyObserver<FeedTimeLine>() {
@@ -102,12 +101,7 @@ public class FeedPresenter extends BasePresenter<IFeedView> {
                 return;
             }
             feedApi.getNextFeed("JWT "+token, Uri.parse(next).getQueryParameter("page"))
-                    .onErrorResumeNext(new Func1<Throwable, Observable<? extends FeedTimeLine>>() {
-                        @Override
-                        public Observable<? extends FeedTimeLine> call(Throwable throwable) {
-                            return Observable.error(ExceptionEngine.handleException(throwable));
-                        }
-                    })
+                    .onErrorResumeNext(throwable -> Observable.error(ExceptionEngine.handleException(throwable)))
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new MyObserver<FeedTimeLine>() {
@@ -165,7 +159,7 @@ public class FeedPresenter extends BasePresenter<IFeedView> {
     private void disPlayFeedList(FeedTimeLine feedTimeLine, Context context, IFeedView feedView, RecyclerView recyclerView) {
         if (isLoadMore) {
             if (next == null) {
-                adapter.updateLoadStatus(adapter.LOAD_NONE);
+                adapter.updateLoadStatus(LOAD_NONE);
                 feedView.setDataRefresh(false);
                 return;
             }
@@ -227,20 +221,20 @@ public class FeedPresenter extends BasePresenter<IFeedView> {
                     lastVisibleItem = layoutManager
                             .findLastVisibleItemPosition();
                     if (layoutManager.getItemCount() == 1) {
-                        adapter.updateLoadStatus(adapter.LOAD_NONE);
+                        adapter.updateLoadStatus(LOAD_NONE);
                         return;
                     }
                     if(next == null){
                         if(adapter != null){
-                            adapter.updateLoadStatus(adapter.LOAD_NONE);
+                            adapter.updateLoadStatus(LOAD_NONE);
                         }
                         return;
                     }
                     if (lastVisibleItem + 1 == layoutManager
                             .getItemCount()) {
-                        adapter.updateLoadStatus(adapter.LOAD_PULL_TO);
+                        adapter.updateLoadStatus(LOAD_PULL_TO);
                         isLoadMore = true;
-                        adapter.updateLoadStatus(adapter.LOAD_MORE);
+                        adapter.updateLoadStatus(LOAD_MORE);
                         new Handler().postDelayed(() -> getNextFeed(), 1000);
                     }
                 }

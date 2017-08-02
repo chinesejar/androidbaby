@@ -14,6 +14,7 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
+import timeroute.androidbaby.R;
 import timeroute.androidbaby.api.exception.ApiException;
 import timeroute.androidbaby.api.exception.ExceptionEngine;
 import timeroute.androidbaby.bean.feed.Feed;
@@ -26,6 +27,10 @@ import timeroute.androidbaby.ui.base.BasePresenter;
 import timeroute.androidbaby.ui.view.IUserView;
 import timeroute.androidbaby.ui.view.RecyclerViewClickListener;
 import timeroute.androidbaby.util.SharedPreferenceUtils;
+
+import static timeroute.androidbaby.ui.adapter.FeedListAdapter.LOAD_MORE;
+import static timeroute.androidbaby.ui.adapter.FeedListAdapter.LOAD_NONE;
+import static timeroute.androidbaby.ui.adapter.FeedListAdapter.LOAD_PULL_TO;
 
 /**
  * Created by chinesejar on 17-7-25.
@@ -60,12 +65,7 @@ public class UserPresenter extends BasePresenter<IUserView> {
             layoutManager = userView.getLayoutManager();
 
             feedApi.getLatestUserFeed("JWT "+token, user_id)
-                    .onErrorResumeNext(new Func1<Throwable, Observable<? extends FeedTimeLine>>() {
-                        @Override
-                        public Observable<? extends FeedTimeLine> call(Throwable throwable) {
-                            return Observable.error(ExceptionEngine.handleException(throwable));
-                        }
-                    })
+                    .onErrorResumeNext(throwable -> Observable.error(ExceptionEngine.handleException(throwable)))
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new MyObserver<FeedTimeLine>() {
@@ -98,12 +98,7 @@ public class UserPresenter extends BasePresenter<IUserView> {
                 return;
             }
             feedApi.getNextUserFeed("JWT "+token, Uri.parse(next).getQueryParameter("page"), user_id)
-                    .onErrorResumeNext(new Func1<Throwable, Observable<? extends FeedTimeLine>>() {
-                        @Override
-                        public Observable<? extends FeedTimeLine> call(Throwable throwable) {
-                            return Observable.error(ExceptionEngine.handleException(throwable));
-                        }
-                    })
+                    .onErrorResumeNext(throwable -> Observable.error(ExceptionEngine.handleException(throwable)))
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new MyObserver<FeedTimeLine>() {
@@ -151,7 +146,7 @@ public class UserPresenter extends BasePresenter<IUserView> {
                             if(objectResponse.code() == 201){
                                 adapter.updateLikeStatus(feed);
                             }else if(objectResponse.code() == 200){
-                                Toast.makeText(context, "已经点过赞了", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, context.getString(R.string.like_again), Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
@@ -162,7 +157,7 @@ public class UserPresenter extends BasePresenter<IUserView> {
         Log.d(TAG, "next: "+next);
         if (isLoadMore) {
             if (next == null) {
-                adapter.updateLoadStatus(adapter.LOAD_NONE);
+                adapter.updateLoadStatus(LOAD_NONE);
                 userView.setDataRefresh(false);
                 return;
             }
@@ -223,20 +218,20 @@ public class UserPresenter extends BasePresenter<IUserView> {
                     lastVisibleItem = layoutManager
                             .findLastVisibleItemPosition();
                     if (layoutManager.getItemCount() == 1) {
-                        adapter.updateLoadStatus(adapter.LOAD_NONE);
+                        adapter.updateLoadStatus(LOAD_NONE);
                         return;
                     }
                     if(next == null){
                         if(adapter != null){
-                            adapter.updateLoadStatus(adapter.LOAD_NONE);
+                            adapter.updateLoadStatus(LOAD_NONE);
                         }
                         return;
                     }
                     if (lastVisibleItem + 1 == layoutManager
                             .getItemCount()) {
-                        adapter.updateLoadStatus(adapter.LOAD_PULL_TO);
+                        adapter.updateLoadStatus(LOAD_PULL_TO);
                         isLoadMore = true;
-                        adapter.updateLoadStatus(adapter.LOAD_MORE);
+                        adapter.updateLoadStatus(LOAD_MORE);
                         new Handler().postDelayed(() -> getNextUserFeed(userView.getUserId()), 1000);
                     }
                 }

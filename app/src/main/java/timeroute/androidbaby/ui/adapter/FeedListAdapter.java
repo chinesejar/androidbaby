@@ -151,7 +151,7 @@ public class FeedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             content.setText(feed.getContent());
             if (feed.getFeedPic().size() > 0) {
                 horizontalListViewFeedPic.setVisibility(View.VISIBLE);
-                list = new ArrayList<Map<String, Object>>();
+                list = new ArrayList<>();
                 String[] images = new String[feed.getFeedPic().size()];
                 for (int i = 0; i < feed.getFeedPic().size(); i++) {
                     images[i] = feed.getFeedPic().get(i).getUrl();
@@ -227,18 +227,17 @@ public class FeedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             switch (status) {
                 case LOAD_MORE:
                     progress.setVisibility(View.VISIBLE);
-                    tv_load_prompt.setText("正在加载...");
+                    tv_load_prompt.setText(context.getString(R.string.loading));
                     itemView.setVisibility(View.VISIBLE);
                     break;
                 case LOAD_PULL_TO:
                     progress.setVisibility(View.GONE);
-                    tv_load_prompt.setText("上拉加载更多");
+                    tv_load_prompt.setText(context.getString(R.string.load_more));
                     itemView.setVisibility(View.VISIBLE);
                     break;
                 case LOAD_NONE:
-                    System.out.println("LOAD_NONE----");
                     progress.setVisibility(View.GONE);
-                    tv_load_prompt.setText("已无更多加载");
+                    tv_load_prompt.setText(context.getString(R.string.load_none));
                     break;
                 case LOAD_END:
                     itemView.setVisibility(View.GONE);

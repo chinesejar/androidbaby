@@ -103,7 +103,7 @@ public class ImageViewActivity extends IBaseActivity<IImageViewView, ImageViewPr
                             if(granted){
                                 mPresenter.saveImage(imageView.getDrawable());
                             }else {
-                                Toast.makeText(this, "未开启权限", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(this, getString(R.string.permission), Toast.LENGTH_SHORT).show();
                             }
                         });
                 return true;

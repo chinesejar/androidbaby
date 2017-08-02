@@ -35,7 +35,7 @@ public class CardFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View v = inflater.inflate(R.layout.fragment_card, container, false);
-        ImageView imageView = (ImageView)v.findViewById(R.id.image_view);
+        ImageView imageView = v.findViewById(R.id.image_view);
         final Bundle bundle = getArguments();
         if (bundle != null) {
             feed =  (Feed)bundle.getSerializable("feed");

@@ -109,7 +109,7 @@ public class MineFragment extends IBaseFragment<IMineView, MinePresenter> implem
                         if(granted){
                             onClickPicker();
                         }else {
-                            Toast.makeText(getActivity(), "未开启权限", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), getString(R.string.permission), Toast.LENGTH_SHORT).show();
                         }
                     });
         });
@@ -131,8 +131,8 @@ public class MineFragment extends IBaseFragment<IMineView, MinePresenter> implem
 
     public void onClickPicker() {
         new AlertDialog.Builder(getContext())
-                .setTitle("选择照片")
-                .setItems(new String[]{"拍照", "相册"}, (dialogInterface, i) -> {
+                .setTitle(getString(R.string.avatar_title))
+                .setItems(new String[]{getString(R.string.avatar_capture), getString(R.string.avatar_gallery)}, (dialogInterface, i) -> {
                     if (i == 0) {
                         selectCamera();
                     } else {
@@ -156,9 +156,9 @@ public class MineFragment extends IBaseFragment<IMineView, MinePresenter> implem
 
     public void showWarnDialog(){
         new AlertDialog.Builder(getContext())
-                .setTitle("警告")
-                .setMessage("已禁用该权限，如果想重新使用，进入系统设置->应用->找到该应用打开权限设置")
-                .setPositiveButton("确定", null)
+                .setTitle(getString(R.string.warning_title))
+                .setMessage(getString(R.string.permission_prompt))
+                .setPositiveButton(getString(R.string.sure), null)
                 .create()
                 .show();
     }
@@ -247,7 +247,7 @@ public class MineFragment extends IBaseFragment<IMineView, MinePresenter> implem
 
         if(assignment != null){
             if(assignment.length() == 0){
-                assignment_TextView.setText("完善个性签名");
+                assignment_TextView.setText(getString(R.string.assignment_prompt));
             }else {
                 assignment_TextView.setText(assignment);
             }
