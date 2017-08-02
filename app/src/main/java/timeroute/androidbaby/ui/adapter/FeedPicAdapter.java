@@ -38,7 +38,7 @@ public class FeedPicAdapter extends SimpleAdapter {
         ImageView image = (ImageView) vi.findViewById(R.id.image_view_pic);
         String image_url = (String) data.get("url");
         Picasso.with(mContext)
-                .load(image_url+"?imageMogr2/thumbnail/600x"+String.valueOf(DensityUtil.dip2px(mContext, 200))+"/format/webp/blur/1x0/quality/75|imageslim")
+                .load(image_url+"?imageMogr2/thumbnail/600x"+String.valueOf(DensityUtil.dip2px(mContext, 400))+"/format/webp/blur/1x0/quality/75|imageslim")
                 .into(image);
         return vi;
     }
