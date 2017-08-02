@@ -2,9 +2,11 @@ package timeroute.androidbaby.ui.fragment;
 
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.FileProvider;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -21,12 +23,15 @@ import timeroute.androidbaby.ui.presenter.FeedPresenter;
 import timeroute.androidbaby.ui.view.IFeedView;
 import timeroute.androidbaby.widget.ABSwipeRefreshLayout;
 
+import static android.app.Activity.RESULT_OK;
+
 /**
  * A simple {@link Fragment} subclass.
  */
 public class FeedFragment extends IBaseFragment<IFeedView, FeedPresenter> implements IFeedView {
 
     private static final String TAG = "FeedFragment";
+    private static final int REQUEST_REFRESH = 1;
 
     private boolean mIsRequestDataRefresh = false;
 
@@ -63,7 +68,6 @@ public class FeedFragment extends IBaseFragment<IFeedView, FeedPresenter> implem
     public void requestDataRefresh() {
         super.requestDataRefresh();
         setDataRefresh(true);
-        //mPresenter.getLatestFeed();
     }
 
     @Override
@@ -110,13 +114,24 @@ public class FeedFragment extends IBaseFragment<IFeedView, FeedPresenter> implem
         Intent intent = new Intent(getContext(), ImageViewActivity.class);
         intent.putExtra("index", i);
         intent.putExtra("images", images);
-        getContext().startActivity(intent);
+        startActivity(intent);
     }
 
     @Override
     public void goToFeedDetail(Feed feed){
         Intent intent = new Intent(getContext(), FeedDetailActivity.class);
         intent.putExtra("feed", feed);
-        getContext().startActivity(intent);
+        startActivityForResult(intent, REQUEST_REFRESH);
+        //getContext().startActivity(intent);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case REQUEST_REFRESH:
+                setDataRefresh(true);
+                break;
+        }
     }
 }

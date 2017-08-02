@@ -29,6 +29,7 @@ import timeroute.androidbaby.util.RoundTransform;
 
 public class UserActivity extends IBaseActivity<IUserView, UserPresenter> implements IUserView {
 
+    private static final int REQUEST_REFRESH = 1;
     private LinearLayoutManager mLayoutManager;
     private boolean mIsRequestDataRefresh = false;
     private int user_id;
@@ -121,7 +122,6 @@ public class UserActivity extends IBaseActivity<IUserView, UserPresenter> implem
 
     public void requestDataRefresh() {
         setDataRefresh(true);
-        //mPresenter.getLatestUserFeed(user_id);
     }
 
     public void setRefresh(boolean requestDataRefresh) {
@@ -169,7 +169,17 @@ public class UserActivity extends IBaseActivity<IUserView, UserPresenter> implem
     public void goToFeedDetail(Feed feed) {
         Intent intent = new Intent(this, FeedDetailActivity.class);
         intent.putExtra("feed", feed);
-        startActivity(intent);
+        startActivityForResult(intent, REQUEST_REFRESH);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case REQUEST_REFRESH:
+                setDataRefresh(true);
+                break;
+        }
     }
 
 }

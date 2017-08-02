@@ -43,7 +43,7 @@ public interface FeedApi {
     @POST("feed/")
     Observable<Feed> postFeed(@Header("Authorization") String authorization, @Body Feed feed);
 
-    @DELETE("feed/{feed_id}")
+    @DELETE("feed/{feed_id}/")
     Observable<Response<Object>> deleteFeed(@Header("Authorization") String authorization, @Path("feed_id") int feed_id);
 
     @GET("comment/")
