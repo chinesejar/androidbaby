@@ -164,6 +164,9 @@ public class FeedDetailActivity extends IBaseActivity<IFeedDetailView, FeedDetai
 
     @Override
     public void backToParent() {
+        Intent intent = new Intent();
+        intent.putExtra("type", "refresh");
+        setResult(RESULT_OK, intent);
         finish();
     }
 

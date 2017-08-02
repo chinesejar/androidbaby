@@ -1,22 +1,28 @@
 package timeroute.androidbaby.ui.fragment;
 
 
+import android.Manifest;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
+
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import butterknife.Bind;
 import timeroute.androidbaby.R;
 import timeroute.androidbaby.bean.feed.Feed;
 import timeroute.androidbaby.ui.activity.FeedDetailActivity;
 import timeroute.androidbaby.ui.activity.ImageViewActivity;
+import timeroute.androidbaby.ui.activity.PostActivity;
 import timeroute.androidbaby.ui.activity.UserActivity;
 import timeroute.androidbaby.ui.base.IBaseFragment;
 import timeroute.androidbaby.ui.presenter.FeedPresenter;
@@ -34,6 +40,7 @@ public class FeedFragment extends IBaseFragment<IFeedView, FeedPresenter> implem
     private static final int REQUEST_REFRESH = 1;
 
     private boolean mIsRequestDataRefresh = false;
+    private RxPermissions rxPermissions;
 
     private LinearLayoutManager mLayoutManager;
     @Bind(R.id.swipe_refresh)
@@ -55,6 +62,18 @@ public class FeedFragment extends IBaseFragment<IFeedView, FeedPresenter> implem
     protected void initView(View rootView) {
         mLayoutManager = new LinearLayoutManager(getContext());
         feed_list.setLayoutManager(mLayoutManager);
+        rxPermissions = new RxPermissions(getActivity());
+        FloatingActionButton floatingActionButton = (FloatingActionButton)getActivity().findViewById(R.id.fab);
+        floatingActionButton.setOnClickListener(view -> {
+            rxPermissions.request(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    .subscribe(granted -> {
+                        if(granted){
+                            startActivityForResult(new Intent(getContext(), PostActivity.class), REQUEST_REFRESH);
+                        }else {
+                            Toast.makeText(getContext(), "未开启权限", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        });
     }
 
     @Override
@@ -122,15 +141,20 @@ public class FeedFragment extends IBaseFragment<IFeedView, FeedPresenter> implem
         Intent intent = new Intent(getContext(), FeedDetailActivity.class);
         intent.putExtra("feed", feed);
         startActivityForResult(intent, REQUEST_REFRESH);
-        //getContext().startActivity(intent);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        Log.d(TAG, "result code: "+resultCode);
+        if (resultCode != RESULT_OK){
+            return;
+        }
         switch (requestCode) {
             case REQUEST_REFRESH:
-                setDataRefresh(true);
+                if (data.getExtras().getString("type", "").equals("refresh")){
+                    setDataRefresh(true);
+                }
                 break;
         }
     }

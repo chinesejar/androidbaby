@@ -8,6 +8,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.view.View;
 import android.widget.Toast;
 
 import com.tbruyelle.rxpermissions2.RxPermissions;
@@ -59,17 +60,6 @@ public class MainActivity extends IBaseActivity {
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     private void initNavigationView() {
 
-        rxPermissions = new RxPermissions(this);
-        floatingActionButton.setOnClickListener(view -> {
-            rxPermissions.request(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                    .subscribe(granted -> {
-                        if(granted){
-                            startActivity(new Intent(this, PostActivity.class));
-                        }else {
-                            Toast.makeText(this, "未开启权限", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-        });
 
         fragmentList = new ArrayList<>();
         fragmentList.add(new FeedFragment());
@@ -108,6 +98,11 @@ public class MainActivity extends IBaseActivity {
 
         navigation_bar.setOnNavigationItemSelectedListener(item -> {
             content_viewPager.setCurrentItem(item.getOrder());
+            if(item.getOrder() != 0){
+                floatingActionButton.setVisibility(View.INVISIBLE);
+            }else {
+                floatingActionButton.setVisibility(View.VISIBLE);
+            }
             return true;
         });
     }

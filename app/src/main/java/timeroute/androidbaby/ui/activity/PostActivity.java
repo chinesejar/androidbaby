@@ -214,6 +214,9 @@ public class PostActivity extends IBaseActivity<IPostView, PostPresenter> implem
 
     @Override
     public void sendSuccess() {
+        Intent intent = new Intent();
+        intent.putExtra("type", "refresh");
+        setResult(RESULT_OK, intent);
         finish();
     }
 }
