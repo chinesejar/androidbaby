@@ -106,7 +106,7 @@ public class FeedFragment extends IBaseFragment<IFeedView, FeedPresenter> implem
         intent.putExtra("nickname", nickname);
         intent.putExtra("assignment", assignment);
         intent.putExtra("avatar", avatar);
-        startActivity(intent);
+        startActivityForResult(intent, REQUEST_REFRESH);
     }
 
     @Override
