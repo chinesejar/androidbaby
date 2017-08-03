@@ -201,6 +201,7 @@ public class PostActivity extends IBaseActivity<IPostView, PostPresenter> implem
                 if(content.length() == 0){
                     Toast.makeText(this, getString(R.string.empty_prompt), Toast.LENGTH_SHORT).show();
                 }else {
+                    Log.d("content", content);
                     mPresenter.getImageToken(list, content);
                 }
                 return true;

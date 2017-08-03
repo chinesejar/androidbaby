@@ -1,7 +1,9 @@
 package timeroute.androidbaby.ui.activity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
@@ -64,6 +66,8 @@ public class FeedDetailActivity extends IBaseActivity<IFeedDetailView, FeedDetai
     private float upY;
     private boolean isUpOrDown = true;
 
+    @Bind(R.id.collapsing_toolbar)
+    CollapsingToolbarLayout collapsingToolbarLayout;
     @Bind(R.id.avatar)
     ImageView avatar;
     @Bind(R.id.nickname)
@@ -96,6 +100,11 @@ public class FeedDetailActivity extends IBaseActivity<IFeedDetailView, FeedDetai
     }
 
     private void initView() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            WindowManager.LayoutParams localLayoutParams = getWindow().getAttributes();
+            localLayoutParams.flags = (WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | localLayoutParams.flags);
+        }
+
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
         sharedPreferenceUtils = new SharedPreferenceUtils(this, "user");
@@ -135,6 +144,7 @@ public class FeedDetailActivity extends IBaseActivity<IFeedDetailView, FeedDetai
         WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
         layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
         layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        assert window != null;
         window.setAttributes(layoutParams);
         alertDialog.setContentView(view);
         TextView comment_or_reply = view.findViewById(R.id.comment_or_reply);

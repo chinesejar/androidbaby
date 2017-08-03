@@ -7,146 +7,168 @@
     android:fitsSystemWindows="true"
     tools:context="timeroute.androidbaby.ui.activity.FeedDetailActivity">
 
-    <include layout="@layout/activity_view_toolbar"/>
-
-    <LinearLayout
-        android:id="@+id/feed_detail"
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-        <LinearLayout
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="10dp"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            app:contentScrim="@color/colorPrimary"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:background="@color/colorPrimary"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_marginTop="55dp"
+                android:padding="10dp"
+                android:orientation="vertical">
 
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center|left">
+                    android:orientation="horizontal">
 
-                    <ImageView
-                        android:id="@+id/avatar"
-                        android:layout_width="@dimen/avatar_small"
-                        android:layout_height="@dimen/avatar_small"
-                        app:srcCompat="@drawable/ic_face" />
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center|left">
+
+                        <ImageView
+                            android:id="@+id/avatar"
+                            android:layout_width="@dimen/avatar_small"
+                            android:layout_height="@dimen/avatar_small"
+                            app:srcCompat="@drawable/ic_face" />
+
+                        <TextView
+                            android:id="@+id/nickname"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:text="@string/app_name"
+                            android:textStyle="bold"
+                            android:textColor="@color/textColorGrey" />
+                    </LinearLayout>
 
                     <TextView
-                        android:id="@+id/nickname"
+                        android:id="@+id/create_time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:text="@string/app_name"
-                        android:textStyle="bold"
                         android:textColor="@color/textColorGrey" />
                 </LinearLayout>
 
                 <TextView
-                    android:id="@+id/create_time"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
                     android:textColor="@color/textColorGrey" />
-            </LinearLayout>
 
-            <TextView
-                android:id="@+id/content"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
-                android:textColor="@color/textColorGrey" />
-
-            <timeroute.androidbaby.widget.HorizontalListView
-                android:id="@+id/feed_pic"
-                android:layout_width="wrap_content"
-                android:paddingBottom="10dp"
-                android:layout_height="@dimen/image_feed"
-                android:layout_gravity="center"
-                android:visibility="gone">
-            </timeroute.androidbaby.widget.HorizontalListView>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="5dp">
+                <timeroute.androidbaby.widget.HorizontalListView
+                    android:id="@+id/feed_pic"
+                    android:layout_width="wrap_content"
+                    android:paddingBottom="10dp"
+                    android:layout_height="@dimen/image_feed"
+                    android:layout_gravity="center"
+                    android:visibility="gone">
+                </timeroute.androidbaby.widget.HorizontalListView>
 
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center|left">
+                    android:orientation="horizontal"
+                    android:padding="5dp">
 
-                    <ImageButton
-                        android:id="@+id/imageButtonLike"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/like_comment_bg"
-                        app:srcCompat="@drawable/ic_thumb_up" />
+                        android:layout_weight="1"
+                        android:gravity="center|left">
 
-                    <TextView
-                        android:id="@+id/like"
-                        android:layout_width="wrap_content"
+                        <ImageButton
+                            android:id="@+id/imageButtonLike"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/like_comment_bg"
+                            app:srcCompat="@drawable/ic_thumb_up" />
+
+                        <TextView
+                            android:id="@+id/like"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:text="@string/default_like_count"
+                            android:textColor="@color/textColorGrey" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:text="@string/default_like_count"
-                        android:textColor="@color/textColorGrey" />
-                </LinearLayout>
+                        android:layout_weight="1"
+                        android:gravity="center|left">
 
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center|left">
+                        <ImageButton
+                            android:id="@+id/imageButtonComment"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/like_comment_bg"
+                            app:srcCompat="@drawable/ic_comment" />
 
-                    <ImageButton
-                        android:id="@+id/imageButtonComment"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/like_comment_bg"
-                        app:srcCompat="@drawable/ic_comment" />
-
-                    <TextView
-                        android:id="@+id/comment"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:text="@string/default_comment_count"
-                        android:textColor="@color/textColorGrey" />
+                        <TextView
+                            android:id="@+id/comment"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:text="@string/default_comment_count"
+                            android:textColor="@color/textColorGrey" />
+                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
-        </LinearLayout>
 
-        <timeroute.androidbaby.widget.ABSwipeRefreshLayout
-            android:id="@+id/swipe_refresh"
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"
+                app:theme="@style/ToolbarTheme"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+            </android.support.v7.widget.Toolbar>
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <timeroute.androidbaby.widget.ABSwipeRefreshLayout
+        android:id="@+id/swipe_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:background="?attr/selectableItemBackground">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerViewComment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:clickable="true"
-            android:background="?attr/selectableItemBackground">
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recyclerViewComment"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#eee"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior">
-            </android.support.v7.widget.RecyclerView>
-        </timeroute.androidbaby.widget.ABSwipeRefreshLayout>
-    </LinearLayout>
+            android:background="#eee"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        </android.support.v7.widget.RecyclerView>
+    </timeroute.androidbaby.widget.ABSwipeRefreshLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
-        app:layout_anchor="@id/feed_detail"
+        app:layout_anchor="@id/swipe_refresh"
         app:layout_anchorGravity="bottom|end"
         app:layout_behavior="timeroute.androidbaby.widget.FloatButtonBehavior"
         app:elevation="6dp"
