@@ -195,7 +195,7 @@ public class CommentListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         if(url != null){
             Picasso.with(context)
                     .load(url)
-                    .placeholder(R.drawable.avatar)
+                    .placeholder(R.drawable.ic_android)
                     .transform(new RoundTransform())
                     .into(imageView);
         }

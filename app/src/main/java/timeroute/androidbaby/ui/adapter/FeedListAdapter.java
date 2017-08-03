@@ -285,7 +285,7 @@ public class FeedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         if(url != null){
             Picasso.with(context)
                     .load(url)
-                    .placeholder(R.drawable.avatar)
+                    .placeholder(R.drawable.ic_android)
                     .transform(new RoundTransform())
                     .into(imageView);
         }

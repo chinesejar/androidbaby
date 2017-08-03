@@ -40,7 +40,7 @@ public class AboutActivity extends AppCompatActivity {
         }
 
         AboutView view = AboutBuilder.with(this)
-                .setPhoto(R.drawable.avatar)
+                .setPhoto(R.mipmap.ic_launcher)
                 .setCover(R.mipmap.profile_cover)
                 .setName(getString(R.string.team))
                 .setSubTitle(getString(R.string.slogan))
