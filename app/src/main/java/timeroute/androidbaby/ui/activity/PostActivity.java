@@ -66,6 +66,7 @@ public class PostActivity extends IBaseActivity<IPostView, PostPresenter> implem
     }
 
     private void initView() {
+        setTracker(TAG);
         getSupportActionBar().setTitle(getString(R.string.action_post));
         list = new ArrayList<>();
         simpleAdapter = new SimpleAdapter(this,

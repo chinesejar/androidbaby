@@ -24,6 +24,7 @@ public class SettingActivity extends IBaseActivity<ISettingView, SettingPresente
     }
 
     private void initView() {
+        setTracker(TAG);
         layoutAbout.setOnClickListener(view -> {
             startActivity(new Intent(this, AboutActivity.class));
         });

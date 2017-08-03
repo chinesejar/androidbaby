@@ -30,6 +30,8 @@ import timeroute.androidbaby.util.RoundTransform;
 
 public class UserActivity extends IBaseActivity<IUserView, UserPresenter> implements IUserView {
 
+    private static final String TAG = "UserActivity";
+
     private static final int REQUEST_REFRESH = 1;
     private LinearLayoutManager mLayoutManager;
     private boolean mIsRequestDataRefresh = false;
@@ -61,6 +63,8 @@ public class UserActivity extends IBaseActivity<IUserView, UserPresenter> implem
             WindowManager.LayoutParams localLayoutParams = getWindow().getAttributes();
             localLayoutParams.flags = (WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | localLayoutParams.flags);
         }
+
+        setTracker(TAG);
 
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);

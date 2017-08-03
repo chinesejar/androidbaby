@@ -23,6 +23,8 @@ import timeroute.androidbaby.util.SharedPreferenceUtils;
 
 public class MineProfileActivity extends IBaseActivity<IMineProfileView, MineProfilePresenter> implements IMineProfileView {
 
+    private static final String TAG = "MineProfileActivity";
+
     private SharedPreferenceUtils sharedPreferenceUtils;
 
     @Bind(R.id.layout_nickname)
@@ -55,6 +57,8 @@ public class MineProfileActivity extends IBaseActivity<IMineProfileView, MinePro
     }
 
     private void initView() {
+
+        setTracker(TAG);
 
         sharedPreferenceUtils = new SharedPreferenceUtils(this, "user");
 

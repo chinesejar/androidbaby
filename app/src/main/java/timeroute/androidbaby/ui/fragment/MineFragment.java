@@ -49,6 +49,8 @@ import static android.app.Activity.RESULT_OK;
  */
 public class MineFragment extends IBaseFragment<IMineView, MinePresenter> implements IMineView {
 
+    private static final String TAG = "MineFragment";
+
     private SharedPreferenceUtils sharedPreferenceUtils;
     private RxPermissions rxPermissions;
 
@@ -101,6 +103,7 @@ public class MineFragment extends IBaseFragment<IMineView, MinePresenter> implem
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     protected void initView(View rootView) {
+        setTracker(TAG);
         sharedPreferenceUtils = new SharedPreferenceUtils(getContext(), "user");
         user_id = sharedPreferenceUtils.getInt("id");
         nickname = sharedPreferenceUtils.getString("nickname");

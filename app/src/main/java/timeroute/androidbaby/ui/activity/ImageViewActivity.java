@@ -48,6 +48,7 @@ public class ImageViewActivity extends IBaseActivity<IImageViewView, ImageViewPr
     }
 
     private void initView() {
+        setTracker(TAG);
         rxPermissions = new RxPermissions(this);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             WindowManager.LayoutParams localLayoutParams = getWindow().getAttributes();

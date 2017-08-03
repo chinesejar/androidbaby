@@ -3,13 +3,17 @@ package timeroute.androidbaby.ui.base;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 import butterknife.ButterKnife;
+import timeroute.androidbaby.MyApp;
 import timeroute.androidbaby.R;
 import timeroute.androidbaby.widget.ABSwipeRefreshLayout;
 
@@ -21,6 +25,7 @@ public abstract class IBaseFragment<V, T extends BasePresenter<V>> extends Fragm
 
     protected T mPresenter;
 
+    private Tracker mTracker;
     private boolean mIsRequestDataRefresh = false;
     private ABSwipeRefreshLayout mRefreshLayout;
 
@@ -35,6 +40,7 @@ public abstract class IBaseFragment<V, T extends BasePresenter<V>> extends Fragm
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View rootView = inflater.inflate(createViewLayoutId(), container, false);
         ButterKnife.bind(this, rootView);
+        mTracker = getDefaultTracker();
         initView(rootView);
         if(isSetRefresh()){
             setupSwipeRefresh(rootView);
@@ -61,6 +67,19 @@ public abstract class IBaseFragment<V, T extends BasePresenter<V>> extends Fragm
         mIsRequestDataRefresh = true;
     }
 
+    public void setTracker(String name){
+        mTracker.setScreenName("Fragment: " + name);
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+    }
+
+    synchronized public Tracker getDefaultTracker() {
+        if (mTracker == null) {
+            GoogleAnalytics analytics = GoogleAnalytics.getInstance(getContext());
+            // To enable debug logging use: adb shell setprop log.tag.GAv4 DEBUG
+            mTracker = analytics.newTracker(R.xml.global_tracker);
+        }
+        return mTracker;
+    }
 
     public void setRefresh(boolean requestDataRefresh) {
         if (mRefreshLayout == null) {

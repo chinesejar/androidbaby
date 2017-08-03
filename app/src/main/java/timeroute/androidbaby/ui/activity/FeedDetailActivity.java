@@ -25,6 +25,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -33,6 +35,7 @@ import java.util.List;
 import java.util.Map;
 
 import butterknife.Bind;
+import timeroute.androidbaby.MyApp;
 import timeroute.androidbaby.R;
 import timeroute.androidbaby.bean.feed.Comment;
 import timeroute.androidbaby.bean.feed.Feed;
@@ -100,6 +103,9 @@ public class FeedDetailActivity extends IBaseActivity<IFeedDetailView, FeedDetai
     }
 
     private void initView() {
+
+        setTracker(TAG);
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             WindowManager.LayoutParams localLayoutParams = getWindow().getAttributes();
             localLayoutParams.flags = (WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | localLayoutParams.flags);

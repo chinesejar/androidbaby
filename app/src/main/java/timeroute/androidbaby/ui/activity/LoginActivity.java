@@ -24,6 +24,7 @@ import timeroute.androidbaby.ui.view.ILoginView;
  * A login screen that offers login via email/password.
  */
 public class LoginActivity extends IBaseActivity<ILoginView, LoginPresenter> implements ILoginView {
+    private static final String TAG = "LoginActivity";
 
     @Bind(R.id.login_form)
     View viewLoginForm;
@@ -55,6 +56,9 @@ public class LoginActivity extends IBaseActivity<ILoginView, LoginPresenter> imp
     }
 
     private void initView() {
+
+        setTracker(TAG);
+
         buttonLogin.setOnClickListener(view -> {
             attemptLogin();
         });

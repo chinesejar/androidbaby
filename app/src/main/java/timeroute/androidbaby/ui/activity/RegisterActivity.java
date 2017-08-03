@@ -45,6 +45,8 @@ import static android.Manifest.permission.READ_CONTACTS;
  */
 public class RegisterActivity extends IBaseActivity<IRegisterView, RegisterPresenter> implements IRegisterView {
 
+    private static final String TAG = "RegisterActivity";
+
     @Bind(R.id.email)
     EditText mEmailView;
     @Bind(R.id.code)
@@ -68,6 +70,7 @@ public class RegisterActivity extends IBaseActivity<IRegisterView, RegisterPrese
     }
 
     private void initView() {
+        setTracker(TAG);
         mPasswordView.setOnEditorActionListener((textView, id, keyEvent)-> {
             if (id == R.id.register || id == EditorInfo.IME_NULL) {
                 attemptRegister();

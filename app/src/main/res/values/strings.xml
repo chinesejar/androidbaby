@@ -20,6 +20,9 @@
     <string name="title_activity_statement">免责声明</string>
     <string name="title_activity_login">登录</string>
 
+    <string name="setting_notify">通知</string>
+    <string name="setting_about">关于</string>
+
     <!-- Strings related to menu -->
     <string name="menu_send">发送</string>
     <string name="menu_delete">删除</string>

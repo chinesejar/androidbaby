@@ -58,6 +58,7 @@ public class DiscoveryFragment extends IBaseFragment<IDiscoveryView, DiscoveryPr
 
     @Override
     protected void initView(View rootView) {
+        setTracker(TAG);
         mLayoutManager = new LinearLayoutManager(getContext());
     }
 

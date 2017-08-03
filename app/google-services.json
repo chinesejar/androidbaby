@@ -1,0 +1,43 @@
+{
+  "project_info": {
+    "project_number": "880658129128",
+    "project_id": "api-8453251632859584029-408655"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:880658129128:android:9e163e832c5b842e",
+        "android_client_info": {
+          "package_name": "timeroute.androidbaby"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "880658129128-ic5gep1k9g02833bantsump5oi4do0oh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDYg8u9LxNs20AoKEHt3zoQadFZ981_qeQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 2,
+          "analytics_property": {
+            "tracking_id": "UA-81717251-3"
+          }
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
