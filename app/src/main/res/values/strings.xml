@@ -100,4 +100,10 @@
     
     <!-- common -->
     <string name="permission">未开启权限</string>
+
+    <!-- about -->
+    <string name="team">时空路由</string>
+    <string name="slogan">时空无界，路由你我</string>
+    <string name="introduce">一直在努力中。</string>
+    <string name="social_user">chinesejar</string>
 </resources>
