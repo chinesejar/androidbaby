@@ -57,9 +57,8 @@ public class ViewPagerImageAdapter extends PagerAdapter {
         final ImageView imageView = (TouchImageView) imageLayout
                 .findViewById(R.id.image);
 
-        Log.d("height", "height: "+windowManager.getDefaultDisplay().getHeight());
         Picasso.with(context)
-                .load(IMAGES.get(position)+"?imageMogr2/thumbnail/600x"+String.valueOf(windowManager.getDefaultDisplay().getHeight())+"/format/webp/blur/1x0/quality/75|imageslim")
+                .load(IMAGES.get(position)+"?imageMogr2/thumbnail/1200x"+String.valueOf(windowManager.getDefaultDisplay().getHeight()*2)+"/format/webp/blur/1x0/quality/75|imageslim")
                 .into(imageView);
         view.addView(imageLayout, 0);
         imageView.setOnClickListener(view1 -> {

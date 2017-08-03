@@ -240,7 +240,6 @@ public class MineFragment extends IBaseFragment<IMineView, MinePresenter> implem
     @Override
     public void onResume() {
         super.onResume();
-        Log.d("resume", "resume: "+"yes");
         refreshProfile();
     }
 

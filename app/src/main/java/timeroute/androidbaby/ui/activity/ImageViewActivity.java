@@ -59,11 +59,9 @@ public class ImageViewActivity extends IBaseActivity<IImageViewView, ImageViewPr
 
         Intent intent = getIntent();
         int index = intent.getIntExtra("index", -1);
-        Log.d(TAG, "index: " + index);
         arrayImages = new ArrayList<>();
         String[] images = intent.getStringArrayExtra("images");
         for (int i = 0; i < images.length; i++) {
-            Log.d(TAG, "image: " + images[i]);
             arrayImages.add(images[i]);
         }
         imageViewClickListener = () -> {
