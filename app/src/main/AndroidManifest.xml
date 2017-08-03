@@ -64,6 +64,7 @@
         <activity
             android:name=".ui.activity.AboutActivity"
             android:label="@string/title_activity_about"
+            android:parentActivityName=".ui.activity.SettingActivity"
             android:theme="@style/MainTheme" />
         <activity
             android:name=".ui.activity.ImageViewActivity"
