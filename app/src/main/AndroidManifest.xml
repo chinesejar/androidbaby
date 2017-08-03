@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="timeroute.androidbaby">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -65,7 +66,8 @@
             android:name=".ui.activity.AboutActivity"
             android:label="@string/title_activity_about"
             android:parentActivityName=".ui.activity.SettingActivity"
-            android:theme="@style/MainTheme" />
+            android:theme="@style/MainTheme"
+            tools:targetApi="jelly_bean" />
         <activity
             android:name=".ui.activity.ImageViewActivity"
             android:theme="@style/MainTheme" />
@@ -75,7 +77,7 @@
             android:theme="@style/MainTheme" />
         <activity
             android:name=".ui.activity.RegisterActivity"
-            android:label="@string/title_activity_register"></activity>
+            android:label="@string/title_activity_register"/>
     </application>
 
 </manifest>

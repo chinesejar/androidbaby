@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="@string/tab_profile">
+        <PreferenceScreen
+            android:icon="@drawable/ic_feed"
+            android:title="@string/title_activity_feed"/>
+        <PreferenceScreen
+            android:icon="@drawable/ic_profile"
+            android:title="@string/title_activity_profile"/>
+        <PreferenceScreen
+            android:icon="@drawable/ic_notifications"
+            android:title="@string/title_activity_notify"/>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/mine_settings">
+        <PreferenceScreen
+            android:icon="@drawable/ic_settings"
+            android:title="@string/title_activity_setting"/>
+    </PreferenceCategory>
+</PreferenceScreen>

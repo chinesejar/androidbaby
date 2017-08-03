@@ -14,8 +14,10 @@
     <string name="gender">性别</string>
     <string name="title_activity_profile">我的信息</string>
     <string name="title_activity_feed">我的发布</string>
+    <string name="title_activity_notify">我的消息</string>
     <string name="title_activity_setting">系统设置</string>
     <string name="title_activity_about">关于</string>
+    <string name="title_activity_statement">免责声明</string>
     <string name="title_activity_login">登录</string>
 
     <!-- Strings related to menu -->

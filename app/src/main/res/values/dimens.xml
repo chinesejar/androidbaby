@@ -35,7 +35,7 @@
 
     <!-- avatar -->
     <dimen name="avatar_small">40dp</dimen>
-    <dimen name="avatar_normal">40dp</dimen>
+    <dimen name="avatar_normal">80dp</dimen>
 
     <!-- feed -->
     <dimen name="image_feed">400dp</dimen>

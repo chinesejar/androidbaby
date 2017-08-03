@@ -25,6 +25,7 @@ import timeroute.androidbaby.ui.base.IBaseActivity;
 import timeroute.androidbaby.ui.presenter.UserPresenter;
 import timeroute.androidbaby.ui.view.AppBarStateChangeListener;
 import timeroute.androidbaby.ui.view.IUserView;
+import timeroute.androidbaby.util.DensityUtil;
 import timeroute.androidbaby.util.RoundTransform;
 
 public class UserActivity extends IBaseActivity<IUserView, UserPresenter> implements IUserView {
@@ -36,6 +37,8 @@ public class UserActivity extends IBaseActivity<IUserView, UserPresenter> implem
 
     @Bind(R.id.collapsing_toolbar)
     CollapsingToolbarLayout collapsingToolbarLayout;
+    @Bind(R.id.background)
+    ImageView imageViewBackground;
     @Bind(R.id.avatar)
     ImageView imageViewAvatar;
     @Bind(R.id.nickname)
@@ -67,10 +70,14 @@ public class UserActivity extends IBaseActivity<IUserView, UserPresenter> implem
         user_id = intent.getIntExtra("user_id", -1);
         String nickname = intent.getStringExtra("nickname");
         String assignment = intent.getStringExtra("assignment");
+        String background = "http://ou3l05aqj.bkt.clouddn.com/background.jpg?imageMogr2/thumbnail/600x"+String.valueOf(DensityUtil.dip2px(this, 200))+"/format/webp/blur/1x0/quality/75|imageslim";
         String avatar = intent.getStringExtra("avatar");
         textViewNickname.setText(nickname);
         textViewAssignment.setText(assignment);
         collapsingToolbarLayout.setTitle(nickname);
+        Picasso.with(this)
+                .load(background)
+                .into(imageViewBackground);
         Picasso.with(this)
                 .load(avatar)
                 .transform(new RoundTransform())

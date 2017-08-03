@@ -10,13 +10,17 @@ import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +38,7 @@ import timeroute.androidbaby.ui.activity.UserActivity;
 import timeroute.androidbaby.ui.base.IBaseFragment;
 import timeroute.androidbaby.ui.presenter.MinePresenter;
 import timeroute.androidbaby.ui.view.IMineView;
+import timeroute.androidbaby.util.DensityUtil;
 import timeroute.androidbaby.util.RoundTransform;
 import timeroute.androidbaby.util.SharedPreferenceUtils;
 
@@ -64,6 +69,8 @@ public class MineFragment extends IBaseFragment<IMineView, MinePresenter> implem
     private File mImageFile;
     private Uri contentUri;
 
+    @Bind(R.id.background)
+    ImageView background_imageView;
     @Bind(R.id.avatar)
     ImageView avatar_imageView;
     @Bind(R.id.nickname)
@@ -71,11 +78,11 @@ public class MineFragment extends IBaseFragment<IMineView, MinePresenter> implem
     @Bind(R.id.assignment)
     TextView assignment_TextView;
     @Bind(R.id.mine_feed)
-    LinearLayout feed_layout;
+    RelativeLayout feed_layout;
     @Bind(R.id.mine_profile)
-    LinearLayout profile_layout;
+    RelativeLayout profile_layout;
     @Bind(R.id.mine_setting)
-    LinearLayout setting_layout;
+    RelativeLayout setting_layout;
 
     public MineFragment() {
         // Required empty public constructor
@@ -233,10 +240,13 @@ public class MineFragment extends IBaseFragment<IMineView, MinePresenter> implem
     @Override
     public void onResume() {
         super.onResume();
+        Log.d("resume", "resume: "+"yes");
         refreshProfile();
     }
 
     private void refreshProfile() {
+        String background = "http://ou3l05aqj.bkt.clouddn.com/background.jpg?imageMogr2/thumbnail/600x"+String.valueOf(DensityUtil.dip2px(getContext(), 200))+"/format/webp/blur/1x0/quality/75|imageslim";
+        setBackground(background);
         avatar = sharedPreferenceUtils.getString("avatar");
         if(avatar != null){
             setAvatar(avatar);
@@ -260,6 +270,12 @@ public class MineFragment extends IBaseFragment<IMineView, MinePresenter> implem
                 .load(url)
                 .transform(new RoundTransform())
                 .into(avatar_imageView);
+    }
+
+    public void setBackground(String url) {
+        Picasso.with(getContext())
+                .load(url)
+                .into(background_imageView);
     }
 
     @Override

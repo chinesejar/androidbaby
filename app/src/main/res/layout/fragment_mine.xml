@@ -10,24 +10,24 @@
         android:layout_width="match_parent"
         android:layout_height="200dp">
         <ImageView
+            android:id="@+id/background"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            android:src="@drawable/bg"/>
-        <LinearLayout
+            android:scaleType="centerCrop"/>
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:gravity="center"
             android:layout_centerInParent="true">
             <ImageView
                 android:id="@+id/avatar"
+                android:layout_centerHorizontal="true"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:background="@drawable/avatar_bg"/>
             <TextView
                 android:id="@+id/nickname"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
                 android:textColor="#fff"
@@ -35,14 +35,20 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
                 android:paddingLeft="5dp"
-                android:paddingRight="5dp"/>
+                android:paddingRight="5dp"
+                android:gravity="center_horizontal"
+                android:layout_below="@id/avatar"
+                android:text="@string/nickname"/>
             <TextView
                 android:id="@+id/assignment"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="#fff"
-                android:textStyle="bold"/>
-        </LinearLayout>
+                android:textStyle="bold"
+                android:gravity="center_horizontal"
+                android:layout_below="@id/nickname"
+                android:text="@string/assignment"/>
+        </RelativeLayout>
     </RelativeLayout>
 
     <TextView
@@ -57,21 +63,20 @@
         android:divider="@drawable/space_medium"
         android:dividerPadding="10dp"
         android:showDividers="middle">
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/mine_feed"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:orientation="horizontal"
             android:gravity="center_vertical"
             android:clickable="true"
             android:background="?attr/selectableItemBackground">
-            <LinearLayout
-                android:layout_width="0dp"
+            <RelativeLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:gravity="center|left">
                 <ImageView
+                    android:id="@+id/ic_feed"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:srcCompat="@drawable/ic_feed"/>
@@ -79,29 +84,31 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@id/ic_feed"
                     android:text="@string/title_activity_feed"/>
-            </LinearLayout>
+            </RelativeLayout>
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
                 app:srcCompat="@drawable/ic_chevron_right"/>
-        </LinearLayout>
+        </RelativeLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/mine_profile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:padding="10dp"
             android:gravity="center_vertical"
             android:clickable="true"
             android:background="?attr/selectableItemBackground">
-            <LinearLayout
-                android:layout_width="0dp"
+            <RelativeLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:gravity="center|left">
                 <ImageView
+                    android:id="@+id/ic_profile"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:srcCompat="@drawable/ic_profile"/>
@@ -109,13 +116,48 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@id/ic_profile"
                     android:text="@string/title_activity_profile"/>
-            </LinearLayout>
+            </RelativeLayout>
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
                 app:srcCompat="@drawable/ic_chevron_right"/>
-        </LinearLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/mine_notify"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:gravity="center_vertical"
+            android:clickable="true"
+            android:background="?attr/selectableItemBackground">
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center|left">
+                <ImageView
+                    android:id="@+id/ic_notify"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic_notifications"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@id/ic_notify"
+                    android:text="@string/title_activity_notify"/>
+            </RelativeLayout>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                app:srcCompat="@drawable/ic_chevron_right"/>
+        </RelativeLayout>
     </LinearLayout>
 
     <TextView
@@ -130,21 +172,21 @@
         android:divider="@drawable/space_medium"
         android:dividerPadding="10dp"
         android:showDividers="middle">
-        <LinearLayout
+
+        <RelativeLayout
             android:id="@+id/mine_setting"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:orientation="horizontal"
             android:gravity="center_vertical"
             android:clickable="true"
             android:background="?attr/selectableItemBackground">
-            <LinearLayout
-                android:layout_width="0dp"
+            <RelativeLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:gravity="center|left">
                 <ImageView
+                    android:id="@+id/ic_setting"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:srcCompat="@drawable/ic_settings"/>
@@ -152,13 +194,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@id/ic_setting"
                     android:text="@string/title_activity_setting"/>
-            </LinearLayout>
+            </RelativeLayout>
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
                 app:srcCompat="@drawable/ic_chevron_right"/>
-        </LinearLayout>
+        </RelativeLayout>
     </LinearLayout>
 
 </LinearLayout>
