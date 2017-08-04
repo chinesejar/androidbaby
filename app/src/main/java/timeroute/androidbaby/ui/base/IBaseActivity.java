@@ -1,5 +1,6 @@
 package timeroute.androidbaby.ui.base;
 
+import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,6 +15,8 @@ import android.view.MenuItem;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
+
+import java.lang.ref.SoftReference;
 
 import butterknife.ButterKnife;
 import cn.jpush.android.api.JPushInterface;
@@ -35,6 +38,7 @@ public abstract class IBaseActivity<V, T extends BasePresenter<V>> extends AppCo
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        MyApp.getInstance().addActivity(new SoftReference<>(this));
         //允许为空，不是所有都要实现MVP模式
         if(createPresenter()!=null) {
             mPresenter = createPresenter();

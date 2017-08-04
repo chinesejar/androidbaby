@@ -58,4 +58,9 @@ public class SharedPreferenceUtils {
         return sharedPreferences.getLong(key, 0);
     }
 
+    public void clearAll(){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.clear();
+        editor.commit();
+    }
 }

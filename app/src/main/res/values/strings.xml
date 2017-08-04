@@ -22,6 +22,9 @@
 
     <string name="setting_notify">通知</string>
     <string name="setting_about">关于</string>
+    <string name="setting_logout">注销账号</string>
+    <string name="logout_title">注销？</string>
+    <string name="logout_message">您将注销当前账号并且退出应用</string>
 
     <!-- Strings related to menu -->
     <string name="menu_send">发送</string>
