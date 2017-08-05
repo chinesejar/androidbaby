@@ -1,6 +1,5 @@
 package timeroute.androidbaby.ui.activity;
 
-import android.app.Activity;
 import android.os.Bundle;
 
 import timeroute.androidbaby.R;
