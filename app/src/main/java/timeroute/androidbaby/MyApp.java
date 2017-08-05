@@ -12,6 +12,8 @@ import java.lang.ref.SoftReference;
 import java.util.LinkedList;
 import java.util.List;
 
+import cn.jpush.android.api.JPushInterface;
+
 /**
  * Created by chinesejar on 17-7-13.
  */
@@ -27,6 +29,8 @@ public class MyApp extends Application {
         super.onCreate();
         context = getApplicationContext();
         LeakCanary.install(this);
+        JPushInterface.setDebugMode(true);
+        JPushInterface.init(this);
     }
 
     //单例模式中获取唯一的MyApplication实例

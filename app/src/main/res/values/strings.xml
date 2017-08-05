@@ -105,7 +105,7 @@
 
     <!-- Strings related to image -->
     <string name="image_save_success">图片已保存</string>
-    
+
     <!-- common -->
     <string name="permission">未开启权限</string>
 

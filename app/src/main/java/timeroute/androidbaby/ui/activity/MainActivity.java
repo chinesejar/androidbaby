@@ -50,6 +50,7 @@ public class MainActivity extends IBaseActivity {
                 case 0:
                     logs = "Set tag and alias success";
                     Log.i(TAG, logs);
+                    sharedPreferenceUtils.setString("alias", String.valueOf(sharedPreferenceUtils.getInt("id")));
                     // 建议这里往 SharePreference 里写一个成功设置的状态。成功设置一次后，以后不必再次设置了。
                     break;
                 case 6002:
@@ -135,9 +136,15 @@ public class MainActivity extends IBaseActivity {
     }
 
     private void initAndSetAlias() {
-        JPushInterface.setDebugMode(true);
-        JPushInterface.init(this);
+        //JPushInterface.setDebugMode(true);
+        JPushInterface.init(getApplicationContext());
         String alias = String.valueOf(sharedPreferenceUtils.getInt("id"));
+        String cur_alias = sharedPreferenceUtils.getString("alias");
+        if(cur_alias != null){
+            if(cur_alias.equals(alias)){
+                return;
+            }
+        }
         // 调用 Handler 来异步设置别名
         mHandler.sendMessage(mHandler.obtainMessage(MSG_SET_ALIAS, alias));
     }

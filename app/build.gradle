@@ -14,9 +14,9 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         manifestPlaceholders = [
-                JPUSH_PKGNAME : applicationId,
+                JPUSH_PKGNAME: applicationId,
                 JPUSH_APPKEY : "d04ac1bbb5f25b42995a1a84", //JPush上注册的包名对应的appkey.
-                JPUSH_CHANNEL : "developer-default", //暂时填写默认值即可.
+                JPUSH_CHANNEL: "developer-default", //暂时填写默认值即可.
         ]
     }
     buildTypes {
@@ -60,10 +60,10 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:support-v4:26.0.0-alpha1'
     compile 'com.android.support:support-vector-drawable:26.0.0-alpha1'
-    compile 'cn.jiguang.sdk:jpush:3.0.3'  // 此处以JPush 3.0.3 版本为例。
-    compile 'cn.jiguang.sdk:jcore:1.1.1'  // 此处以JCore 1.1.1 版本为例。
+    compile 'cn.jiguang.sdk:jpush:3.0.8'
+    compile 'cn.jiguang.sdk:jcore:1.1.6'
     testCompile 'junit:junit:4.12'
+    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.1'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
-    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
 }
