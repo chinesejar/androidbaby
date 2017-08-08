@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.BinderThread;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
@@ -33,6 +34,7 @@ import java.io.IOException;
 import butterknife.Bind;
 import timeroute.androidbaby.R;
 import timeroute.androidbaby.ui.activity.MineProfileActivity;
+import timeroute.androidbaby.ui.activity.NotificationActivity;
 import timeroute.androidbaby.ui.activity.SettingActivity;
 import timeroute.androidbaby.ui.activity.UserActivity;
 import timeroute.androidbaby.ui.base.IBaseFragment;
@@ -85,6 +87,8 @@ public class MineFragment extends IBaseFragment<IMineView, MinePresenter> implem
     RelativeLayout profile_layout;
     @Bind(R.id.mine_setting)
     RelativeLayout setting_layout;
+    @Bind(R.id.mine_notify)
+    RelativeLayout notification_layout;
 
     public MineFragment() {
         // Required empty public constructor
@@ -132,6 +136,9 @@ public class MineFragment extends IBaseFragment<IMineView, MinePresenter> implem
         });
         setting_layout.setOnClickListener(view -> {
             startActivity(new Intent(getActivity(), SettingActivity.class));
+        });
+        notification_layout.setOnClickListener(view -> {
+            startActivity(new Intent(getActivity(), NotificationActivity.class));
         });
 
         if(!loaded){

@@ -181,7 +181,8 @@
         <activity
             android:name=".ui.activity.RegisterActivity"
             android:label="@string/title_activity_register" />
-        <activity android:name=".ui.activity.NotificationActivity"></activity>
+        <activity android:name=".ui.activity.NotificationActivity"
+            android:theme="@style/MainTheme"></activity>
     </application>
 
 </manifest>

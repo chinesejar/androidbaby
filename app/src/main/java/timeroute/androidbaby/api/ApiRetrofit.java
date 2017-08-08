@@ -1,6 +1,5 @@
 package timeroute.androidbaby.api;
 
-import android.util.Log;
 
 import java.io.File;
 import java.util.concurrent.TimeUnit;

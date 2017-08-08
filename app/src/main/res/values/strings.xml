@@ -114,4 +114,9 @@
     <string name="slogan">时空无界，路由你我</string>
     <string name="introduce">一直在努力中。</string>
     <string name="social_user">chinesejar</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="comment_notification">%1$s 评论了你的动态</string>
+    <string name="reply_notification">%1$s 回复了你的动态</string>
+    <string name="like_notification">%1$s 喜欢你的动态</string>
 </resources>

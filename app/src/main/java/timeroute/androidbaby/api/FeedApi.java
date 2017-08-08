@@ -17,6 +17,7 @@ import timeroute.androidbaby.bean.feed.CommentTimeLine;
 import timeroute.androidbaby.bean.feed.Feed;
 import timeroute.androidbaby.bean.feed.FeedTimeLine;
 import timeroute.androidbaby.bean.feed.Like;
+import timeroute.androidbaby.bean.feed.LikeTimeLine;
 import timeroute.androidbaby.bean.user.ImageToken;
 
 /**
@@ -48,6 +49,18 @@ public interface FeedApi {
 
     @GET("comment/")
     Observable<CommentTimeLine> getLatestComment(@Header("Authorization") String authorization, @Query("feed") int feed_id);
+
+    @GET("comment_notification/")
+    Observable<CommentTimeLine> getLatestCommentNotification(@Header("Authorization") String authorization);
+
+    @GET("comment_notification/")
+    Observable<CommentTimeLine> getNextCommentNotification(@Header("Authorization") String authorization, @Query("page") String page);
+
+    @GET("like_notification/")
+    Observable<LikeTimeLine> getLatestLikeNotification(@Header("Authorization") String authorization);
+
+    @GET("like_notification/")
+    Observable<LikeTimeLine> getNextLikeNotification(@Header("Authorization") String authorization, @Query("page") String page);
 
     @GET("feed_token/")
     Observable<List<ImageToken>> getImageToken(@Header("Authorization") String authorization, @Query("count") int count);

@@ -18,6 +18,7 @@ public class Comment implements Serializable {
     private Profile creator;
     private Profile at;
     private String content;
+    private boolean is_read;
     private String create_time;
 
     public Feed getFeedId() {
@@ -34,6 +35,10 @@ public class Comment implements Serializable {
 
     public String getContent() {
         return content;
+    }
+
+    public boolean getIsRead() {
+        return is_read;
     }
 
     public String getCreate_time() {

@@ -17,6 +17,8 @@ import timeroute.androidbaby.ui.base.IBaseFragment;
 
 public class ViewPagerFgAdapter extends FragmentPagerAdapter {
 
+    private String[] mTitles = new String[]{"评论", "点赞"};
+
     private List<IBaseFragment> fragmentList;
 
     public ViewPagerFgAdapter(FragmentManager supportFragmentManager, List<IBaseFragment> fragmentList){
@@ -35,6 +37,12 @@ public class ViewPagerFgAdapter extends FragmentPagerAdapter {
             return fragmentList.size();
         }
         return 0;
+    }
+
+    //ViewPager与TabLayout绑定后，这里获取到PageTitle就是Tab的Text
+    @Override
+    public CharSequence getPageTitle(int position) {
+        return mTitles[position];
     }
 
     @Override
