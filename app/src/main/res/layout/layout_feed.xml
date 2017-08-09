@@ -62,6 +62,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
+                android:autoLink="web|phone|email"
                 android:textColor="@color/textColorGrey" />
 
             <timeroute.androidbaby.widget.HorizontalListView

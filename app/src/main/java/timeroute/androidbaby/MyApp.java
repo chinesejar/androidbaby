@@ -29,8 +29,8 @@ public class MyApp extends Application {
         super.onCreate();
         context = getApplicationContext();
         LeakCanary.install(this);
-        JPushInterface.setDebugMode(true);
-        JPushInterface.init(this);
+        //JPushInterface.setDebugMode(true);
+        //JPushInterface.init(this);
     }
 
     //单例模式中获取唯一的MyApplication实例

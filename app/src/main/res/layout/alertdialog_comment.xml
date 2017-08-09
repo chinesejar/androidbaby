@@ -29,7 +29,6 @@
             android:layout_margin="10dp"
             android:background="@null"
             android:gravity="top"
-            android:hint="@string/comment_hint"
             android:padding="10dp"
             android:textColor="@color/textColorDarkGrey"
             android:textColorHint="@color/textColorGrey" />

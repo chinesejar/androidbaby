@@ -136,17 +136,20 @@ public class MainActivity extends IBaseActivity {
     }
 
     private void initAndSetAlias() {
-        //JPushInterface.setDebugMode(true);
-        JPushInterface.init(getApplicationContext());
-        String alias = String.valueOf(sharedPreferenceUtils.getInt("id"));
-        String cur_alias = sharedPreferenceUtils.getString("alias");
-        if(cur_alias != null){
-            if(cur_alias.equals(alias)){
-                return;
+        boolean push_service = sharedPreferenceUtils.getBoolean("push_service");
+        if(push_service){
+            //JPushInterface.setDebugMode(true);
+            JPushInterface.init(getApplicationContext());
+            String alias = String.valueOf(sharedPreferenceUtils.getInt("id"));
+            String cur_alias = sharedPreferenceUtils.getString("alias");
+            if(cur_alias != null){
+                if(cur_alias.equals(alias)){
+                    return;
+                }
             }
+            // 调用 Handler 来异步设置别名
+            mHandler.sendMessage(mHandler.obtainMessage(MSG_SET_ALIAS, alias));
         }
-        // 调用 Handler 来异步设置别名
-        mHandler.sendMessage(mHandler.obtainMessage(MSG_SET_ALIAS, alias));
     }
     private static final int MSG_SET_ALIAS = 1001;
     private final Handler mHandler = new Handler() {

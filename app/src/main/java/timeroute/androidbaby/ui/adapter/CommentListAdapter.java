@@ -75,10 +75,6 @@ public class CommentListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         TextView nickname;
         @Bind(R.id.content)
         TextView content;
-        @Bind(R.id.comment_or_reply)
-        TextView comment_or_reply;
-        @Bind(R.id.at)
-        TextView at;
         @Bind(R.id.create_time)
         TextView create_time;
 
@@ -98,18 +94,10 @@ public class CommentListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     listener.onAvatarClicked(comment.getCreator().getId(), comment.getCreator().getNickname(), comment.getCreator().getAssignment(), comment.getCreator().getAvatar());
                 }
             });
-            nickname.setText(comment.getCreator().getNickname());
             if(comment.getAt() != null){
-                at.setVisibility(View.VISIBLE);
-                comment_or_reply.setText(context.getString(R.string.reply));
-                at.setText(comment.getAt().getNickname());
-                at.setOnClickListener(view -> {
-                    if(listener != null){
-                        listener.onAvatarClicked(comment.getAt().getId(), comment.getAt().getNickname(), comment.getAt().getAssignment(), comment.getAt().getAvatar());
-                    }
-                });
+                nickname.setText(String.format(context.getResources().getString(R.string.reply_display), comment.getCreator().getNickname(), comment.getAt().getNickname()));
             }else {
-                comment_or_reply.setText(context.getString(R.string.comment));
+                nickname.setText(String.format(context.getResources().getString(R.string.comment_display), comment.getCreator().getNickname()));
             }
             content.setText(comment.getContent());
             create_time.setText(String.valueOf(comment.getCreate_time()));

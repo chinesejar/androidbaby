@@ -49,7 +49,6 @@
 
     <!-- hint -->
     <string name="code_hint">验证码</string>
-    <string name="comment_hint">开始评论吧～～～</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">邮箱</string>
@@ -116,6 +115,8 @@
     <string name="social_user">chinesejar</string>
 
     <!-- TODO: Remove or change this placeholder text -->
+    <string name="comment_display">%1$s 评论</string>
+    <string name="reply_display">%1$s 回复 %2$s</string>
     <string name="comment_notification">%1$s 评论了你的动态</string>
     <string name="reply_notification">%1$s 回复了你的动态</string>
     <string name="like_notification">%1$s 喜欢你的动态</string>

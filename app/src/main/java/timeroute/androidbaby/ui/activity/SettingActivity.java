@@ -3,9 +3,13 @@ package timeroute.androidbaby.ui.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 
 import butterknife.Bind;
+import cn.jpush.android.api.JPushInterface;
 import timeroute.androidbaby.MyApp;
 import timeroute.androidbaby.R;
 import timeroute.androidbaby.ui.base.IBaseActivity;
@@ -18,6 +22,8 @@ public class SettingActivity extends IBaseActivity<ISettingView, SettingPresente
     private static final String TAG = "SettingActivity";
     private SharedPreferenceUtils sharedPreferenceUtils;
 
+    @Bind(R.id.switchNotify)
+    Switch switchNotify;
     @Bind(R.id.setting_about)
     LinearLayout layoutAbout;
     @Bind(R.id.setting_logout)
@@ -32,6 +38,19 @@ public class SettingActivity extends IBaseActivity<ISettingView, SettingPresente
     private void initView() {
         sharedPreferenceUtils = new SharedPreferenceUtils(this, "user");
         setTracker(TAG);
+        switchNotify.setOnCheckedChangeListener((compoundButton, b) -> {
+            if(b){
+                if(JPushInterface.isPushStopped(getApplicationContext())){
+                    JPushInterface.init(getApplicationContext());
+                    sharedPreferenceUtils.setBoolean("push_service", true);
+                }
+            }else {
+                if(!JPushInterface.isPushStopped(getApplicationContext())){
+                    JPushInterface.stopPush(getApplicationContext());
+                    sharedPreferenceUtils.setBoolean("push_service", false);
+                }
+            }
+        });
         layoutAbout.setOnClickListener(view -> {
             startActivity(new Intent(this, AboutActivity.class));
         });
