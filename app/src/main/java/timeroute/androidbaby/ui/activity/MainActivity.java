@@ -149,6 +149,8 @@ public class MainActivity extends IBaseActivity {
             }
             // 调用 Handler 来异步设置别名
             mHandler.sendMessage(mHandler.obtainMessage(MSG_SET_ALIAS, alias));
+        }else {
+            JPushInterface.stopPush(getApplicationContext());
         }
     }
     private static final int MSG_SET_ALIAS = 1001;

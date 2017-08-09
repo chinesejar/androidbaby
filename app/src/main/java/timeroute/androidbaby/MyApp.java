@@ -30,7 +30,7 @@ public class MyApp extends Application {
         context = getApplicationContext();
         LeakCanary.install(this);
         //JPushInterface.setDebugMode(true);
-        //JPushInterface.init(this);
+        JPushInterface.init(this);
     }
 
     //单例模式中获取唯一的MyApplication实例

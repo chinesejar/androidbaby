@@ -73,6 +73,7 @@ public class LoginPresenter extends BasePresenter<ILoginView> {
         sharedPreferenceUtils.setString("assignment", profile.getAssignment());
         sharedPreferenceUtils.setString("gender", profile.getGender());
         sharedPreferenceUtils.setString("avatar", profile.getAvatar());
+        sharedPreferenceUtils.setBoolean("push_service", true);
         loginView.toMain();
     }
 }

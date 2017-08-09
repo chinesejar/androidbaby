@@ -38,6 +38,7 @@ public class SettingActivity extends IBaseActivity<ISettingView, SettingPresente
     private void initView() {
         sharedPreferenceUtils = new SharedPreferenceUtils(this, "user");
         setTracker(TAG);
+        switchNotify.setChecked(sharedPreferenceUtils.getBoolean("push_service"));
         switchNotify.setOnCheckedChangeListener((compoundButton, b) -> {
             if(b){
                 if(JPushInterface.isPushStopped(getApplicationContext())){
