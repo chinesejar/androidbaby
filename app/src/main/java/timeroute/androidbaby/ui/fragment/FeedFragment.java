@@ -65,6 +65,7 @@ public class FeedFragment extends IBaseFragment<IFeedView, FeedPresenter> implem
     protected void initView(View rootView) {
         setTracker(TAG);
         mLayoutManager = new LinearLayoutManager(getContext());
+
         feed_list.setLayoutManager(mLayoutManager);
         rxPermissions = new RxPermissions(getActivity());
         FloatingActionButton floatingActionButton = getActivity().findViewById(R.id.fab);

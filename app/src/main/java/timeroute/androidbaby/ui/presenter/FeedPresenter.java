@@ -201,9 +201,6 @@ public class FeedPresenter extends BasePresenter<IFeedView> {
                 }
             });
             recyclerView.setAdapter(adapter);
-            new Handler().postDelayed(() -> {
-                adapter.notifyDataSetChanged();
-            }, 2000);
         }
         next = feedTimeLine.getNext();
         if(next.equals("null")){

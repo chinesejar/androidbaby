@@ -28,7 +28,7 @@ public class MyApp extends Application {
     public void onCreate(){
         super.onCreate();
         context = getApplicationContext();
-        LeakCanary.install(this);
+        //LeakCanary.install(this);
         //JPushInterface.setDebugMode(true);
         JPushInterface.init(this);
     }

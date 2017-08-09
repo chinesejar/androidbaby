@@ -12,6 +12,7 @@ import org.json.JSONObject;
 import java.util.Iterator;
 
 import cn.jpush.android.api.JPushInterface;
+import timeroute.androidbaby.ui.activity.NotificationActivity;
 import timeroute.androidbaby.ui.activity.SettingActivity;
 import timeroute.androidbaby.util.LogUtil;
 
@@ -49,7 +50,7 @@ public class MyReceiver extends BroadcastReceiver {
 				LogUtil.d(TAG, "[MyReceiver] 用户点击打开了通知");
 
 				//打开自定义的Activity
-				Intent i = new Intent(context, SettingActivity.class);
+				Intent i = new Intent(context, NotificationActivity.class);
 				i.putExtras(bundle);
 				//i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 				i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP );

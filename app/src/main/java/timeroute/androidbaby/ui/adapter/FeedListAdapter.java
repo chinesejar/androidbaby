@@ -9,6 +9,7 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.os.Handler;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.widget.CardView;
@@ -164,6 +165,7 @@ public class FeedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                         R.layout.layout_feed_pic,
                         new String[]{"url"},
                         new int[]{R.id.image_view_pic});
+
                 horizontalListViewFeedPic.setAdapter(feedPicAdapter);
                 horizontalListViewFeedPic.setOnTouchListener((view, motionEvent) -> {
                     float x = motionEvent.getX();
