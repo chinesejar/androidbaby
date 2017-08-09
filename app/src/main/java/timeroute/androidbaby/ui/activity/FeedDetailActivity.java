@@ -59,6 +59,7 @@ public class FeedDetailActivity extends IBaseActivity<IFeedDetailView, FeedDetai
     private SharedPreferenceUtils sharedPreferenceUtils;
     private boolean mIsRequestDataRefresh = false;
     private int feed_id;
+    private boolean from_notification = false;
 
     private FeedPicAdapter feedPicAdapter;
     private Feed feed;
@@ -119,26 +120,31 @@ public class FeedDetailActivity extends IBaseActivity<IFeedDetailView, FeedDetai
         Intent intent = getIntent();
         feed = (Feed) intent.getSerializableExtra("feed");
         feed_id = feed.getFeedId();
-        Picasso.with(this)
-                .load(feed.getUser().getAvatar())
-                .transform(new RoundTransform())
-                .into(avatar);
-        nickname.setText(feed.getUser().getNickname());
-        content.setText(feed.getContent());
-        like.setText(String.valueOf(feed.getLikeCount()));
-        comment.setText(String.valueOf(feed.getCommentCount()));
-        setImages(feed.getFeedPic());
-        if(feed_id>0){
-            Log.d("feed", String.valueOf(feed_id));
-            setDataRefresh(true);
-            mPresenter.scrollRecycleView();
+        if(feed.getUser()!=null){
+            Picasso.with(this)
+                    .load(feed.getUser().getAvatar())
+                    .transform(new RoundTransform())
+                    .into(avatar);
+            nickname.setText(feed.getUser().getNickname());
+            content.setText(feed.getContent());
+            like.setText(String.valueOf(feed.getLikeCount()));
+            comment.setText(String.valueOf(feed.getCommentCount()));
+            setImages(feed.getFeedPic());
+            if(feed_id>0){
+                Log.d("feed", String.valueOf(feed_id));
+                setDataRefresh(true);
+                mPresenter.scrollRecycleView();
+            }
+            imageButtonLike.setOnClickListener(view -> {
+                mPresenter.postLike(feed);
+            });
+            floatingActionButton.setOnClickListener(view -> {
+                openCommentDialog(false, (Profile) null);
+            });
+        }else {
+            from_notification = true;
+            mPresenter.getFeedDetail(feed_id);
         }
-        imageButtonLike.setOnClickListener(view -> {
-            mPresenter.postLike(feed);
-        });
-        floatingActionButton.setOnClickListener(view -> {
-            openCommentDialog(false, (Profile) null);
-        });
     }
 
     @Override
@@ -184,6 +190,30 @@ public class FeedDetailActivity extends IBaseActivity<IFeedDetailView, FeedDetai
         intent.putExtra("type", "refresh");
         setResult(RESULT_OK, intent);
         finish();
+    }
+
+    @Override
+    public void setFeed(Feed feed) {
+        Picasso.with(this)
+                .load(feed.getUser().getAvatar())
+                .transform(new RoundTransform())
+                .into(avatar);
+        nickname.setText(feed.getUser().getNickname());
+        content.setText(feed.getContent());
+        like.setText(String.valueOf(feed.getLikeCount()));
+        comment.setText(String.valueOf(feed.getCommentCount()));
+        setImages(feed.getFeedPic());
+        if(feed_id>0){
+            Log.d("feed", String.valueOf(feed_id));
+            setDataRefresh(true);
+            mPresenter.scrollRecycleView();
+        }
+        imageButtonLike.setOnClickListener(view -> {
+            mPresenter.postLike(feed);
+        });
+        floatingActionButton.setOnClickListener(view -> {
+            openCommentDialog(false, (Profile) null);
+        });
     }
 
     @Override
@@ -286,9 +316,13 @@ public class FeedDetailActivity extends IBaseActivity<IFeedDetailView, FeedDetai
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        int feed_id = sharedPreferenceUtils.getInt("id");
-        if(feed_id == feed.getUser().getId()) {
+        if(from_notification){
             getMenuInflater().inflate(R.menu.feed_detail, menu);
+        }else {
+            int feed_id = sharedPreferenceUtils.getInt("id");
+            if(feed_id == feed.getUser().getId()) {
+                getMenuInflater().inflate(R.menu.feed_detail, menu);
+            }
         }
         return true;
     }

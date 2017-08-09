@@ -126,7 +126,7 @@ public class UserPresenter extends BasePresenter<IUserView> {
             mRecyclerView = userView.getRecyclerView();
             layoutManager = userView.getLayoutManager();
             Like like = new Like();
-            like.setFeed_id(feed.getFeedId());
+            like.setFeed_id(feed);
             feedApi.postLike("JWT "+ token, like)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())

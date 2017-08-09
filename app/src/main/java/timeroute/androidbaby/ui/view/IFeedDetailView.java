@@ -25,4 +25,6 @@ public interface IFeedDetailView {
     void updateLikeStatus();
 
     void backToParent();
+
+    void setFeed(Feed feed);
 }

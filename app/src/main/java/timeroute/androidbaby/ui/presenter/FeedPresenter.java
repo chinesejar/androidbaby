@@ -129,7 +129,7 @@ public class FeedPresenter extends BasePresenter<IFeedView> {
             mRecyclerView = feedView.getRecyclerView();
             layoutManager = feedView.getLayoutManager();
             Like like = new Like();
-            like.setFeed_id(feed.getFeedId());
+            like.setFeed_id(feed);
             feedApi.postLike("JWT "+ token, like)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())

@@ -8,26 +8,20 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.Toast;
 
-import retrofit2.Response;
 import rx.Observable;
-import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import timeroute.androidbaby.api.exception.ApiException;
 import timeroute.androidbaby.api.exception.ExceptionEngine;
 import timeroute.androidbaby.bean.feed.CommentTimeLine;
 import timeroute.androidbaby.bean.feed.Feed;
-import timeroute.androidbaby.bean.feed.FeedTimeLine;
-import timeroute.androidbaby.bean.feed.Like;
 import timeroute.androidbaby.bean.feed.LikeTimeLine;
 import timeroute.androidbaby.bean.user.Profile;
 import timeroute.androidbaby.support.MyObserver;
 import timeroute.androidbaby.ui.adapter.CommentNotificationListAdapter;
-import timeroute.androidbaby.ui.adapter.FeedListAdapter;
+import timeroute.androidbaby.ui.adapter.LikeNotificationListAdapter;
 import timeroute.androidbaby.ui.base.BasePresenter;
-import timeroute.androidbaby.ui.view.IFeedView;
 import timeroute.androidbaby.ui.view.ILikeCommentView;
-import timeroute.androidbaby.ui.view.INotificationView;
 import timeroute.androidbaby.ui.view.RecyclerViewClickListener;
 import timeroute.androidbaby.util.SharedPreferenceUtils;
 
@@ -52,7 +46,8 @@ public class LikeCommentPresenter extends BasePresenter<ILikeCommentView> {
     private LinearLayoutManager layoutManager;
     private CommentTimeLine timeLine_comment;
     private LikeTimeLine timeLine_like;
-    private CommentNotificationListAdapter adapter;
+    private CommentNotificationListAdapter commentNotificationListAdapter;
+    private LikeNotificationListAdapter likeNotificationListAdapter;
     private int lastVisibleItem;
     private boolean isLoadMore = false;
     private String next;
@@ -191,18 +186,49 @@ public class LikeCommentPresenter extends BasePresenter<ILikeCommentView> {
     private void disPlayCommentList(CommentTimeLine commentTimeLine, ILikeCommentView likeCommentView, RecyclerView recyclerView) {
         if (isLoadMore) {
             if (next == null) {
-                adapter.updateLoadStatus(LOAD_NONE);
+                commentNotificationListAdapter.updateLoadStatus(LOAD_NONE);
                 likeCommentView.setDataRefresh(false);
                 return;
             }
             else {
                 timeLine_comment.getComments().addAll(commentTimeLine.getComments());
             }
-            adapter.notifyDataSetChanged();
+            commentNotificationListAdapter.notifyDataSetChanged();
         } else {
             timeLine_comment = commentTimeLine;
-            recyclerView.setAdapter(adapter);
-            adapter.notifyDataSetChanged();
+            commentNotificationListAdapter = new CommentNotificationListAdapter(context, timeLine_comment, new RecyclerViewClickListener() {
+                @Override
+                public void onAvatarClicked(int user_id, String nickname, String assignment, String avatar) {
+
+                }
+
+                @Override
+                public void onLikeClicked(Feed feed) {
+
+                }
+
+                @Override
+                public void onCommentClicked(Feed feed) {
+
+                }
+
+                @Override
+                public void onCardViewClick(Feed feed) {
+                    likeCommentView.goToFeedDetail(feed);
+                }
+
+                @Override
+                public void onImageViewClick(int i, String[] images) {
+
+                }
+
+                @Override
+                public void onAtClicked(Profile profile) {
+
+                }
+            });
+            recyclerView.setAdapter(commentNotificationListAdapter);
+            commentNotificationListAdapter.notifyDataSetChanged();
         }
         next = commentTimeLine.getNext();
         if(next.equals("null")){
@@ -214,18 +240,49 @@ public class LikeCommentPresenter extends BasePresenter<ILikeCommentView> {
     private void disPlayLikeList(LikeTimeLine likeTimeLine, ILikeCommentView likeCommentView, RecyclerView recyclerView) {
         if (isLoadMore) {
             if (next == null) {
-                adapter.updateLoadStatus(LOAD_NONE);
+                likeNotificationListAdapter.updateLoadStatus(LOAD_NONE);
                 likeCommentView.setDataRefresh(false);
                 return;
             }
             else {
                 timeLine_like.getLikes().addAll(likeTimeLine.getLikes());
             }
-            adapter.notifyDataSetChanged();
+            likeNotificationListAdapter.notifyDataSetChanged();
         } else {
             timeLine_like = likeTimeLine;
-            recyclerView.setAdapter(adapter);
-            adapter.notifyDataSetChanged();
+            likeNotificationListAdapter = new LikeNotificationListAdapter(context, timeLine_like, new RecyclerViewClickListener() {
+                @Override
+                public void onAvatarClicked(int user_id, String nickname, String assignment, String avatar) {
+
+                }
+
+                @Override
+                public void onLikeClicked(Feed feed) {
+
+                }
+
+                @Override
+                public void onCommentClicked(Feed feed) {
+
+                }
+
+                @Override
+                public void onCardViewClick(Feed feed) {
+                    likeCommentView.goToFeedDetail(feed);
+                }
+
+                @Override
+                public void onImageViewClick(int i, String[] images) {
+
+                }
+
+                @Override
+                public void onAtClicked(Profile profile) {
+
+                }
+            });
+            recyclerView.setAdapter(likeNotificationListAdapter);
+            likeNotificationListAdapter.notifyDataSetChanged();
         }
         next = likeTimeLine.getNext();
         if(next.equals("null")){
@@ -243,23 +300,33 @@ public class LikeCommentPresenter extends BasePresenter<ILikeCommentView> {
                     lastVisibleItem = layoutManager
                             .findLastVisibleItemPosition();
                     if (layoutManager.getItemCount() == 1) {
-                        adapter.updateLoadStatus(LOAD_NONE);
+                        if(likeCommentView.getType().equals("like")){
+                            likeNotificationListAdapter.updateLoadStatus(LOAD_MORE);
+                        }else if(likeCommentView.getType().equals("comment")){
+                            commentNotificationListAdapter.updateLoadStatus(LOAD_MORE);
+                        }
                         return;
                     }
                     if(next == null){
-                        if(adapter != null){
-                            adapter.updateLoadStatus(LOAD_NONE);
+                        if(likeNotificationListAdapter != null){
+                            likeNotificationListAdapter.updateLoadStatus(LOAD_NONE);
+                        }
+                        if(commentNotificationListAdapter != null){
+                            commentNotificationListAdapter.updateLoadStatus(LOAD_MORE);
                         }
                         return;
                     }
                     if (lastVisibleItem + 1 == layoutManager
                             .getItemCount()) {
-                        adapter.updateLoadStatus(LOAD_PULL_TO);
-                        isLoadMore = true;
-                        adapter.updateLoadStatus(LOAD_MORE);
                         if(likeCommentView.getType().equals("like")){
+                            likeNotificationListAdapter.updateLoadStatus(LOAD_PULL_TO);
+                            isLoadMore = true;
+                            likeNotificationListAdapter.updateLoadStatus(LOAD_MORE);
                             new Handler().postDelayed(() -> getNextLikeNotification(), 1000);
                         }else if(likeCommentView.getType().equals("comment")){
+                            commentNotificationListAdapter.updateLoadStatus(LOAD_PULL_TO);
+                            isLoadMore = true;
+                            commentNotificationListAdapter.updateLoadStatus(LOAD_MORE);
                             new Handler().postDelayed(() -> getNextCommentNotification(), 1000);
                         }
                     }

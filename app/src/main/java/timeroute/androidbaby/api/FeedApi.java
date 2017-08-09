@@ -26,6 +26,9 @@ import timeroute.androidbaby.bean.user.ImageToken;
 
 public interface FeedApi {
 
+    @GET("feed/{id}/")
+    Observable<Feed> getFeed(@Header("Authorization") String authorization, @Path("id") int feed_id);
+
     @GET("feed/")
     Observable<FeedTimeLine> getLatestFeed(@Header("Authorization") String authorization);
 

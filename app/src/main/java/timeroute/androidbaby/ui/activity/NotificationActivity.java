@@ -45,7 +45,7 @@ public class NotificationActivity extends IBaseActivity<INotificationView, Notif
         LikeCommentFragment likeFragment = new LikeCommentFragment();
         likeFragment.setType("like");
         fragmentList.add(commentFragment);
-        //fragmentList.add(likeFragment);
+        fragmentList.add(likeFragment);
         viewPager.setOffscreenPageLimit(2);
         viewPager.setAdapter(new ViewPagerFgAdapter(getSupportFragmentManager(), fragmentList));
         tabLayout.setupWithViewPager(viewPager);

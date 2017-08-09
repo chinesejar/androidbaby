@@ -1,6 +1,7 @@
 package timeroute.androidbaby.ui.fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,6 +14,8 @@ import android.widget.TextView;
 
 import butterknife.Bind;
 import timeroute.androidbaby.R;
+import timeroute.androidbaby.bean.feed.Feed;
+import timeroute.androidbaby.ui.activity.FeedDetailActivity;
 import timeroute.androidbaby.ui.base.BasePresenter;
 import timeroute.androidbaby.ui.base.IBaseFragment;
 import timeroute.androidbaby.ui.presenter.LikeCommentPresenter;
@@ -81,7 +84,7 @@ public class LikeCommentFragment extends IBaseFragment<ILikeCommentView, LikeCom
         } else {
             abSwipeRefreshLayout.setRefreshing(true);
             if(type.equals("like")){
-                mPresenter.getNextCommentNotification();
+                mPresenter.getLatestLikeNotification();
             }else if(type.equals("comment")) {
                 mPresenter.getLatestCommentNotification();
             }
@@ -105,5 +108,12 @@ public class LikeCommentFragment extends IBaseFragment<ILikeCommentView, LikeCom
     @Override
     public String getType(){
         return type;
+    }
+
+    @Override
+    public void goToFeedDetail(Feed feed) {
+        Intent intent = new Intent(getContext(), FeedDetailActivity.class);
+        intent.putExtra("feed", feed);
+        getContext().startActivity(intent);
     }
 }

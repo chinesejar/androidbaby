@@ -57,6 +57,36 @@ public class FeedDetailPresenter extends BasePresenter<IFeedDetailView> {
         token = sharedPreferenceUtils.getString("token");
     }
 
+    public void getFeedDetail(int feed_id) {
+        feedDetailView = getView();
+        if(feedDetailView != null){
+            mRecyclerView = feedDetailView.getRecyclerView();
+            layoutManager = feedDetailView.getLayoutManager();
+
+            feedApi.getFeed("JWT "+token, feed_id)
+                    .onErrorResumeNext(throwable -> Observable.error(ExceptionEngine.handleException(throwable)))
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new MyObserver<Feed>() {
+                        @Override
+                        protected void onError(ApiException ex) {
+                            Toast.makeText(context, ex.getDisplayMessage(), Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onCompleted() {
+
+                        }
+
+                        @Override
+                        public void onNext(Feed feed) {
+                            Log.d(TAG, feed.toString());
+                            feedDetailView.setFeed(feed);
+                        }
+                    });
+        }
+    }
+
     public void getLatestComment(int feed_id) {
         feedDetailView = getView();
         if(feedDetailView != null){
@@ -93,7 +123,7 @@ public class FeedDetailPresenter extends BasePresenter<IFeedDetailView> {
             mRecyclerView = feedDetailView.getRecyclerView();
             layoutManager = feedDetailView.getLayoutManager();
             Like like = new Like();
-            like.setFeed_id(feed.getFeedId());
+            like.setFeed_id(feed);
             feedApi.postLike("JWT "+ token, like)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())

@@ -1,6 +1,7 @@
 package timeroute.androidbaby.ui.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -15,8 +16,9 @@ import com.squareup.picasso.Picasso;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import timeroute.androidbaby.R;
-import timeroute.androidbaby.bean.feed.Comment;
-import timeroute.androidbaby.bean.feed.CommentTimeLine;
+import timeroute.androidbaby.bean.feed.Like;
+import timeroute.androidbaby.bean.feed.LikeTimeLine;
+import timeroute.androidbaby.ui.activity.FeedDetailActivity;
 import timeroute.androidbaby.ui.view.RecyclerViewClickListener;
 import timeroute.androidbaby.util.RoundTransform;
 import timeroute.androidbaby.util.ScreenUtil;
@@ -25,12 +27,12 @@ import timeroute.androidbaby.util.ScreenUtil;
  * Created by chinesejar on 17-8-8.
  */
 
-public class CommentNotificationListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class LikeNotificationListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private static final String TAG = "CommentNotificationListAdapter";
+    private static final String TAG = "LikeNotificationListAdapter";
     private Context context;
     private RecyclerViewClickListener listener;
-    private CommentTimeLine commentTimeLine;
+    private LikeTimeLine likeTimeLine;
     private int status = 1;
 
     public static final int LOAD_MORE = 0;
@@ -39,15 +41,15 @@ public class CommentNotificationListAdapter extends RecyclerView.Adapter<Recycle
     public static final int LOAD_END = 3;
     private static final int TYPE_FOOTER = -1;
 
-    public CommentNotificationListAdapter(Context context, CommentTimeLine commentTimeLine, RecyclerViewClickListener listener) {
+    public LikeNotificationListAdapter(Context context, LikeTimeLine likeTimeLine, RecyclerViewClickListener listener) {
         this.context = context;
-        this.commentTimeLine = commentTimeLine;
+        this.likeTimeLine = likeTimeLine;
         this.listener = listener;
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (commentTimeLine.getComments() != null) {
+        if (likeTimeLine.getLikes() != null) {
             if (position + 1 == getItemCount()) {
                 return TYPE_FOOTER;
             } else {
@@ -65,7 +67,7 @@ public class CommentNotificationListAdapter extends RecyclerView.Adapter<Recycle
         notifyDataSetChanged();
     }
 
-    class CommentViewHolder extends RecyclerView.ViewHolder {
+    class LikeViewHolder extends RecyclerView.ViewHolder {
         @Bind(R.id.linearLayoutLikeComment)
         LinearLayout linearLayoutLikeComment;
         @Bind(R.id.avatar)
@@ -75,7 +77,7 @@ public class CommentNotificationListAdapter extends RecyclerView.Adapter<Recycle
         @Bind(R.id.create_time)
         TextView create_time;
 
-        public CommentViewHolder(View itemView) {
+        public LikeViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
 
@@ -84,15 +86,15 @@ public class CommentNotificationListAdapter extends RecyclerView.Adapter<Recycle
             linearLayoutLikeComment.setLayoutParams(new LinearLayout.LayoutParams(screenWidth, LinearLayout.LayoutParams.WRAP_CONTENT));
         }
 
-        public void bindItem(Comment comment) {
-            loadCirclePic(context, comment.getCreator().getAvatar(), avatar);
+        public void bindItem(Like like) {
+            loadCirclePic(context, like.getCreator().getAvatar(), avatar);
             avatar.setOnClickListener(view -> {
 
             });
-            nickname.setText(String.format(context.getResources().getString(R.string.comment_notification), comment.getCreator().getNickname()));
-            create_time.setText(String.valueOf(comment.getCreate_time()));
+            nickname.setText(String.format(context.getResources().getString(R.string.like_notification), like.getCreator().getNickname()));
+            create_time.setText(String.valueOf(like.getCreate_time()));
             linearLayoutLikeComment.setOnClickListener(view -> {
-                listener.onCardViewClick(comment.getFeedId());
+                listener.onCardViewClick(like.getFeed_id());
             });
         }
     }
@@ -138,7 +140,7 @@ public class CommentNotificationListAdapter extends RecyclerView.Adapter<Recycle
     @Override
     public int getItemCount() {
         // TODO Auto-generated method stub
-        return commentTimeLine == null ? 0 : commentTimeLine.getComments().size() + 1;
+        return likeTimeLine == null ? 0 : likeTimeLine.getLikes().size() + 1;
     }
 
     @Override
@@ -154,15 +156,15 @@ public class CommentNotificationListAdapter extends RecyclerView.Adapter<Recycle
             return new FooterViewHolder(view);
         } else {
             View view = View.inflate(parent.getContext(), R.layout.layout_notification_like_comment, null);
-            return new CommentViewHolder(view);
+            return new LikeViewHolder(view);
         }
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (holder instanceof CommentViewHolder) {
-            CommentViewHolder commentHolder = (CommentViewHolder) holder;
-            commentHolder.bindItem(commentTimeLine.getComments().get(position));
+        if (holder instanceof LikeViewHolder) {
+            LikeViewHolder likeViewHolder = (LikeViewHolder) holder;
+            likeViewHolder.bindItem(likeTimeLine.getLikes().get(position));
         } else if (holder instanceof FooterViewHolder) {
             FooterViewHolder footerViewHolder = (FooterViewHolder) holder;
             footerViewHolder.bindItem();
