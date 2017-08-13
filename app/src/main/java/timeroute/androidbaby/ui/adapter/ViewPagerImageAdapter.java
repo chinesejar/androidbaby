@@ -57,7 +57,7 @@ public class ViewPagerImageAdapter extends PagerAdapter {
                 .findViewById(R.id.image);
 
         Picasso.with(context)
-                .load(IMAGES.get(position)+"?imageMogr2/thumbnail/1200x"+String.valueOf(windowManager.getDefaultDisplay().getHeight()*2)+"/format/webp/blur/1x0/quality/75|imageslim")
+                .load(IMAGES.get(position)+"?imageMogr2/thumbnail/"+String.valueOf(windowManager.getDefaultDisplay().getWidth())+"x"+String.valueOf(windowManager.getDefaultDisplay().getHeight())+"/format/webp/blur/1x0/quality/75|imageslim")
                 .into(imageView);
 
         view.addView(imageLayout, 0);

@@ -47,6 +47,7 @@ public class PostPresenter extends BasePresenter<IPostView> {
         String token = sharedPreferenceUtils.getString("token");
         postView = getView();
         if(postView != null){
+            Log.d(TAG, "list size: "+list.size());
             feedApi.getImageToken("JWT "+token, list.size())
                     .onErrorResumeNext(throwable -> Observable.error(ExceptionEngine.handleException(throwable)))
                     .subscribeOn(Schedulers.io())
@@ -77,14 +78,14 @@ public class PostPresenter extends BasePresenter<IPostView> {
 
         Feed feed = new Feed();
         feed.setContent(content);
-        List<FeedPic> feedPics = new ArrayList<FeedPic>();
+        List<FeedPic> feedPics = new ArrayList<>();
 
         for(int i=0;i<tokens.size();i++){
             String name = id+"_"+cur_timestamp+"_"+i+".jpg";
             FeedPic feedPic = new FeedPic();
             feedPic.setUrl(baseFeedUrl + name);
             feedPics.add(feedPic);
-            uploadManager.put((File)list.get(i).get("pic"), name, tokens.get(i).getToken(), (key, info, response) -> {
+            uploadManager.put(new File((String)list.get(i).get("pic")), name, tokens.get(i).getToken(), (key, info, response) -> {
                 if(info.isOK()) {
                     Log.i("qiniu", "Upload Success");
                 } else {

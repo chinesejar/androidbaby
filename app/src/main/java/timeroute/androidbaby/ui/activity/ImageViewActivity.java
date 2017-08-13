@@ -97,11 +97,10 @@ public class ImageViewActivity extends IBaseActivity<IImageViewView, ImageViewPr
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.action_download:
-                ImageView imageView = (TouchImageView) imageAdapter.getPrimaryItem().findViewById(R.id.image);
                 rxPermissions.request(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                         .subscribe(granted -> {
                             if(granted){
-                                mPresenter.saveImage(imageView.getDrawable());
+                                mPresenter.saveImage(arrayImages.get(viewPager.getCurrentItem()));
                             }else {
                                 Toast.makeText(this, getString(R.string.permission), Toast.LENGTH_SHORT).show();
                             }
