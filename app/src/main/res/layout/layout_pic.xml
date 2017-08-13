@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
-    <ImageView
-        android:id="@+id/image_view_pic"
-        android:layout_width="@dimen/image_width"
-        android:layout_height="@dimen/image_height"
-        android:layout_marginRight="@dimen/image_margin_right"
-        android:scaleType="centerCrop"/>
-
-</LinearLayout>
+<ImageView android:id="@+id/image_view_pic"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginRight="@dimen/image_margin_right"
+    android:scaleType="centerCrop"
+    xmlns:android="http://schemas.android.com/apk/res/android" />

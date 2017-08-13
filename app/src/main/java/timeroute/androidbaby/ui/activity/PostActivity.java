@@ -8,7 +8,8 @@ import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,7 +21,6 @@ import android.widget.Toast;
 
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
-import com.zhihu.matisse.engine.impl.GlideEngine;
 import com.zhihu.matisse.engine.impl.PicassoEngine;
 import com.zhihu.matisse.filter.Filter;
 import com.zhihu.matisse.internal.entity.IncapableCause;
@@ -40,24 +40,25 @@ import id.zelory.compressor.Compressor;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import timeroute.androidbaby.R;
+import timeroute.androidbaby.ui.adapter.FeedListPicAdapter;
+import timeroute.androidbaby.ui.adapter.PostPicAdapter;
 import timeroute.androidbaby.ui.base.IBaseActivity;
 import timeroute.androidbaby.ui.presenter.PostPresenter;
 import timeroute.androidbaby.ui.view.IPostView;
-import timeroute.androidbaby.widget.HorizontalListView;
 
 public class PostActivity extends IBaseActivity<IPostView, PostPresenter> implements IPostView {
 
     private static final String TAG = "PostActivity";
 
-    List<Map<String, Object>> list;
-    private SimpleAdapter simpleAdapter;
+    private List<Map<String, Object>> list;
+    private PostPicAdapter postPicAdapter;
 
     @Bind(R.id.editTextContent)
     EditText editTextContent;
     @Bind(R.id.imageButtonPick)
     ImageButton imageButtonPick;
     @Bind(R.id.listViewPic)
-    HorizontalListView listViewPic;
+    RecyclerView listViewPic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,12 +69,12 @@ public class PostActivity extends IBaseActivity<IPostView, PostPresenter> implem
     private void initView() {
         setTracker(TAG);
         getSupportActionBar().setTitle(getString(R.string.action_post));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        listViewPic.setLayoutManager(linearLayoutManager);
         list = new ArrayList<>();
-        simpleAdapter = new SimpleAdapter(this,
-                list,
-                R.layout.layout_pic,
-                new String[]{"pic"},
-                new int[]{R.id.image_view_pic});
+        postPicAdapter = new PostPicAdapter(this, list);
+        listViewPic.setAdapter(postPicAdapter);
         imageButtonPick.setOnClickListener(view -> {
             int count = 9-list.size();
             if(count == 0){
@@ -147,20 +148,8 @@ public class PostActivity extends IBaseActivity<IPostView, PostPresenter> implem
         }
         switch (requestCode) {
             case 20:
-                listViewPic.setVisibility(View.VISIBLE);
                 setData(Matisse.obtainResult(data));
-                listViewPic.setAdapter(simpleAdapter);
-                listViewPic.setOnItemClickListener((adapterView, view, i, l) -> {
-                    new AlertDialog.Builder(this)
-                            .setTitle(getString(R.string.delete_title))
-                            .setMessage(getString(R.string.delete_message))
-                            .setPositiveButton(getString(R.string.sure), (dialog, j) -> {
-                                list.remove(i);
-                                simpleAdapter.notifyDataSetChanged();
-                            })
-                            .setNegativeButton(getString(R.string.cancel), null)
-                    .show();
-                });
+                postPicAdapter.notifyDataSetChanged();
                 break;
         }
     }
@@ -181,15 +170,8 @@ public class PostActivity extends IBaseActivity<IPostView, PostPresenter> implem
     public void setData(List<Uri> pics){
         for(int i=0;i<pics.size();i++){
             Map<String, Object> map = new HashMap<>();
-            new Compressor(this)
-                    .compressToFileAsFlowable(new File(getImagePath(pics.get(i), null)))
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe((file) -> {
-                        map.put("pic", file);
-                        list.add(map);
-                        simpleAdapter.notifyDataSetChanged();
-                    }, Throwable::printStackTrace);
+            map.put("pic", getImagePath(pics.get(i), null));
+            list.add(map);
         }
     }
 

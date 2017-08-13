@@ -9,14 +9,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
-
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 import timeroute.androidbaby.R;
 import timeroute.androidbaby.ui.view.ImageViewClickListener;
-import timeroute.androidbaby.util.DensityUtil;
 import timeroute.androidbaby.widget.TouchImageView;
 
 
@@ -54,12 +52,14 @@ public class ViewPagerImageAdapter extends PagerAdapter {
         View imageLayout = inflater.inflate(R.layout.layout_image_view, view, false);
 
         assert imageLayout != null;
+        //ProgressBar progressBar = imageLayout.findViewById(R.id.progress);
         final ImageView imageView = (TouchImageView) imageLayout
                 .findViewById(R.id.image);
 
         Picasso.with(context)
                 .load(IMAGES.get(position)+"?imageMogr2/thumbnail/1200x"+String.valueOf(windowManager.getDefaultDisplay().getHeight()*2)+"/format/webp/blur/1x0/quality/75|imageslim")
                 .into(imageView);
+
         view.addView(imageLayout, 0);
         imageView.setOnClickListener(view1 -> {
             listener.toggleActionBar();

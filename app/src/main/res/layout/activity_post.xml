@@ -49,13 +49,12 @@
             app:srcCompat="@drawable/ic_post_photo" />
     </LinearLayout>
 
-    <timeroute.androidbaby.widget.HorizontalListView
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/listViewPic"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_margin="10dp"
-        android:visibility="gone">
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp">
 
-    </timeroute.androidbaby.widget.HorizontalListView>
+    </android.support.v7.widget.RecyclerView>
 
 </LinearLayout>

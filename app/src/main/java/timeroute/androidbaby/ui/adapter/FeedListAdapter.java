@@ -1,25 +1,14 @@
 package timeroute.androidbaby.ui.adapter;
 
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
-import android.graphics.Rect;
-import android.graphics.RectF;
-import android.os.Handler;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutCompat;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -38,12 +27,9 @@ import butterknife.ButterKnife;
 import timeroute.androidbaby.R;
 import timeroute.androidbaby.bean.feed.Feed;
 import timeroute.androidbaby.bean.feed.FeedTimeLine;
-import timeroute.androidbaby.ui.activity.FeedDetailActivity;
-import timeroute.androidbaby.ui.activity.ImageViewActivity;
 import timeroute.androidbaby.ui.view.RecyclerViewClickListener;
 import timeroute.androidbaby.util.RoundTransform;
 import timeroute.androidbaby.util.ScreenUtil;
-import timeroute.androidbaby.widget.HorizontalListView;
 
 /**
  * Created by chinesejar on 17-7-8.
@@ -58,19 +44,13 @@ public class FeedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private int status = 1;
 
     private List<Map<String, Object>> list;
-    private FeedPicAdapter feedPicAdapter;
+    private FeedListPicAdapter feedListPicAdapter;
 
     public static final int LOAD_MORE = 0;
     public static final int LOAD_PULL_TO = 1;
     public static final int LOAD_NONE = 2;
     public static final int LOAD_END = 3;
     private static final int TYPE_FOOTER = -1;
-
-    private float downX;
-    private float downY;
-    private float upX;
-    private float upY;
-    private boolean isUpOrDown = true;
 
     public FeedListAdapter(Context context, FeedTimeLine feedTimeLine, RecyclerViewClickListener listener) {
         this.listener = listener;
@@ -115,7 +95,7 @@ public class FeedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         @Bind(R.id.content)
         TextView content;
         @Bind(R.id.feed_pic)
-        HorizontalListView horizontalListViewFeedPic;
+        RecyclerView recyclerView;
         @Bind(R.id.like)
         TextView like;
         @Bind(R.id.imageButtonLike)
@@ -151,54 +131,23 @@ public class FeedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             nickname.setText(feed.getUser().getNickname());
             content.setText(feed.getContent());
             if (feed.getFeedPic().size() > 0) {
-                horizontalListViewFeedPic.setVisibility(View.VISIBLE);
+                recyclerView.setVisibility(View.VISIBLE);
                 list = new ArrayList<>();
                 String[] images = new String[feed.getFeedPic().size()];
                 for (int i = 0; i < feed.getFeedPic().size(); i++) {
                     images[i] = feed.getFeedPic().get(i).getUrl();
-                    Map<String, Object> map = new HashMap<String, Object>();
+                    Map<String, Object> map = new HashMap<>();
                     map.put("url", feed.getFeedPic().get(i).getUrl());
                     list.add(map);
                 }
-                feedPicAdapter = new FeedPicAdapter(context,
-                        list,
-                        R.layout.layout_feed_pic,
-                        new String[]{"url"},
-                        new int[]{R.id.image_view_pic});
 
-                horizontalListViewFeedPic.setAdapter(feedPicAdapter);
-                horizontalListViewFeedPic.setOnTouchListener((view, motionEvent) -> {
-                    float x = motionEvent.getX();
-                    float y = motionEvent.getY();
-                    int action = motionEvent.getAction();
-                    switch (action){
-                        case MotionEvent.ACTION_DOWN:
-                            downX = x;
-                            downY = y;
-                            break;
-                        case MotionEvent.ACTION_MOVE:
-                            upX = x;
-                            upY = y;
-                            if(isUpOrDown){
-                                if(Math.abs(upX-downX)>8&&Math.abs(upY-downY)>8){
-                                    if(Math.abs(upX-downX)>Math.abs(upY-downY)){
-                                        view.getParent().requestDisallowInterceptTouchEvent(true);
-                                        isUpOrDown = false;
-                                    }
-                                }
-                            }
-                            break;
-                        case MotionEvent.ACTION_UP:
-                            view.getParent().requestDisallowInterceptTouchEvent(false);
-                            isUpOrDown = true;
-                            break;
-                    }
-                    return false;
-                });
-                horizontalListViewFeedPic.setOnItemClickListener((adapterView, view, i, l) -> {
-                    listener.onImageViewClick(i, images);
-                });
+                feedListPicAdapter = new FeedListPicAdapter(context, list);
+                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
+                linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+                recyclerView.setLayoutManager(linearLayoutManager);
+                recyclerView.setAdapter(feedListPicAdapter);
             }
+
             like.setText(String.valueOf(feed.getLikeCount()));
             imageButtonLike.setOnClickListener(view -> {
                 listener.onLikeClicked(feed);

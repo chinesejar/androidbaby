@@ -26,3 +26,5 @@
 
 -dontwarn com.bumptech.glide.**
 -dontwarn com.squareup.okhttp.**
+
+-keep class org.lucasr.twowayview.** { *; }

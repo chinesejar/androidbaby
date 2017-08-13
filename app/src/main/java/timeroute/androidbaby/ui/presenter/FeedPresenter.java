@@ -163,9 +163,7 @@ public class FeedPresenter extends BasePresenter<IFeedView> {
                 feedView.setDataRefresh(false);
                 return;
             }
-            else {
-                timeLine.getFeeds().addAll(feedTimeLine.getFeeds());
-            }
+            timeLine.getFeeds().addAll(feedTimeLine.getFeeds());
             adapter.notifyDataSetChanged();
         } else {
             timeLine = feedTimeLine;
