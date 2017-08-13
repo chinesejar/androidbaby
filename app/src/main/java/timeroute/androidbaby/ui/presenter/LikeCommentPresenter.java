@@ -316,18 +316,17 @@ public class LikeCommentPresenter extends BasePresenter<ILikeCommentView> {
                         }
                         return;
                     }
-                    if (lastVisibleItem + 1 == layoutManager
-                            .getItemCount()) {
+                    if (lastVisibleItem + 1 == layoutManager.getItemCount()) {
                         if(likeCommentView.getType().equals("like")){
                             likeNotificationListAdapter.updateLoadStatus(LOAD_PULL_TO);
                             isLoadMore = true;
                             likeNotificationListAdapter.updateLoadStatus(LOAD_MORE);
-                            new Handler().postDelayed(() -> getNextLikeNotification(), 1000);
+                            getNextLikeNotification();
                         }else if(likeCommentView.getType().equals("comment")){
                             commentNotificationListAdapter.updateLoadStatus(LOAD_PULL_TO);
                             isLoadMore = true;
                             commentNotificationListAdapter.updateLoadStatus(LOAD_MORE);
-                            new Handler().postDelayed(() -> getNextCommentNotification(), 1000);
+                            getNextCommentNotification();
                         }
                     }
                 }

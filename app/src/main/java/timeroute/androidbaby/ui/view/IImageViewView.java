@@ -5,4 +5,8 @@ package timeroute.androidbaby.ui.view;
  */
 
 public interface IImageViewView {
+
+    void setDisplayProgress(boolean flag);
+    void setProgressIndex(int progress);
+
 }

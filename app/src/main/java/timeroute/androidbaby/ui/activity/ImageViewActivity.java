@@ -6,12 +6,16 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tbruyelle.rxpermissions2.RxPermissions;
@@ -37,6 +41,10 @@ public class ImageViewActivity extends IBaseActivity<IImageViewView, ImageViewPr
     private ImageViewClickListener imageViewClickListener;
     private boolean isShow = true;
 
+    @Bind(R.id.layoutProgress)
+    LinearLayout layoutProgress;
+    @Bind(R.id.textProgress)
+    TextView textViewProgress;
     @Bind(R.id.viewPagerImages)
     ViewPager viewPager;
     @Bind(R.id.indicator)
@@ -119,5 +127,19 @@ public class ImageViewActivity extends IBaseActivity<IImageViewView, ImageViewPr
     @Override
     protected int provideContentViewId() {
         return R.layout.activity_image_view;
+    }
+
+    @Override
+    public void setDisplayProgress(boolean flag) {
+        if(flag){
+            layoutProgress.setVisibility(View.VISIBLE);
+        }else {
+            layoutProgress.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void setProgressIndex(int index) {
+        textViewProgress.setText(String.format(getString(R.string.progress), index));
     }
 }
