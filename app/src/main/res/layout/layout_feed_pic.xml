@@ -2,6 +2,6 @@
 <ImageView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/image_view_pic"
     android:layout_width="wrap_content"
-    android:layout_height="match_parent"
+    android:layout_height="@dimen/image_feed"
     android:layout_marginRight="5dp"
-    android:scaleType="fitCenter" />
+    android:scaleType="center"/>

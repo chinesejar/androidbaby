@@ -65,23 +65,7 @@ public class FeedListPicAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             String image_url = (String) pic.get("url");
             Picasso.with(context)
                     .load(image_url+"?imageMogr2/thumbnail/1000x"+String.valueOf(DensityUtil.dip2px(context, 400))+"/format/webp/blur/1x0/quality/75|imageslim")
-                    .placeholder(R.drawable.placeholder)
-                    .into(new Target() {
-                        @Override
-                        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                            imageView.setImageBitmap(bitmap);
-                        }
-
-                        @Override
-                        public void onBitmapFailed(Drawable errorDrawable) {
-
-                        }
-
-                        @Override
-                        public void onPrepareLoad(Drawable placeHolderDrawable) {
-
-                        }
-                    });
+                    .into(imageView);
             imageView.setOnClickListener(view -> {
                 Intent intent = new Intent(context, ImageViewActivity.class);
                 intent.putExtra("index", pics.indexOf(pic));

@@ -13,6 +13,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -94,8 +95,12 @@ public class FeedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         TextView nickname;
         @Bind(R.id.content)
         TextView content;
+        @Bind(R.id.feed_pic_layout)
+        RelativeLayout layout_feed_pic;
         @Bind(R.id.feed_pic)
         RecyclerView recyclerView;
+        @Bind(R.id.image_count)
+        TextView image_count;
         @Bind(R.id.like)
         TextView like;
         @Bind(R.id.imageButtonLike)
@@ -131,7 +136,8 @@ public class FeedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             nickname.setText(feed.getUser().getNickname());
             content.setText(feed.getContent());
             if (feed.getFeedPic().size() > 0) {
-                recyclerView.setVisibility(View.VISIBLE);
+                layout_feed_pic.setVisibility(View.VISIBLE);
+                image_count.setText(String.format(context.getString(R.string.image_count), feed.getFeedPic().size()));
                 list = new ArrayList<>();
                 String[] images = new String[feed.getFeedPic().size()];
                 for (int i = 0; i < feed.getFeedPic().size(); i++) {

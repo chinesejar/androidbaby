@@ -120,4 +120,5 @@
     <string name="comment_notification">%1$s 评论了你的动态</string>
     <string name="reply_notification">%1$s 回复了你的动态</string>
     <string name="like_notification">%1$s 喜欢你的动态</string>
+    <string name="image_count">%1$d 张图片</string>
 </resources>
