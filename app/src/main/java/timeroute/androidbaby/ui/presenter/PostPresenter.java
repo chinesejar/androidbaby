@@ -81,7 +81,12 @@ public class PostPresenter extends BasePresenter<IPostView> {
         List<FeedPic> feedPics = new ArrayList<>();
 
         for(int i=0;i<tokens.size();i++){
-            String name = id+"_"+cur_timestamp+"_"+i+".jpg";
+            String pic_path = (String)list.get(i).get("pic");
+            String[] seps = pic_path.split("/");
+            String pic_name = seps[seps.length-1];
+            String[] formats = pic_name.split("\\.");
+            String format = formats[formats.length-1];
+            String name = id+"_"+cur_timestamp+"_"+i+"."+format;
             FeedPic feedPic = new FeedPic();
             feedPic.setUrl(baseFeedUrl + name);
             feedPics.add(feedPic);

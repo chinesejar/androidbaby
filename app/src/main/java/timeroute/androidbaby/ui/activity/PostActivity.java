@@ -170,6 +170,7 @@ public class PostActivity extends IBaseActivity<IPostView, PostPresenter> implem
     public void setData(List<Uri> pics){
         for(int i=0;i<pics.size();i++){
             Map<String, Object> map = new HashMap<>();
+            Log.d(TAG, "pic: "+getImagePath(pics.get(i), null));
             map.put("pic", getImagePath(pics.get(i), null));
             list.add(map);
         }

@@ -10,4 +10,5 @@
         android:layout_height="match_parent"
         android:adjustViewBounds="true"
         android:layout_gravity="center" />
+    
 </FrameLayout>

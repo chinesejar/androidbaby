@@ -9,6 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -55,7 +58,6 @@ public class ViewPagerImageAdapter extends PagerAdapter {
         //ProgressBar progressBar = imageLayout.findViewById(R.id.progress);
         final ImageView imageView = (TouchImageView) imageLayout
                 .findViewById(R.id.image);
-
         Picasso.with(context)
                 .load(IMAGES.get(position)+"?imageMogr2/thumbnail/"+String.valueOf(windowManager.getDefaultDisplay().getWidth())+"x"+String.valueOf(windowManager.getDefaultDisplay().getHeight())+"/format/webp/blur/1x0/quality/75|imageslim")
                 .into(imageView);
