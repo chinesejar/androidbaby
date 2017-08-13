@@ -186,7 +186,7 @@ public class FeedDetailPresenter extends BasePresenter<IFeedDetailView> {
                         @Override
                         public void onNext(Comment comment) {
                             Log.d(TAG, comment.toString());
-                            timeLine.getComments().add(comment);
+                            timeLine.getComments().add(0, comment);
                             adapter.notifyDataSetChanged();
                             Toast.makeText(context, context.getString(R.string.comment_success), Toast.LENGTH_SHORT).show();
                         }

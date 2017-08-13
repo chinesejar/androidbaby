@@ -233,17 +233,7 @@ public class FeedDetailActivity extends IBaseActivity<IFeedDetailView, FeedDetai
             }
             feedListPicAdapter = new FeedListPicAdapter(this, list);
             recyclerViewPic.setAdapter(feedListPicAdapter);
-//            feedListPicAdapter.setOnItemClickListener((adapterView, view, i, l) -> {
-//                goToImageView(i);
-//            });
         }
-    }
-
-    public void goToImageView(int i){
-        Intent intent = new Intent(this, ImageViewActivity.class);
-        intent.putExtra("index", i);
-        intent.putExtra("images", images);
-        startActivity(intent);
     }
 
     private void setupSwipeRefresh(){
