@@ -13,10 +13,8 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import com.zhihu.matisse.Matisse;
@@ -27,7 +25,6 @@ import com.zhihu.matisse.internal.entity.IncapableCause;
 import com.zhihu.matisse.internal.entity.Item;
 import com.zhihu.matisse.internal.utils.PhotoMetadataUtils;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -36,11 +33,7 @@ import java.util.Map;
 import java.util.Set;
 
 import butterknife.Bind;
-import id.zelory.compressor.Compressor;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 import timeroute.androidbaby.R;
-import timeroute.androidbaby.ui.adapter.FeedListPicAdapter;
 import timeroute.androidbaby.ui.adapter.PostPicAdapter;
 import timeroute.androidbaby.ui.base.IBaseActivity;
 import timeroute.androidbaby.ui.presenter.PostPresenter;

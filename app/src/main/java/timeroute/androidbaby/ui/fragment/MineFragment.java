@@ -2,6 +2,7 @@ package timeroute.androidbaby.ui.fragment;
 
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -9,22 +10,15 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.annotation.BinderThread;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
 import android.support.v7.widget.LinearLayoutManager;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.squareup.picasso.Picasso;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
@@ -66,9 +60,6 @@ public class MineFragment extends IBaseFragment<IMineView, MinePresenter> implem
     public static final int REQUEST_CAMERA = 1;
     public static final int REQUEST_ALBUM = 2;
     public static final int REQUEST_CROP = 3;
-    public static final int PERMISSION_CAMERA = 4;
-    private static final int PERMISSION_STORAGE_WRITE = 5;
-    private static final int PERMISSION_STORAGE_READ = 6;
 
     private File mImageFile;
     private Uri contentUri;
@@ -160,43 +151,28 @@ public class MineFragment extends IBaseFragment<IMineView, MinePresenter> implem
                 .show();
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == PERMISSION_CAMERA || requestCode == PERMISSION_STORAGE_WRITE || requestCode == PERMISSION_STORAGE_READ) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-            } else {
-                showWarnDialog();
-            }
-        }
-    }
-
-    public void showWarnDialog(){
-        new AlertDialog.Builder(getContext())
-                .setTitle(getString(R.string.warning_title))
-                .setMessage(getString(R.string.permission_prompt))
-                .setPositiveButton(getString(R.string.sure), null)
-                .create()
-                .show();
-    }
-
     private void selectCamera() {
         createImageFile();
         if (!mImageFile.exists()) {
             return;
         }
 
-        contentUri = FileProvider.getUriForFile(getActivity(), "timeroute.androidbaby.fileprovider", mImageFile);
+        contentUri = FileProvider.getUriForFile(getContext(), "timeroute.androidbaby.fileprovider", mImageFile);
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, contentUri);
         startActivityForResult(cameraIntent, REQUEST_CAMERA);
     }
 
     private void createImageFile() {
-        mImageFile = new File(Environment.getExternalStorageDirectory(), "images/avatar.jpg");
+        File mImagePath = new File(Environment.getExternalStorageDirectory(), "AndroidBaby");
+        if(!mImagePath.exists()) {
+            mImagePath.mkdir();
+        }
+        mImageFile = new File(Environment.getExternalStorageDirectory(), "AndroidBaby/avatar.jpg");
         try {
             mImageFile.createNewFile();
         }catch (IOException e){
+            e.getStackTrace();
         }
     }
 

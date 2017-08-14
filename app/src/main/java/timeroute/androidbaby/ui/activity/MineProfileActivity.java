@@ -1,21 +1,16 @@
 package timeroute.androidbaby.ui.activity;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.Arrays;
 
 import butterknife.Bind;
 import timeroute.androidbaby.R;
-import timeroute.androidbaby.ui.base.BasePresenter;
 import timeroute.androidbaby.ui.base.IBaseActivity;
 import timeroute.androidbaby.ui.presenter.MineProfilePresenter;
 import timeroute.androidbaby.ui.view.IMineProfileView;

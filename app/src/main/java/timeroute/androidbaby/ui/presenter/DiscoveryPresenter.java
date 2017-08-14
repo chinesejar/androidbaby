@@ -2,22 +2,17 @@ package timeroute.androidbaby.ui.presenter;
 
 import android.content.Context;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 import timeroute.androidbaby.api.exception.ApiException;
 import timeroute.androidbaby.api.exception.ExceptionEngine;
 import timeroute.androidbaby.bean.feed.FeedTimeLine;
 import timeroute.androidbaby.support.MyObserver;
-import timeroute.androidbaby.ui.adapter.FeedListAdapter;
 import timeroute.androidbaby.ui.base.BasePresenter;
 import timeroute.androidbaby.ui.view.IDiscoveryView;
-import timeroute.androidbaby.ui.view.IFeedView;
 import timeroute.androidbaby.util.SharedPreferenceUtils;
 import timeroute.androidbaby.widget.ABSwipeRefreshLayout;
 import timeroute.androidbaby.widget.OrientedViewPager;

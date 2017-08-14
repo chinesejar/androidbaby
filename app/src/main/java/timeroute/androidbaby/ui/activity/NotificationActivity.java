@@ -9,7 +9,6 @@ import java.util.List;
 
 import butterknife.Bind;
 import timeroute.androidbaby.R;
-import timeroute.androidbaby.bean.feed.Like;
 import timeroute.androidbaby.ui.adapter.ViewPagerFgAdapter;
 import timeroute.androidbaby.ui.base.IBaseActivity;
 import timeroute.androidbaby.ui.base.IBaseFragment;

@@ -5,22 +5,16 @@ import android.widget.Toast;
 
 import retrofit2.Response;
 import rx.Observable;
-import rx.Scheduler;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 import timeroute.androidbaby.R;
 import timeroute.androidbaby.api.exception.ApiException;
 import timeroute.androidbaby.api.exception.ExceptionEngine;
-import timeroute.androidbaby.bean.user.Profile;
 import timeroute.androidbaby.bean.user.Register;
 import timeroute.androidbaby.bean.user.User;
-import timeroute.androidbaby.bean.user.UserToken;
 import timeroute.androidbaby.support.MyObserver;
 import timeroute.androidbaby.ui.base.BasePresenter;
-import timeroute.androidbaby.ui.view.ILoginView;
 import timeroute.androidbaby.ui.view.IRegisterView;
-import timeroute.androidbaby.util.SharedPreferenceUtils;
 
 /**
  * Created by chinesejar on 17-7-14.

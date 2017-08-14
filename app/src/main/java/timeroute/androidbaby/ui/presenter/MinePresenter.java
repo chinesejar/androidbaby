@@ -14,7 +14,6 @@ import java.io.IOException;
 import id.zelory.compressor.Compressor;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 import timeroute.androidbaby.R;
 import timeroute.androidbaby.api.exception.ApiException;

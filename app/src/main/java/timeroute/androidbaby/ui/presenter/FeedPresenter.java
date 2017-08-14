@@ -1,7 +1,6 @@
 package timeroute.androidbaby.ui.presenter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,7 +13,6 @@ import retrofit2.Response;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 import timeroute.androidbaby.api.exception.ApiException;
 import timeroute.androidbaby.api.exception.ExceptionEngine;
@@ -23,7 +21,6 @@ import timeroute.androidbaby.bean.feed.FeedTimeLine;
 import timeroute.androidbaby.bean.feed.Like;
 import timeroute.androidbaby.bean.user.Profile;
 import timeroute.androidbaby.support.MyObserver;
-import timeroute.androidbaby.ui.activity.FeedDetailActivity;
 import timeroute.androidbaby.ui.adapter.FeedListAdapter;
 import timeroute.androidbaby.ui.base.BasePresenter;
 import timeroute.androidbaby.ui.view.IFeedView;

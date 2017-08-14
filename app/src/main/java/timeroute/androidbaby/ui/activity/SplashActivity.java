@@ -1,20 +1,12 @@
 package timeroute.androidbaby.ui.activity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.appcompat.BuildConfig;
-import android.util.Log;
 import android.widget.TextView;
 
-import java.util.Random;
-
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import timeroute.androidbaby.R;
-import timeroute.androidbaby.ui.base.BasePresenter;
 import timeroute.androidbaby.ui.base.IBaseActivity;
 import timeroute.androidbaby.ui.presenter.SplashPresenter;
 import timeroute.androidbaby.ui.view.ISplashView;

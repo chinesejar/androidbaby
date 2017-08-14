@@ -2,7 +2,6 @@ package timeroute.androidbaby.ui.presenter;
 
 import android.content.Context;
 import android.net.Uri;
-import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;

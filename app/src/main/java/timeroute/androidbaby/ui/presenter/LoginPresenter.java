@@ -1,12 +1,10 @@
 package timeroute.androidbaby.ui.presenter;
 
 import android.content.Context;
-import android.util.Log;
 import android.widget.Toast;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 import timeroute.androidbaby.api.exception.ApiException;
 import timeroute.androidbaby.api.exception.ExceptionEngine;

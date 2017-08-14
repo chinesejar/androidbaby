@@ -1,7 +1,6 @@
 package timeroute.androidbaby.ui.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -18,7 +17,6 @@ import butterknife.ButterKnife;
 import timeroute.androidbaby.R;
 import timeroute.androidbaby.bean.feed.Like;
 import timeroute.androidbaby.bean.feed.LikeTimeLine;
-import timeroute.androidbaby.ui.activity.FeedDetailActivity;
 import timeroute.androidbaby.ui.view.RecyclerViewClickListener;
 import timeroute.androidbaby.util.RoundTransform;
 import timeroute.androidbaby.util.ScreenUtil;

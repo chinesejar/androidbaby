@@ -3,8 +3,6 @@ package timeroute.androidbaby.util;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import java.util.Calendar;
-import java.util.Date;
 
 /**
  * Created by Werb on 2016/7/7.

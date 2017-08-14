@@ -13,7 +13,6 @@ import java.util.Iterator;
 
 import cn.jpush.android.api.JPushInterface;
 import timeroute.androidbaby.ui.activity.NotificationActivity;
-import timeroute.androidbaby.ui.activity.SettingActivity;
 import timeroute.androidbaby.util.LogUtil;
 
 /**

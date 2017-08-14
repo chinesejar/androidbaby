@@ -17,7 +17,6 @@ import butterknife.ButterKnife;
 import timeroute.androidbaby.R;
 import timeroute.androidbaby.bean.feed.Comment;
 import timeroute.androidbaby.bean.feed.CommentTimeLine;
-import timeroute.androidbaby.ui.view.IFeedDetailView;
 import timeroute.androidbaby.ui.view.RecyclerViewClickListener;
 import timeroute.androidbaby.util.RoundTransform;
 import timeroute.androidbaby.util.ScreenUtil;

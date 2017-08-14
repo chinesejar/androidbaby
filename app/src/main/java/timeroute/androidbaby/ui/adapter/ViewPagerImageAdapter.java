@@ -55,7 +55,6 @@ public class ViewPagerImageAdapter extends PagerAdapter {
         View imageLayout = inflater.inflate(R.layout.layout_image_view, view, false);
 
         assert imageLayout != null;
-        //ProgressBar progressBar = imageLayout.findViewById(R.id.progress);
         final ImageView imageView = (TouchImageView) imageLayout
                 .findViewById(R.id.image);
         Picasso.with(context)
