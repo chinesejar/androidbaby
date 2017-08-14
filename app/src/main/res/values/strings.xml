@@ -122,4 +122,5 @@
     <string name="like_notification">%1$s 喜欢你的动态</string>
     <string name="image_count">%1$d 张图片</string>
     <string name="progress">已下载 %1$d %%</string>
+    <string name="notification_new">新</string>
 </resources>

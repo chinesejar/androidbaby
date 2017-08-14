@@ -80,6 +80,8 @@ public class MineFragment extends IBaseFragment<IMineView, MinePresenter> implem
     RelativeLayout setting_layout;
     @Bind(R.id.mine_notify)
     RelativeLayout notification_layout;
+    @Bind(R.id.has_notification)
+    TextView has_notification;
 
     public MineFragment() {
         // Required empty public constructor
@@ -118,6 +120,9 @@ public class MineFragment extends IBaseFragment<IMineView, MinePresenter> implem
                         }
                     });
         });
+
+        mPresenter.getNotification();
+
         feed_layout.setOnClickListener(view -> {
             goToUser(user_id, nickname, assignment, avatar);
         });
@@ -129,6 +134,7 @@ public class MineFragment extends IBaseFragment<IMineView, MinePresenter> implem
             startActivity(new Intent(getActivity(), SettingActivity.class));
         });
         notification_layout.setOnClickListener(view -> {
+            setNotification(false);
             startActivity(new Intent(getActivity(), NotificationActivity.class));
         });
 
@@ -246,6 +252,15 @@ public class MineFragment extends IBaseFragment<IMineView, MinePresenter> implem
             }else {
                 assignment_TextView.setText(assignment);
             }
+        }
+    }
+
+    @Override
+    public void setNotification(boolean has) {
+        if(has){
+            has_notification.setVisibility(View.VISIBLE);
+        }else {
+            has_notification.setVisibility(View.GONE);
         }
     }
 

@@ -23,13 +23,11 @@
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:text="时空路由器 评论了你发布的动态"/>
+        android:layout_marginLeft="10dp"/>
 
     <TextView
         android:id="@+id/create_time"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="1分钟前"/>
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>

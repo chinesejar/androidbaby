@@ -1,6 +1,8 @@
 package timeroute.androidbaby.ui.adapter;
 
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.os.Build;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -84,13 +86,21 @@ public class CommentNotificationListAdapter extends RecyclerView.Adapter<Recycle
             linearLayoutLikeComment.setLayoutParams(new LinearLayout.LayoutParams(screenWidth, LinearLayout.LayoutParams.WRAP_CONTENT));
         }
 
+        @TargetApi(Build.VERSION_CODES.M)
         public void bindItem(Comment comment) {
             loadCirclePic(context, comment.getCreator().getAvatar(), avatar);
             avatar.setOnClickListener(view -> {
-
+                
             });
             nickname.setText(String.format(context.getResources().getString(R.string.comment_notification), comment.getCreator().getNickname()));
             create_time.setText(String.valueOf(comment.getCreate_time()));
+            if(comment.getIsRead()){
+                nickname.setTextColor(context.getColor(R.color.textColorGrey));
+                create_time.setTextColor(context.getColor(R.color.textColorGrey));
+            }else {
+                nickname.setTextColor(context.getColor(R.color.textColorDarkGrey));
+                create_time.setTextColor(context.getColor(R.color.textColorDarkGrey));
+            }
             linearLayoutLikeComment.setOnClickListener(view -> {
                 listener.onCardViewClick(comment.getFeedId());
             });

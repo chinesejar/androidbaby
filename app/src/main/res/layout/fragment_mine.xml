@@ -153,10 +153,25 @@
                     android:text="@string/title_activity_notify"/>
             </RelativeLayout>
             <ImageView
+                android:id="@+id/notificationIcon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 app:srcCompat="@drawable/ic_chevron_right"/>
+            <TextView
+                android:id="@+id/has_notification"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:paddingTop="2dp"
+                android:paddingBottom="2dp"
+                android:layout_centerVertical="true"
+                android:text="@string/notification_new"
+                android:textColor="@color/white"
+                android:background="#99FF0000"
+                android:layout_toLeftOf="@id/notificationIcon"
+                android:visibility="gone"/>
         </RelativeLayout>
     </LinearLayout>
 

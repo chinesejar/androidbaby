@@ -73,4 +73,7 @@ public interface FeedApi {
 
     @POST("comment/")
     Observable<Comment> postComment(@Header("Authorization") String authorization, @Body Comment comment);
+
+    @GET("notification/")
+    Observable<Response<Object>> getNotification(@Header("Authorization") String authorization);
 }

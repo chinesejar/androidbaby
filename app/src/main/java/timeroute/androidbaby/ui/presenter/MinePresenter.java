@@ -12,6 +12,7 @@ import java.io.File;
 import java.io.IOException;
 
 import id.zelory.compressor.Compressor;
+import retrofit2.Response;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -31,6 +32,8 @@ import timeroute.androidbaby.util.SharedPreferenceUtils;
 
 public class MinePresenter extends BasePresenter<IMineView> {
 
+    private String token;
+
     private Context context;
     private IMineView mineView;
 
@@ -39,11 +42,11 @@ public class MinePresenter extends BasePresenter<IMineView> {
     public MinePresenter(Context context){
         this.context = context;
         sharedPreferenceUtils = new SharedPreferenceUtils(this.context, "user");
+        token = sharedPreferenceUtils.getString("token");
     }
 
     public void getToken(){
         mineView = getView();
-        String token = sharedPreferenceUtils.getString("token");
         if(mineView != null){
             userApi.getImageToken("JWT "+token)
                     .onErrorResumeNext(throwable -> Observable.error(ExceptionEngine.handleException(throwable)))
@@ -63,6 +66,34 @@ public class MinePresenter extends BasePresenter<IMineView> {
                         @Override
                         public void onNext(ImageToken imageToken) {
                             displayToken(imageToken);
+                        }
+                    });
+        }
+    }
+
+    public void getNotification(){
+        mineView = getView();
+        if(mineView != null){
+            feedApi.getNotification("JWT "+token)
+                    .onErrorResumeNext(throwable -> Observable.error(ExceptionEngine.handleException(throwable)))
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new MyObserver<Response<Object>>() {
+                        @Override
+                        protected void onError(ApiException ex) {
+
+                        }
+
+                        @Override
+                        public void onCompleted() {
+
+                        }
+
+                        @Override
+                        public void onNext(Response<Object> response) {
+                            if(response.code() == 200) {
+                                mineView.setNotification(true);
+                            }
                         }
                     });
         }
@@ -92,7 +123,6 @@ public class MinePresenter extends BasePresenter<IMineView> {
                     Profile profile = new Profile();
                     profile.setAvatar(baseAvatarUrl+name);
                     int id = sharedPreferenceUtils.getInt("id");
-                    String token = sharedPreferenceUtils.getString("token");
                     userApi.putProfile("JWT "+token, id, profile)
                             .onErrorResumeNext(throwable -> Observable.error(ExceptionEngine.handleException(throwable)))
                             .subscribeOn(Schedulers.io())
