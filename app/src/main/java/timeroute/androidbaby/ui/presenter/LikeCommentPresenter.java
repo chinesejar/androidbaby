@@ -311,7 +311,7 @@ public class LikeCommentPresenter extends BasePresenter<ILikeCommentView> {
                             likeNotificationListAdapter.updateLoadStatus(LOAD_NONE);
                         }
                         if(commentNotificationListAdapter != null){
-                            commentNotificationListAdapter.updateLoadStatus(LOAD_MORE);
+                            commentNotificationListAdapter.updateLoadStatus(LOAD_NONE);
                         }
                         return;
                     }
