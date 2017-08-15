@@ -90,7 +90,7 @@ public class CommentNotificationListAdapter extends RecyclerView.Adapter<Recycle
         public void bindItem(Comment comment) {
             loadCirclePic(context, comment.getCreator().getAvatar(), avatar);
             avatar.setOnClickListener(view -> {
-                
+
             });
             nickname.setText(String.format(context.getResources().getString(R.string.comment_notification), comment.getCreator().getNickname()));
             create_time.setText(String.valueOf(comment.getCreate_time()));

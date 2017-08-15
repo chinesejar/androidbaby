@@ -16,7 +16,7 @@
         android:id="@+id/avatar"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        app:srcCompat="@drawable/ic_about"/>
+        app:srcCompat="@drawable/ic_android"/>
 
     <TextView
         android:id="@+id/nickname"
