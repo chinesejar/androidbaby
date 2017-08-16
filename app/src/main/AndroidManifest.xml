@@ -27,7 +27,7 @@
     <application
         android:name=".MyApp"
         android:allowBackup="true"
-        android:icon="@drawable/androidbaby"
+        android:icon="@drawable/timeswitch"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
@@ -183,7 +183,6 @@
             android:label="@string/title_activity_register" />
         <activity android:name=".ui.activity.NotificationActivity"
             android:theme="@style/MainTheme"></activity>
-        <activity android:name="com.soundcloud.android.crop.CropImageActivity" />
     </application>
 
 </manifest>
