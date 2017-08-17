@@ -6,4 +6,6 @@ package timeroute.androidbaby.ui.view;
 
 public interface IRegisterView {
     void backToLogin();
+
+    void setSendBtn(boolean b);
 }

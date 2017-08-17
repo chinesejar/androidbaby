@@ -40,12 +40,12 @@ public class AboutActivity extends AppCompatActivity {
         }
 
         AboutView view = AboutBuilder.with(this)
-                .setPhoto(R.drawable.timeswitch)
+                .setPhoto(R.drawable.time_wallpaper)
                 .setCover(R.mipmap.profile_cover)
                 .setName(getString(R.string.team))
                 .setSubTitle(getString(R.string.slogan))
                 .setBrief(getString(R.string.introduce))
-                .setAppIcon(R.drawable.timeswitch)
+                .setAppIcon(R.drawable.time_wallpaper)
                 .setAppName(R.string.app_name)
                 .addGooglePlayStoreLink("")
                 .addGitHubLink(getString(R.string.social_user))

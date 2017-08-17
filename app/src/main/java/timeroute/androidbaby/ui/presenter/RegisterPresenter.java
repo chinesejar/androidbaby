@@ -34,6 +34,7 @@ public class RegisterPresenter extends BasePresenter<IRegisterView> {
         User user = new User();
         user.setEmail(email);
         if (registerView != null) {
+            registerView.setSendBtn(false);
             userApi.postCode(user)
                     .onErrorResumeNext(throwable -> Observable.error(ExceptionEngine.handleException(throwable)))
                     .subscribeOn(Schedulers.io())
@@ -42,6 +43,7 @@ public class RegisterPresenter extends BasePresenter<IRegisterView> {
                         @Override
                         protected void onError(ApiException ex) {
                             Toast.makeText(context, context.getString(R.string.send_again_hint), Toast.LENGTH_SHORT).show();
+                            registerView.setSendBtn(true);
                         }
 
                         @Override
@@ -52,6 +54,7 @@ public class RegisterPresenter extends BasePresenter<IRegisterView> {
                         @Override
                         public void onNext(Response<Object> objectResponse) {
                             Toast.makeText(context, context.getString(R.string.send_success), Toast.LENGTH_SHORT).show();
+                            registerView.setSendBtn(true);
                         }
                     });
         }

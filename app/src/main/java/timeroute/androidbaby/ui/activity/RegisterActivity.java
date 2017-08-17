@@ -190,5 +190,10 @@ public class RegisterActivity extends IBaseActivity<IRegisterView, RegisterPrese
     public void backToLogin() {
         finish();
     }
+
+    @Override
+    public void setSendBtn(boolean b) {
+        mCodeButton.setEnabled(b);
+    }
 }
 

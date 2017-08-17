@@ -68,13 +68,13 @@
             <RelativeLayout
                 android:id="@+id/feed_pic_layout"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/image_feed"
+                android:layout_height="wrap_content"
                 android:paddingBottom="10dp"
                 android:visibility="gone">
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/feed_pic"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/image_feed"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center">
                 </android.support.v7.widget.RecyclerView>
                 <TextView

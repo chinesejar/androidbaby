@@ -1,7 +1,7 @@
 <resources>
-    <string name="app_name">时空交换机</string>
+    <string name="app_name">时空壁纸</string>
     <string name="version_label">版本</string>
-    <string name="version">1.0.0</string>
+    <string name="version">1.0.3</string>
     <string name="publish_label">发布</string>
     <string name="publish">20170725</string>
     <string name="tab_feed">最新</string>
