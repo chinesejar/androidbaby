@@ -47,7 +47,7 @@ public class AboutActivity extends AppCompatActivity {
                 .setBrief(getString(R.string.introduce))
                 .setAppIcon(R.drawable.time_wallpaper)
                 .setAppName(R.string.app_name)
-                .addGooglePlayStoreLink("")
+                .addGooglePlayStoreLink(getPackageName())
                 .addGitHubLink(getString(R.string.social_user))
                 .addFacebookLink(getString(R.string.social_user))
                 .addGooglePlusLink(getString(R.string.social_user))
