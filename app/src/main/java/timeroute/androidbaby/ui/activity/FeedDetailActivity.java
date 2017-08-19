@@ -114,6 +114,7 @@ public class FeedDetailActivity extends IBaseActivity<IFeedDetailView, FeedDetai
                     .load(feed.getUser().getAvatar())
                     .transform(new RoundTransform())
                     .into(avatar);
+            setAvatarClick(feed.getUser());
             nickname.setText(feed.getUser().getNickname());
             content.setText(feed.getContent());
             like.setText(String.valueOf(feed.getLikeCount()));
@@ -134,6 +135,12 @@ public class FeedDetailActivity extends IBaseActivity<IFeedDetailView, FeedDetai
             from_notification = true;
             mPresenter.getFeedDetail(feed_id);
         }
+    }
+
+    private void setAvatarClick(Profile user) {
+        avatar.setOnClickListener(view -> {
+            goToUser(user.getId(), user.getNickname(), user.getAssignment(), user.getAvatar());
+        });
     }
 
     @Override
@@ -187,6 +194,7 @@ public class FeedDetailActivity extends IBaseActivity<IFeedDetailView, FeedDetai
                 .load(feed.getUser().getAvatar())
                 .transform(new RoundTransform())
                 .into(avatar);
+        setAvatarClick(feed.getUser());
         nickname.setText(feed.getUser().getNickname());
         content.setText(feed.getContent());
         like.setText(String.valueOf(feed.getLikeCount()));
@@ -201,8 +209,18 @@ public class FeedDetailActivity extends IBaseActivity<IFeedDetailView, FeedDetai
             mPresenter.postLike(feed);
         });
         floatingActionButton.setOnClickListener(view -> {
-            openCommentDialog(false, (Profile) null);
+            openCommentDialog(false, null);
         });
+    }
+
+    @Override
+    public void goToUser(int user_id, String nickname, String assignment, String avatar) {
+        Intent intent = new Intent(this, UserActivity.class);
+        intent.putExtra("user_id", user_id);
+        intent.putExtra("nickname", nickname);
+        intent.putExtra("avatar", avatar);
+        intent.putExtra("assignment", assignment);
+        startActivity(intent);
     }
 
     @Override

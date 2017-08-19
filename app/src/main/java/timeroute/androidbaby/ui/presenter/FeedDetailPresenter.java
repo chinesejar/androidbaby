@@ -1,6 +1,7 @@
 package timeroute.androidbaby.ui.presenter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -238,7 +239,7 @@ public class FeedDetailPresenter extends BasePresenter<IFeedDetailView> {
             adapter = new CommentListAdapter(context, timeLine, new RecyclerViewClickListener() {
                 @Override
                 public void onAvatarClicked(int user_id, String nickname, String assignment, String avatar) {
-
+                    feedDetailView.goToUser(user_id, nickname, assignment, avatar);
                 }
 
                 @Override

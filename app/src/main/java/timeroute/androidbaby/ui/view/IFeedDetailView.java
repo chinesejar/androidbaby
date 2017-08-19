@@ -26,4 +26,6 @@ public interface IFeedDetailView {
     void backToParent();
 
     void setFeed(Feed feed);
+
+    void goToUser(int user_id, String nickname, String assignment, String avatar);
 }
