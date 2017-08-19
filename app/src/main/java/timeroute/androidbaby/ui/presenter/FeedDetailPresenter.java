@@ -267,9 +267,7 @@ public class FeedDetailPresenter extends BasePresenter<IFeedDetailView> {
                 }
             });
             recyclerView.setAdapter(adapter);
-            new Handler().postDelayed(() -> {
-                adapter.notifyDataSetChanged();
-            }, 2000);
+            new Handler().postDelayed(() -> adapter.notifyDataSetChanged(), 2000);
         }
         next = commentTimeLine.getNext();
         if(next == "null"){

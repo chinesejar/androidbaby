@@ -123,4 +123,8 @@
     <string name="image_count">%1$d 张图片</string>
     <string name="progress">已下载 %1$d %%</string>
     <string name="notification_new">新</string>
+
+    <!-- tips -->
+    <string name="post_tip_title">在这里发布</string>
+    <string name="post_tip_content">发布你觉得好看的主题、壁纸，分享给大家吧</string>
 </resources>

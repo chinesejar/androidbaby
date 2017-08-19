@@ -9,8 +9,8 @@ android {
         applicationId "timeroute.androidbaby"
         minSdkVersion 15
         targetSdkVersion 26
-        versionCode 4
-        versionName "1.0.3"
+        versionCode 5
+        versionName "1.0.4"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         manifestPlaceholders = [
@@ -63,6 +63,7 @@ dependencies {
     compile 'com.android.support:support-vector-drawable:26.0.0-alpha1'
     compile 'cn.jiguang.sdk:jpush:3.0.8'
     compile 'cn.jiguang.sdk:jcore:1.1.6'
+    compile 'com.getkeepsafe.taptargetview:taptargetview:1.9.1'
     testCompile 'junit:junit:4.12'
     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.1'

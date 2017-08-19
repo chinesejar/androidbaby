@@ -125,12 +125,8 @@ public class FeedDetailActivity extends IBaseActivity<IFeedDetailView, FeedDetai
                 setDataRefresh(true);
                 mPresenter.scrollRecycleView();
             }
-            imageButtonLike.setOnClickListener(view -> {
-                mPresenter.postLike(feed);
-            });
-            floatingActionButton.setOnClickListener(view -> {
-                openCommentDialog(false, (Profile) null);
-            });
+            imageButtonLike.setOnClickListener(view -> mPresenter.postLike(feed));
+            floatingActionButton.setOnClickListener(view -> openCommentDialog(false, null));
         }else {
             from_notification = true;
             mPresenter.getFeedDetail(feed_id);
@@ -164,9 +160,7 @@ public class FeedDetailActivity extends IBaseActivity<IFeedDetailView, FeedDetai
         }else {
             comment_or_reply.setText(getString(R.string.comment));
         }
-        buttonCancel.setOnClickListener(view1 -> {
-            alertDialog.dismiss();
-        });
+        buttonCancel.setOnClickListener(view1 -> alertDialog.dismiss());
         buttonSure.setOnClickListener(view1 -> {
             mPresenter.postComment(feed_id, profile!=null?profile.getId():-1, editTextContent.getText().toString());
             alertDialog.dismiss();

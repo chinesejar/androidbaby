@@ -50,9 +50,7 @@ public class SettingActivity extends IBaseActivity<ISettingView, SettingPresente
                 }
             }
         });
-        layoutAbout.setOnClickListener(view -> {
-            startActivity(new Intent(this, AboutActivity.class));
-        });
+        layoutAbout.setOnClickListener(view -> startActivity(new Intent(this, AboutActivity.class)));
         layoutLogout.setOnClickListener(view -> {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle(getString(R.string.logout_title))

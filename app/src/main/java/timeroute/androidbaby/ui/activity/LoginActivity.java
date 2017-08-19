@@ -58,12 +58,8 @@ public class LoginActivity extends IBaseActivity<ILoginView, LoginPresenter> imp
 
         setTracker(TAG);
 
-        buttonLogin.setOnClickListener(view -> {
-            attemptLogin();
-        });
-        buttonRegister.setOnClickListener(view -> {
-            goToRegister();
-        });
+        buttonLogin.setOnClickListener(view -> attemptLogin());
+        buttonRegister.setOnClickListener(view -> goToRegister());
     }
 
     private void goToRegister() {

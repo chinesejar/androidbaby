@@ -106,4 +106,5 @@ public abstract class IBaseFragment<V, T extends BasePresenter<V>> extends Fragm
     public Boolean isSetRefresh(){
         return true;
     }
+
 }
