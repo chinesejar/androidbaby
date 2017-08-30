@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import com.squareup.picasso.Picasso;
 import timeroute.androidbaby.R;
 import timeroute.androidbaby.bean.feed.Feed;
 import timeroute.androidbaby.ui.activity.FeedDetailActivity;
+import timeroute.androidbaby.util.DensityUtil;
 
 
 /**
@@ -40,7 +42,7 @@ public class CardFragment extends Fragment {
             feed =  (Feed)bundle.getSerializable("feed");
             if(feed != null){
                 Picasso.with(getContext())
-                        .load(feed.getFeedPic().get(0).getUrl())
+                        .load(feed.getFeedPic().get(0).getUrl()+"?imageMogr2/thumbnail/x"+String.valueOf(DensityUtil.dip2px(getContext(), 400))+"/format/webp/blur/1x0/quality/75|imageslim")
                         .into(imageView);
             }
         }

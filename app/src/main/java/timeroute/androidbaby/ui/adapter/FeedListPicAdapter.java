@@ -3,6 +3,7 @@ package timeroute.androidbaby.ui.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -61,7 +62,7 @@ public class FeedListPicAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         private void bindItem(Map<String, Object> pic) {
             String image_url = (String) pic.get("url");
             Picasso.with(context)
-                    .load(image_url+"?imageMogr2/thumbnail/1000x"+String.valueOf(DensityUtil.dip2px(context, 400))+"/format/webp/blur/1x0/quality/75|imageslim")
+                    .load(image_url+"?imageMogr2/thumbnail/x"+String.valueOf(DensityUtil.dip2px(context, 200))+"/format/webp/blur/1x0/quality/75|imageslim")
                     .into(imageView);
             imageView.setOnClickListener(view -> {
                 Intent intent = new Intent(context, ImageViewActivity.class);

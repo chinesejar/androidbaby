@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.squareup.picasso.Callback;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -19,6 +20,9 @@ import java.util.ArrayList;
 import timeroute.androidbaby.R;
 import timeroute.androidbaby.ui.view.ImageViewClickListener;
 import timeroute.androidbaby.widget.TouchImageView;
+
+import static com.squareup.picasso.MemoryPolicy.NO_CACHE;
+import static com.squareup.picasso.MemoryPolicy.NO_STORE;
 
 
 public class ViewPagerImageAdapter extends PagerAdapter {
@@ -59,6 +63,8 @@ public class ViewPagerImageAdapter extends PagerAdapter {
                 .findViewById(R.id.image);
         Picasso.with(context)
                 .load(IMAGES.get(position)+"?imageMogr2/thumbnail/"+String.valueOf(windowManager.getDefaultDisplay().getWidth())+"x"+String.valueOf(windowManager.getDefaultDisplay().getHeight())+"/format/webp/blur/1x0/quality/75|imageslim")
+                .memoryPolicy(NO_CACHE, NO_STORE)
+                .networkPolicy(NetworkPolicy.NO_CACHE, NetworkPolicy.NO_STORE)
                 .into(imageView);
 
         view.addView(imageLayout, 0);
